@@ -6,6 +6,8 @@ Hình nền **pixel / ASCII chuyển động** phía sau khung chat của Claude
 
 **Xem thử ngay, không cần cài:** https://aqua2409z.github.io/pixel-chat-themes/
 
+> **Mới: Mọt Sách**, app đọc sách tiếng Việt dễ thương nằm trong thư mục [`doc-sach/`](doc-sach/). Đọc EPUB, DOCX, TXT ngay trong trình duyệt, chữ to rõ, nền dịu mắt có lọc ánh sáng xanh, tô màu, ghi chú, chú thích bật lên, đọc to và đếm thời gian đọc mỗi ngày. Xem [hướng dẫn](doc-sach/README.md).
+
 ## Cài trong 1 phút
 
 | Bạn dùng Claude ở đâu | Cách cài | Hình nền |

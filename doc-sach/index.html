@@ -1,0 +1,3028 @@
+<!doctype html><!--repo-only-->
+<html lang="vi"><!--repo-only-->
+<head><!--repo-only-->
+<meta charset="utf-8"><!--repo-only-->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><!--repo-only-->
+<title>Mọt Sách</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Mọt Sách: ứng dụng đọc sách tiếng Việt dễ thương. Đọc EPUB, DOCX, TXT ngay trong trình duyệt, chữ to rõ, nền dịu mắt, tô màu, ghi chú, đọc to và theo dõi thời gian đọc mỗi ngày.">
+<meta name="theme-color" content="#f8f3ea"><!--repo-only-->
+<link rel="manifest" href="manifest.webmanifest"><!--repo-only-->
+<link rel="icon" href="icon.svg" type="image/svg+xml"><!--repo-only-->
+<link rel="apple-touch-icon" href="icon-180.png"><!--repo-only-->
+<link rel="preconnect" href="https://fonts.googleapis.com"><!--repo-only-->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><!--repo-only-->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Mali:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&family=Merriweather:ital,opsz,wdth,wght@0,18..144,87..112,300..900;1,18..144,87..112,300..900&family=Lora:ital,wght@0,400..700;1,400..700&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600&display=swap">
+<style>
+/* Bố cục: tủ sách trên nền giấy vở ô ly học trò, nhãn vở làm bìa sách;
+   trang đọc là một tờ giấy trơn, ấm và dịu mắt, thanh công cụ ẩn được. */
+:root {
+  --bg: #f8f3ea;            /* giấy ngà */
+  --bg-soft: #f1eaf6;       /* tím phấn */
+  --surface: #fffcf6;
+  --ink: #2e2638;
+  --ink-soft: #675e78;
+  --ink-faint: #958ca6;
+  --line: #e6ddea;
+  --grid: rgba(122, 92, 196, .06);
+  --grid-strong: rgba(122, 92, 196, .12);
+  --tim: #5b44a6;           /* mực tím học trò */
+  --tim-soft: #e9e2fb;
+  --sen: #c93f72;           /* hồng sen */
+  --sen-deep: #9a2b55;
+  --sen-soft: #fbe2ec;
+  --sen-ink: #ffffff;
+  --la: #3f8f69;            /* lá sen */
+  --la-soft: #dff1e7;
+  --nang: #e9a62d;
+  --do: #d8392f;            /* mực đỏ cô giáo chấm */
+  --sticker: #e4daf6;
+  --shadow: rgba(58, 34, 90, .16);
+  --scrim: rgba(28, 18, 40, .34);
+  --label-bg: #fffdf7;
+  --label-ink: #2e2638;
+  --label-line: #8b78c9;
+  /* trang đọc mặc định: giấy ấm, chữ nâu mực, không dùng trắng tinh cho đỡ chói */
+  --page-bg: #f6eedf;
+  --page-ink: #3a2f26;
+  --page-soft: #8b7b69;
+  --page-head: #5b44a6;
+  --page-accent: #c93f72;
+  --hl-vang: rgba(247, 196, 48, .42);
+  --hl-hong: rgba(244, 114, 160, .32);
+  --hl-xanh: rgba(88, 190, 132, .34);
+  --hl-lam: rgba(108, 160, 250, .32);
+  --hit: rgba(255, 150, 0, .5);
+  --m-skin: #ffe1cb; --m-robe: #c4916a; --m-robe-dark: #9b6a49; --m-hair: #4a3a37;
+  --m-cheek: #ff9db4; --m-eye: #3a2d3a; --m-page: #fffaf0; --m-shine: #ffffff;
+  --f-display: "Baloo 2", "Be Vietnam Pro", system-ui, sans-serif;
+  --f-ui: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-hand: "Mali", "Be Vietnam Pro", system-ui, sans-serif;
+  --f-han: "Noto Serif TC", "Songti TC", "PMingLiU", "SimSun", serif;
+  --radius: 16px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1a1720; --bg-soft: #24202e; --surface: #25212d; --ink: #eee8f4; --ink-soft: #aea5c0; --ink-faint: #7f7893;
+    --line: #37324a; --grid: rgba(180, 160, 255, .03); --grid-strong: rgba(180, 160, 255, .06);
+    --tim: #bba9ff; --tim-soft: #2f2846; --sen: #ff86ab; --sen-deep: #b8577a; --sen-soft: #45263a; --sen-ink: #2a0f1d;
+    --la: #82d1a8; --la-soft: #1f382d; --nang: #ffc65a; --do: #ff6b5e; --sticker: #2f2846;
+    --shadow: rgba(0, 0, 0, .5); --scrim: rgba(0, 0, 0, .5);
+    --label-bg: #f7f2e8; --label-ink: #2e2638; --label-line: #8b78c9;
+    --page-bg: #1f1a16; --page-ink: #e3d6c1; --page-soft: #9a8b78; --page-head: #e7b98a; --page-accent: #f09a78;
+    --hl-vang: rgba(240, 190, 60, .28); --hl-hong: rgba(255, 120, 170, .26); --hl-xanh: rgba(100, 210, 150, .24); --hl-lam: rgba(120, 170, 255, .26); --hit: rgba(255, 160, 40, .42);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1a1720; --bg-soft: #24202e; --surface: #25212d; --ink: #eee8f4; --ink-soft: #aea5c0; --ink-faint: #7f7893;
+  --line: #37324a; --grid: rgba(180, 160, 255, .03); --grid-strong: rgba(180, 160, 255, .06);
+  --tim: #bba9ff; --tim-soft: #2f2846; --sen: #ff86ab; --sen-deep: #b8577a; --sen-soft: #45263a; --sen-ink: #2a0f1d;
+  --la: #82d1a8; --la-soft: #1f382d; --nang: #ffc65a; --do: #ff6b5e; --sticker: #2f2846;
+  --shadow: rgba(0, 0, 0, .5); --scrim: rgba(0, 0, 0, .5);
+  --label-bg: #f7f2e8; --label-ink: #2e2638; --label-line: #8b78c9;
+  --page-bg: #1f1a16; --page-ink: #e3d6c1; --page-soft: #9a8b78; --page-head: #e7b98a; --page-accent: #f09a78;
+  --hl-vang: rgba(240, 190, 60, .28); --hl-hong: rgba(255, 120, 170, .26); --hl-xanh: rgba(100, 210, 150, .24); --hl-lam: rgba(120, 170, 255, .26); --hit: rgba(255, 160, 40, .42);
+  color-scheme: dark;
+}
+
+/* ---------- nền tảng ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+html, body { margin: 0; }
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+[hidden] { display: none !important; }
+body {
+  min-height: 100vh;
+  background-color: var(--bg);
+  /* giấy vở ô ly: ô lớn 32px, mỗi ô chia 4 dòng kẻ mảnh */
+  background-image:
+    linear-gradient(to right, var(--grid-strong) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-strong) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size: 32px 32px, 32px 32px, 32px 8px;
+  color: var(--ink);
+  font: 15px/1.55 var(--f-ui);
+  -webkit-font-smoothing: antialiased;
+}
+body.reading { overflow: hidden; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+a { color: var(--tim); }
+:focus-visible { outline: 2.5px solid var(--tim); outline-offset: 2px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.ic { width: 22px; height: 22px; flex: none; display: block; }
+.wrap {
+  width: 100%; max-width: 1120px; margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* ---------- nút ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 42px; padding: 0 18px; border-radius: 999px;
+  border: 1.5px solid var(--line); background: var(--surface); color: var(--ink);
+  font: 600 14.5px/1 var(--f-ui); white-space: nowrap; text-decoration: none;
+  transition: transform .12s ease, border-color .15s ease, background .15s ease, box-shadow .12s ease;
+}
+.btn .ic { width: 19px; height: 19px; }
+.btn:hover { border-color: var(--tim); }
+.btn:active { transform: translateY(1px); }
+.btn.primary { background: var(--sen); border-color: var(--sen); color: var(--sen-ink); box-shadow: 0 3px 0 var(--sen-deep); }
+.btn.primary:hover { filter: brightness(1.05); }
+.btn.primary:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--sen-deep); }
+.btn.danger { color: var(--do); border-color: color-mix(in srgb, var(--do) 45%, var(--line)); background: transparent; }
+.btn.ghost { background: transparent; }
+.btn.small { min-height: 34px; padding: 0 13px; font-size: 13.5px; }
+.icon-btn {
+  width: 42px; height: 42px; flex: none; display: inline-grid; place-items: center;
+  border: 0; border-radius: 13px; background: transparent; color: inherit;
+  transition: background .15s ease, color .15s ease;
+}
+.icon-btn:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
+.icon-btn[aria-pressed="true"] { color: var(--sen); }
+.icon-btn[aria-pressed="true"] .ic path { fill: currentColor; }
+.icon-btn.sm { width: 34px; height: 34px; border-radius: 10px; }
+.icon-btn.sm .ic { width: 19px; height: 19px; }
+.icon-btn:disabled { opacity: .35; cursor: default; }
+.link-btn { border: 0; background: none; padding: 0; color: var(--tim); font-weight: 600; font-size: 13.5px; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1.5px; }
+
+/* ---------- thanh trên cùng ---------- */
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: color-mix(in srgb, var(--bg) 90%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; gap: 10px; padding-block: 10px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); margin-right: auto; }
+.brand-mark { width: 40px; height: 40px; }
+.brand-name { font: 800 25px/1 var(--f-display); color: var(--tim); letter-spacing: -.01em; padding-top: 4px; }
+.top-actions { display: flex; align-items: center; gap: 8px; }
+@media (max-width: 600px) {
+  .top-actions .btn span { display: none; }
+  .top-actions .btn { width: 42px; padding: 0; }
+}
+
+/* ---------- tủ sách ---------- */
+.lib { padding-block: 22px 56px; }
+.lib > .wrap { display: grid; gap: 30px; }
+.hello { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 20px; align-items: stretch; }
+@media (max-width: 800px) { .hello { grid-template-columns: minmax(0, 1fr); } }
+.hello-left { display: flex; align-items: flex-end; gap: 12px; min-width: 0; }
+.mascot-btn { flex: none; width: 118px; border: 0; padding: 0; background: none; border-radius: 24px; }
+.mascot { width: 100%; height: auto; display: block; overflow: visible; }
+.bubble {
+  position: relative; min-width: 0; align-self: center; margin-bottom: 34px;
+  background: var(--surface); border: 2px solid var(--tim); border-radius: 20px 20px 20px 6px;
+  padding: 12px 16px 13px; box-shadow: 4px 4px 0 var(--sticker);
+}
+.bubble::before { content: ""; position: absolute; left: -11px; bottom: 12px; width: 16px; height: 16px; background: var(--surface); border-left: 2px solid var(--tim); border-bottom: 2px solid var(--tim); transform: skewY(-30deg) rotate(18deg); border-radius: 0 0 0 4px; }
+.bubble-who { margin: 0 0 2px; font: 600 12.5px/1.3 var(--f-hand); color: var(--sen); }
+.bubble-say { margin: 0; font: 500 16px/1.5 var(--f-hand); color: var(--ink); text-wrap: pretty; }
+.stats { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 18px; align-items: center; background: var(--surface); border: 1.5px solid var(--line); border-radius: 22px; padding: 16px 18px; }
+.ring { position: relative; width: 104px; height: 104px; }
+.ring svg { width: 100%; height: 100%; display: block; }
+.ring-bg { fill: none; stroke: var(--bg-soft); stroke-width: 9; }
+.ring-fg { fill: none; stroke: var(--sen); stroke-width: 9; transition: stroke-dasharray .6s ease; }
+.ring-fg.on { stroke-linecap: round; }
+.ring-t { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; line-height: 1.1; }
+.ring-t b { font: 800 30px/1 var(--f-display); color: var(--ink); font-variant-numeric: tabular-nums; }
+.ring-t span { font-size: 12px; color: var(--ink-soft); }
+.stats-side { display: grid; gap: 8px; min-width: 0; }
+.eyebrow { margin: 0; font: 600 12px/1.3 var(--f-ui); letter-spacing: .07em; text-transform: uppercase; color: var(--ink-soft); }
+.streak { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--ink-soft); }
+.streak .ic { width: 20px; height: 20px; color: var(--nang); }
+.streak b { color: var(--ink); font-size: 15px; }
+.week-bars { position: relative; height: 54px; display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; align-items: end; border-bottom: 1.5px solid var(--line); }
+.week-bars i { display: block; min-height: 3px; border-radius: 6px 6px 2px 2px; background: var(--tim-soft); }
+.week-bars i.today { background: var(--sen); }
+.week-bars i.met { background: var(--la); }
+.week-bars i.today.met { background: var(--sen); }
+.goal-line { position: absolute; left: 0; right: 0; border-top: 1.5px dashed color-mix(in srgb, var(--sen) 55%, transparent); pointer-events: none; }
+.week-labels { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; text-align: center; font-size: 11.5px; color: var(--ink-faint); font-variant-numeric: tabular-nums; }
+.week-labels .today { color: var(--sen); font-weight: 700; }
+.goal-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-size: 13px; color: var(--ink-soft); }
+
+.cont { display: flex; align-items: center; gap: 16px; background: var(--surface); border: 1.5px solid var(--line); border-radius: 22px; padding: 14px 16px; }
+.cont-cover { width: 66px; flex: none; }
+.cont-body { flex: 1; min-width: 0; display: grid; gap: 4px; }
+.cont-body h2 { margin: 0; font: 700 20px/1.25 var(--f-display); color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cont-sub { margin: 0; font-size: 13.5px; color: var(--ink-soft); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 520px) {
+  .cont { flex-wrap: wrap; }
+  .cont .btn { width: 100%; }
+}
+
+.shelf { display: grid; gap: 18px; }
+.shelf-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px 16px; flex-wrap: wrap; }
+.shelf-head h2 { margin: 0; font: 800 28px/1.1 var(--f-display); color: var(--tim); }
+.shelf-head h2 small { font: 500 14px/1 var(--f-ui); color: var(--ink-soft); margin-left: 6px; }
+.shelf-tools { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; min-width: 0; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip { border: 1.5px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 13px; font-size: 13.5px; font-weight: 500; color: var(--ink-soft); }
+.chip[aria-pressed="true"] { background: var(--tim); border-color: var(--tim); color: var(--surface); }
+.search-box { display: flex; align-items: center; gap: 8px; min-width: 0; background: var(--surface); border: 1.5px solid var(--line); border-radius: 999px; padding: 0 14px; height: 40px; }
+.search-box:focus-within { border-color: var(--tim); }
+.search-box .ic { width: 18px; height: 18px; color: var(--ink-faint); }
+.search-box input { border: 0; outline: 0; background: transparent; min-width: 0; width: 100%; font-size: 14.5px; }
+.shelf-tools .search-box { width: 240px; max-width: 100%; }
+@media (max-width: 600px) { .shelf-tools, .shelf-tools .search-box { width: 100%; } }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 28px 22px; }
+@media (max-width: 430px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 16px; } }
+.book, .book-meta, .cont-body, .stats-side, .ni-go { grid-template-columns: minmax(0, 1fr); }
+.book { display: grid; gap: 9px; min-width: 0; }
+.cover-btn { position: relative; display: block; border: 0; padding: 0; background: none; border-radius: 6px 13px 13px 6px; transition: transform .2s ease; }
+.cover-btn:hover { transform: translateY(-4px) rotate(-1.2deg); }
+.cover {
+  --c: #f6c4d2;
+  position: relative; display: block; width: 100%; aspect-ratio: 3 / 4; overflow: hidden;
+  border-radius: 6px 13px 13px 6px; container-type: inline-size;
+  background:
+    linear-gradient(90deg, rgba(40, 20, 60, .17) 0 6%, rgba(255, 255, 255, .3) 6% 7.4%, transparent 7.4% 100%),
+    radial-gradient(circle, rgba(255, 255, 255, .45) 1.2px, transparent 1.8px) 0 0 / 14px 14px,
+    var(--c);
+  box-shadow: inset 0 0 0 1px rgba(40, 20, 60, .06), 0 12px 20px -14px var(--shadow), 0 2px 0 rgba(40, 20, 60, .1);
+}
+.cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.cover.has-img::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0, 0, 0, .22) 0 5%, rgba(255, 255, 255, .22) 5% 6.2%, transparent 6.2%); }
+.label {
+  position: absolute; left: 15%; right: 8%; top: 25%;
+  display: grid; gap: 5cqi; text-align: center;
+  padding: 9cqi 7cqi 8cqi; border-radius: 9cqi 9cqi 9cqi 9cqi / 7cqi 7cqi 7cqi 7cqi;
+  background: var(--label-bg); color: var(--label-ink);
+  border: 1.5px solid var(--label-line);
+  box-shadow: 0 2px 0 rgba(40, 20, 60, .08);
+}
+.label::before { content: ""; position: absolute; inset: 3.5cqi; border: 1px dashed color-mix(in srgb, var(--label-line) 60%, transparent); border-radius: inherit; pointer-events: none; }
+.lb-k { font: 600 7.5cqi/1 var(--f-hand); letter-spacing: .14em; text-transform: uppercase; color: #8a7fa6; }
+.lb-t { font: 700 12cqi/1.12 var(--f-display); color: #4a3796; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+.lb-a { font: 500 7.8cqi/1.25 var(--f-hand); color: #5f5670; padding-top: 4cqi; border-top: 1.5px dotted #b9aedb; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.ribbon { position: absolute; top: -2px; right: 13%; width: 11%; height: 21%; background: var(--sen); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%); filter: drop-shadow(0 1px 0 rgba(0, 0, 0, .15)); z-index: 2; }
+.stamp { position: absolute; right: 6%; bottom: 5%; z-index: 2; width: 36%; aspect-ratio: 1; display: grid; place-content: center; text-align: center; border: 2.5px solid #d8392f; border-radius: 50%; color: #d8392f; background: rgba(255, 253, 247, .88); transform: rotate(-14deg); font: 700 15cqi/0.9 var(--f-hand); }
+.stamp small { display: block; font-size: .42em; font-weight: 600; margin-top: 2px; }
+.book-meta { display: grid; gap: 5px; }
+.mini-bar { height: 5px; border-radius: 9px; background: var(--bg-soft); overflow: hidden; }
+.mini-bar i { display: block; height: 100%; border-radius: inherit; background: var(--sen); }
+.bm-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 4px; }
+.bm-row p { margin: 4px 0 0; font-size: 12.5px; line-height: 1.35; color: var(--ink-soft); min-width: 0; }
+.bm-row p b { display: block; font-size: 13.5px; color: var(--ink); font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tag { display: inline-block; font-size: 11px; padding: 0 6px; border-radius: 6px; background: var(--tim-soft); color: var(--tim); vertical-align: 1px; }
+.add-tile { border: 0; padding: 0; background: none; text-align: center; color: var(--tim); display: grid; gap: 9px; }
+.add-face { aspect-ratio: 3 / 4; border-radius: 13px; border: 2.5px dashed color-mix(in srgb, var(--tim) 40%, var(--line)); background: color-mix(in srgb, var(--surface) 75%, transparent); display: grid; place-content: center; justify-items: center; gap: 8px; padding: 12px; transition: border-color .15s ease, transform .2s ease; }
+.add-tile:hover .add-face { border-color: var(--sen); transform: translateY(-3px); }
+.add-face .ic { width: 34px; height: 34px; }
+.add-face b { font: 700 18px/1.1 var(--f-display); }
+.add-face span { font-size: 12px; color: var(--ink-soft); }
+.empty-note { grid-column: 1 / -1; margin: 0; padding: 28px; text-align: center; color: var(--ink-soft); background: var(--surface); border-radius: 18px; border: 1.5px dashed var(--line); }
+.lib-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 18px; padding-top: 18px; border-top: 1.5px dashed var(--line); font-size: 13.5px; color: var(--ink-soft); }
+.lib-foot p { margin: 0; max-width: 60ch; }
+.foot-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* ---------- chú tiểu Mọt ---------- */
+.m-skin { fill: var(--m-skin); }
+.m-robe { fill: var(--m-robe); }
+.m-collar { fill: none; stroke: var(--m-robe-dark); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+.m-hair { fill: var(--m-hair); }
+.m-shine { fill: var(--m-shine); opacity: .5; }
+.m-eyes ellipse { fill: var(--m-eye); transform-box: fill-box; transform-origin: center; animation: blink 5.2s infinite; }
+.m-happy path, .m-mouth { fill: none; stroke: var(--m-eye); stroke-width: 2.6; stroke-linecap: round; }
+.m-happy { display: none; }
+.mascot[data-mood="happy"] .m-happy { display: inline; }
+.mascot[data-mood="happy"] .m-eyes { display: none; }
+.m-cheek { fill: var(--m-cheek); opacity: .75; }
+.m-cover { fill: var(--la); }
+.m-page { fill: var(--m-page); stroke: var(--m-robe-dark); stroke-opacity: .3; stroke-width: .8; }
+.m-lines { fill: none; stroke: var(--m-robe-dark); stroke-opacity: .35; stroke-width: 1.4; stroke-linecap: round; }
+.m-float { animation: float 3.8s ease-in-out infinite; }
+.m-headg { transform-origin: 60px 92px; animation: tilt 8s ease-in-out infinite; }
+.mascot.hop { animation: hop .55s ease; }
+@keyframes float { 50% { transform: translateY(-3px); } }
+@keyframes tilt { 0%, 68%, 100% { transform: rotate(0); } 76% { transform: rotate(-6deg); } 86% { transform: rotate(3deg); } }
+@keyframes blink { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(.1); } }
+@keyframes hop { 35% { transform: translateY(-12px) rotate(-3deg); } 70% { transform: translateY(0) rotate(2deg); } }
+
+/* ---------- trình đọc ---------- */
+.reader {
+  --bar-top: calc(58px + env(safe-area-inset-top, 0px));
+  --bar-bot: calc(68px + env(safe-area-inset-bottom, 0px));
+  --fs: 20px; --lh: 1.8; --measure: 33em; --align: justify; --fw: 400;
+  --read-font: "Literata", "Noto Serif", Georgia, serif;
+  position: fixed; inset: 0; z-index: 20;
+  background: var(--page-bg); color: var(--page-ink);
+}
+.reader[data-skin="nga"]  { --page-bg: #fbf6ec; --page-ink: #2f2822; --page-soft: #8d8072; --page-head: #5b44a6; --page-accent: #c93f72; color-scheme: light; }
+.reader[data-skin="do"]   { --page-bg: #efe3cb; --page-ink: #3b2f22; --page-soft: #87765f; --page-head: #7a4a2a; --page-accent: #b5533c; color-scheme: light; }
+.reader[data-skin="sen"]  { --page-bg: #e5f0e6; --page-ink: #213328; --page-soft: #6a8574; --page-head: #2f6e50; --page-accent: #b8456f; color-scheme: light; }
+.reader[data-skin="dao"]  { --page-bg: #fbeaec; --page-ink: #3d2630; --page-soft: #997783; --page-head: #a43663; --page-accent: #a43663; color-scheme: light; }
+.reader[data-skin="nen"]  { --page-bg: #221c16; --page-ink: #e6d7bf; --page-soft: #9c8b75; --page-head: #f0b97f; --page-accent: #f19a72; color-scheme: dark; }
+.reader[data-skin="dem"]  { --page-bg: #1b1824; --page-ink: #dcd5ea; --page-soft: #8f88a5; --page-head: #bba9ff; --page-accent: #ff86ab; color-scheme: dark; }
+.reader[data-skin="muc"]  { --page-bg: #000000; --page-ink: #c8c0b4; --page-soft: #6f685f; --page-head: #d9a877; --page-accent: #e48c6c; color-scheme: dark; }
+.reader[data-skin="nga"], .reader[data-skin="do"], .reader[data-skin="sen"], .reader[data-skin="dao"] {
+  --hl-vang: rgba(247, 196, 48, .42); --hl-hong: rgba(244, 114, 160, .32); --hl-xanh: rgba(88, 190, 132, .34); --hl-lam: rgba(108, 160, 250, .32); --hit: rgba(255, 150, 0, .5);
+}
+.reader[data-skin="nen"], .reader[data-skin="dem"], .reader[data-skin="muc"] {
+  --hl-vang: rgba(240, 190, 60, .28); --hl-hong: rgba(255, 120, 170, .26); --hl-xanh: rgba(100, 210, 150, .24); --hl-lam: rgba(120, 170, 255, .26); --hit: rgba(255, 160, 40, .42);
+}
+.r-top, .r-bot {
+  position: absolute; left: 0; right: 0; z-index: 4;
+  padding-left: max(10px, env(safe-area-inset-left, 0px)); padding-right: max(10px, env(safe-area-inset-right, 0px));
+  display: flex; align-items: center; gap: 4px;
+  background: color-mix(in srgb, var(--page-bg) 93%, transparent);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  color: var(--page-ink);
+  transition: transform .28s ease, opacity .28s ease;
+}
+.r-top { top: 0; height: var(--bar-top); padding-top: env(safe-area-inset-top, 0px); border-bottom: 1px solid color-mix(in srgb, var(--page-ink) 10%, transparent); }
+.r-bot { bottom: 0; height: var(--bar-bot); padding-bottom: env(safe-area-inset-bottom, 0px); border-top: 1px solid color-mix(in srgb, var(--page-ink) 10%, transparent); }
+.reader.bars-off .r-top { transform: translateY(-100%); opacity: 0; pointer-events: none; }
+.reader.bars-off .r-bot { transform: translateY(100%); opacity: 0; pointer-events: none; }
+.r-title { flex: 1; min-width: 0; padding: 0 6px; line-height: 1.25; }
+.r-title p { margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.r-book { font: 700 15px/1.25 var(--f-display); color: var(--page-head); }
+.r-chap { font-size: 12.5px; color: var(--page-soft); }
+.r-tools { display: flex; align-items: center; gap: 2px; }
+@media (max-width: 380px) { .r-tools .icon-btn, .r-top > .icon-btn { width: 38px; } }
+.r-prog { flex: 1; min-width: 0; display: grid; gap: 1px; padding: 0 6px; }
+.r-prog input[type="range"] { width: 100%; margin: 0; accent-color: var(--page-accent); height: 22px; }
+.r-meta { display: flex; justify-content: space-between; gap: 10px; margin: 0; font-size: 12px; color: var(--page-soft); font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; }
+.r-meta span:last-child { overflow: hidden; text-overflow: ellipsis; }
+.r-stage { position: absolute; inset: 0; z-index: 1; }
+.reader[data-mode="page"] .r-stage { top: var(--bar-top); bottom: var(--bar-bot); }
+.r-scroll { position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; outline: none; }
+.reader[data-mode="page"] .r-scroll { overflow: hidden; }
+.r-text {
+  position: relative; margin: 0 auto;
+  max-width: calc(var(--measure) + 2 * max(22px, env(safe-area-inset-left, 0px)));
+  padding: calc(var(--bar-top) + 30px) max(22px, env(safe-area-inset-right, 0px)) calc(var(--bar-bot) + 60px) max(22px, env(safe-area-inset-left, 0px));
+  font-family: var(--read-font), var(--f-han);
+  font-size: var(--fs); line-height: var(--lh); font-weight: var(--fw);
+  text-align: var(--align); hyphens: manual; overflow-wrap: break-word;
+  font-optical-sizing: auto; font-kerning: normal; text-rendering: optimizeLegibility;
+}
+.reader[data-mode="page"] .r-text { max-width: none; margin: 0; padding: 0; column-fill: auto; transition: transform .34s cubic-bezier(.22, .7, .2, 1); will-change: transform; }
+.r-text p, .r-text .v, .r-text blockquote, .r-text h3 { margin: 0 0 .9em; }
+.r-text .v { white-space: pre-line; text-align: left; margin-bottom: 1.15em; }
+.r-text .v .ln { display: inline-block; }
+.r-text .v .ln.luc { padding-left: 1.8em; }
+.r-text .han { font-family: var(--f-han); letter-spacing: .06em; font-size: 1.05em; text-align: left; }
+.r-text h3 { font-family: var(--f-display); font-weight: 700; font-size: 1.15em; line-height: 1.35; color: var(--page-head); text-align: left; margin-top: 1.4em; break-after: avoid; }
+.r-text blockquote { margin-left: 0; margin-right: 0; padding-left: 1em; border-left: 3px solid color-mix(in srgb, var(--page-ink) 18%, transparent); color: color-mix(in srgb, var(--page-ink) 85%, var(--page-bg)); }
+.reader.indent .r-text p { text-indent: 2em; margin-bottom: .25em; }
+.reader.indent .r-text p.first { text-indent: 0; }
+.r-text em, .r-text i { font-style: italic; }
+.chap-title { margin: .2em 0 1.5em; font-family: var(--f-display); font-weight: 700; font-size: 1.55em; line-height: 1.25; text-align: center; color: var(--page-head); text-wrap: balance; break-inside: avoid; break-after: avoid; }
+.chap-title::after { content: ""; display: block; width: 46px; height: 22px; margin: .4em auto 0; background: var(--page-accent); opacity: .85;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12'%3E%3Cpath d='M12 .5c2.6 2.6 2.6 7.4 0 11-2.6-3.6-2.6-8.4 0-11zM11 11.6C7 11 3.6 8 2.6 4.4c4 0 7.6 3.2 8.4 7.2zm2 0c.8-4 4.4-7.2 8.4-7.2-1 3.6-4.4 6.6-8.4 7.2z'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12'%3E%3Cpath d='M12 .5c2.6 2.6 2.6 7.4 0 11-2.6-3.6-2.6-8.4 0-11zM11 11.6C7 11 3.6 8 2.6 4.4c4 0 7.6 3.2 8.4 7.2zm2 0c.8-4 4.4-7.2 8.4-7.2-1 3.6-4.4 6.6-8.4 7.2z'/%3E%3C/svg%3E") center / contain no-repeat; }
+.chap-title.part { margin-top: 28vh; font-size: 1.9em; }
+.reader[data-mode="page"] .chap-title.part { margin-top: 30%; }
+.r-text p.first::first-letter { float: left; font-family: var(--f-display); font-weight: 700; font-size: 3.05em; line-height: .86; margin: .07em .09em 0 0; color: var(--page-accent); }
+.r-text mark { color: inherit; background: none; border-radius: 3px; }
+.r-text mark.hl-vang { background: var(--hl-vang); }
+.r-text mark.hl-hong { background: var(--hl-hong); }
+.r-text mark.hl-xanh { background: var(--hl-xanh); }
+.r-text mark.hl-lam  { background: var(--hl-lam); }
+.r-text mark.hl { cursor: pointer; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.r-text mark.has-note { text-decoration: underline dotted 2px; text-decoration-color: color-mix(in srgb, var(--page-ink) 55%, transparent); text-underline-offset: 4px; }
+.r-text mark.hit { background: var(--hit); }
+.r-text mark.hit-now { outline: 2px solid var(--page-accent); outline-offset: 1px; }
+.r-text mark.fn { color: var(--page-accent); font-family: var(--f-ui); font-size: .62em; font-weight: 600; vertical-align: .55em; line-height: 0; cursor: pointer; padding: 0 .1em; }
+.r-text .speaking { background: color-mix(in srgb, var(--page-accent) 11%, transparent); box-shadow: 0 0 0 .35em color-mix(in srgb, var(--page-accent) 11%, transparent); border-radius: 4px; }
+.r-text .bm { position: relative; }
+.r-text .bm::before { content: ""; position: absolute; left: -17px; top: .25em; width: 9px; height: 15px; background: var(--page-accent); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 75%, 0 100%); }
+.chap-end { display: grid; justify-items: center; gap: 12px; padding: 2.6em 0 1.2em; text-align: center; font-family: var(--f-ui); font-size: 15px; line-height: 1.5; color: var(--page-soft); break-inside: avoid; text-indent: 0; }
+.chap-end p { margin: 0; text-indent: 0; }
+.chap-end .dots { letter-spacing: .6em; color: var(--page-accent); }
+.pill { display: inline-flex; align-items: center; gap: 6px; max-width: 100%; border: 1.5px solid color-mix(in srgb, var(--page-ink) 22%, transparent); background: transparent; color: var(--page-ink); border-radius: 999px; padding: 9px 16px; font: 600 14.5px/1.3 var(--f-ui); }
+.pill:hover { border-color: var(--page-accent); color: var(--page-accent); }
+.pill .ic { width: 18px; height: 18px; }
+.pill span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.r-run { position: absolute; left: 0; right: 0; z-index: 2; margin: 0; padding-inline: 60px; text-align: center; font: 12px/1 var(--f-ui); color: var(--page-soft); letter-spacing: .02em; pointer-events: none; display: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.reader[data-mode="page"] .r-run { display: block; }
+.r-run.head { top: calc(env(safe-area-inset-top, 0px) + 24px); }
+.r-run.foot { bottom: calc(env(safe-area-inset-bottom, 0px) + 27px); }
+/* lớp làm dịu: lọc ánh sáng xanh + giảm độ sáng */
+.r-warm, .r-dim { position: absolute; inset: 0; z-index: 8; pointer-events: none; opacity: 0; transition: opacity .3s ease; }
+.r-warm { background: #ff8a1f; mix-blend-mode: multiply; }
+.r-dim { background: #000000; }
+.tts {
+  position: absolute; z-index: 5; left: 50%; transform: translateX(-50%);
+  bottom: calc(var(--bar-bot) + 12px); width: min(560px, calc(100% - 24px));
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  padding: 8px 10px; border-radius: 20px;
+  background: color-mix(in srgb, var(--page-ink) 7%, var(--page-bg)); color: var(--page-ink);
+  border: 1px solid color-mix(in srgb, var(--page-ink) 14%, transparent);
+  box-shadow: 0 10px 30px -14px rgba(0, 0, 0, .45);
+}
+.tts .play { background: var(--page-accent); color: var(--page-bg); }
+.tts .play:hover { background: var(--page-accent); filter: brightness(1.06); }
+.tts-info { flex: 1; min-width: 120px; font-size: 13px; line-height: 1.3; }
+.tts-info b { display: block; font-size: 13.5px; }
+.tts-info span { color: var(--page-soft); }
+.tts select { max-width: 150px; border-radius: 10px; border: 1px solid color-mix(in srgb, var(--page-ink) 20%, transparent); background: var(--page-bg); padding: 6px 8px; font-size: 13px; }
+.findbar { position: absolute; z-index: 5; left: 50%; transform: translateX(-50%); bottom: calc(var(--bar-bot) + 12px); display: flex; align-items: center; gap: 2px; padding: 4px 6px; border-radius: 999px; max-width: calc(100% - 24px); background: var(--ink); color: var(--bg); box-shadow: 0 10px 26px -12px rgba(0, 0, 0, .5); font-size: 13.5px; }
+.findbar .icon-btn { width: 36px; height: 36px; }
+.findbar span { padding: 0 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
+.tts:not([hidden]) ~ .findbar { bottom: calc(var(--bar-bot) + 88px); }
+
+/* ---------- ngăn kéo / bảng ---------- */
+.panel-wrap, .modal-wrap { position: fixed; inset: 0; z-index: 40; }
+.modal-wrap { z-index: 50; display: grid; place-items: center; padding: 16px; }
+.scrim { position: absolute; inset: 0; background: var(--scrim); animation: fade .2s ease; }
+@media (min-width: 900px) { .panel-wrap .scrim { background: color-mix(in srgb, var(--scrim) 35%, transparent); } }
+.panel {
+  position: absolute; top: 0; right: 0; bottom: 0; width: min(410px, 100%);
+  display: flex; flex-direction: column; background: var(--surface); color: var(--ink);
+  box-shadow: -12px 0 40px var(--shadow);
+  padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); padding-right: env(safe-area-inset-right, 0px);
+  animation: slideIn .24s ease-out;
+}
+@media (max-width: 640px) {
+  .panel { top: auto; left: 0; width: 100%; max-height: 86%; border-radius: 24px 24px 0 0; padding-right: 0; padding-left: 0; animation: sheetUp .26s ease-out; box-shadow: 0 -12px 40px var(--shadow); }
+  .panel::before { content: ""; display: block; width: 44px; height: 5px; border-radius: 9px; background: var(--line); margin: 9px auto 0; }
+}
+.panel-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px max(14px, env(safe-area-inset-right, 0px)) 8px max(20px, env(safe-area-inset-left, 0px)); }
+.panel-head h2 { margin: 0; font: 800 23px/1.2 var(--f-display); color: var(--tim); }
+.panel-body { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 4px max(20px, env(safe-area-inset-right, 0px)) 26px max(20px, env(safe-area-inset-left, 0px)); }
+@keyframes slideIn { from { transform: translateX(30px); opacity: 0; } }
+@keyframes sheetUp { from { transform: translateY(40px); opacity: 0; } }
+@keyframes fade { from { opacity: 0; } }
+@keyframes pop { from { transform: translateY(8px) scale(.98); opacity: 0; } }
+
+.toc-book { display: flex; gap: 14px; align-items: center; padding: 6px 0 16px; border-bottom: 1.5px dashed var(--line); margin-bottom: 8px; }
+.toc-book .cover { width: 62px; flex: none; }
+.toc-book p { margin: 0; }
+.tb-t { font: 700 18px/1.25 var(--f-display); }
+.tb-a { font-size: 13.5px; color: var(--ink-soft); }
+.tb-m { font-size: 12.5px; color: var(--ink-faint); margin-top: 3px !important; }
+.toc { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.toc button { width: 100%; display: flex; align-items: baseline; gap: 10px; text-align: left; border: 0; background: transparent; border-radius: 12px; padding: 9px 10px; font-size: 14.5px; line-height: 1.4; color: var(--ink); }
+.toc button:hover { background: var(--bg-soft); }
+.toc button[aria-current="true"] { background: var(--sen-soft); color: var(--ink); font-weight: 600; }
+.toc .n { flex: none; min-width: 1.6em; font-size: 12px; color: var(--ink-faint); font-variant-numeric: tabular-nums; }
+.toc .t { flex: 1; min-width: 0; }
+.toc .read .t { color: var(--ink-soft); }
+.toc .read .n::after { content: " ✓"; color: var(--la); }
+.toc .lv1 button { padding-left: 26px; }
+.toc .part button { font-family: var(--f-display); font-weight: 700; font-size: 15.5px; color: var(--tim); margin-top: 8px; }
+.toc .mk { flex: none; font-size: 11.5px; color: var(--sen); font-weight: 600; }
+
+.find-opts { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 10px 2px 4px; font-size: 13.5px; color: var(--ink-soft); }
+.check { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+.check input { width: 18px; height: 18px; accent-color: var(--tim); margin: 0; }
+.find-sum { margin: 8px 2px 10px; font-size: 13px; color: var(--ink-soft); }
+.find-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.find-list button { width: 100%; text-align: left; border: 0; background: transparent; border-radius: 12px; padding: 9px 10px; display: grid; gap: 3px; font-size: 14px; line-height: 1.45; color: var(--ink); }
+.find-list button:hover, .find-list button[aria-current="true"] { background: var(--bg-soft); }
+.find-list .fr-ch { font-size: 11.5px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: .05em; }
+.find-list b { background: var(--hit); color: var(--ink); border-radius: 3px; font-weight: 600; }
+
+.seg { display: flex; gap: 3px; padding: 3px; border-radius: 13px; background: var(--bg-soft); }
+.seg button { flex: 1; min-width: 0; border: 0; background: transparent; border-radius: 10px; padding: 8px 6px; font-size: 13.5px; font-weight: 500; color: var(--ink-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--tim); font-weight: 650; box-shadow: 0 1px 3px var(--shadow); }
+.notes-list { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 10px; }
+.ni { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px; padding: 11px 8px 11px 12px; border-radius: 14px; background: var(--bg); border: 1px solid var(--line); }
+.ni-go { border: 0; background: none; padding: 0; text-align: left; display: grid; gap: 5px; color: var(--ink); min-width: 0; }
+.ni-q { font-family: "Literata", "Noto Serif", Georgia, serif; font-size: 14.5px; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+.ni-q i { font-style: normal; border-radius: 3px; padding: 0 2px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.ni-n { font-size: 13.5px; color: var(--ink); background: var(--surface); border-radius: 9px; padding: 6px 9px; border: 1px dashed var(--line); white-space: pre-wrap; }
+.ni-m { font-size: 11.5px; color: var(--ink-faint); }
+.ni-act { display: flex; flex-direction: column; gap: 2px; }
+.notes-empty { margin: 18px 4px; color: var(--ink-soft); font-size: 14px; }
+.notes-foot { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; padding-top: 14px; border-top: 1.5px dashed var(--line); }
+
+.set-sec { display: grid; gap: 10px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.set-sec:last-child { border-bottom: 0; }
+.set-sec h3 { margin: 0; font: 600 12px/1.3 var(--f-ui); letter-spacing: .07em; text-transform: uppercase; color: var(--ink-soft); }
+.set-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.stepper { display: flex; align-items: center; gap: 10px; }
+.stepper button { width: 46px; height: 40px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--surface); font-weight: 700; }
+.stepper button:hover { border-color: var(--tim); }
+.stepper output { min-width: 3.4em; text-align: center; font: 700 18px/1 var(--f-ui); font-variant-numeric: tabular-nums; }
+.font-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.font-grid button { text-align: left; border: 1.5px solid var(--line); background: var(--surface); border-radius: 13px; padding: 8px 11px 9px; display: grid; gap: 2px; min-width: 0; }
+.font-grid button[aria-pressed="true"] { border-color: var(--tim); background: var(--tim-soft); }
+.font-grid .fs { font-size: 17px; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.font-grid .fn { font-size: 11.5px; color: var(--ink-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.skins { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.skin { border: 2px solid var(--line); border-radius: 13px; padding: 10px 4px 8px; display: grid; justify-items: center; gap: 4px; background: var(--sw-bg); color: var(--sw-ink); font-size: 11.5px; line-height: 1.2; text-align: center; min-width: 0; }
+.skin b { font: 700 18px/1 "Literata", Georgia, serif; }
+.skin[aria-pressed="true"] { border-color: var(--sen); box-shadow: 0 0 0 2px var(--sen-soft); }
+.skin.auto { background: linear-gradient(135deg, #f6eedf 0 50%, #1f1a16 50% 100%); color: #3a2f26; }
+.skin.auto b { color: #3a2f26; }
+.skin.auto span { background: rgba(255, 255, 255, .8); border-radius: 6px; padding: 0 4px; color: #3a2f26; }
+.range-row { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center; font-size: 14px; }
+.range-row input { grid-column: 1 / -1; width: 100%; accent-color: var(--sen); margin: 0; }
+.range-row output { font-variant-numeric: tabular-nums; color: var(--ink-soft); font-size: 13px; }
+.hint { margin: 0; font-size: 12.5px; color: var(--ink-soft); line-height: 1.5; }
+.keys { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; margin: 0; font-size: 13.5px; }
+.keys dt { font-weight: 600; }
+.keys dd { margin: 0; color: var(--ink-soft); }
+kbd { display: inline-block; min-width: 24px; padding: 1px 6px; border-radius: 6px; border: 1px solid var(--line); border-bottom-width: 2.5px; background: var(--surface); font: 600 12px/1.5 var(--f-ui); text-align: center; }
+
+/* ---------- hộp thoại ---------- */
+.modal { position: relative; width: min(480px, 100%); max-height: calc(100% - 20px); display: flex; flex-direction: column; background: var(--surface); color: var(--ink); border-radius: 24px; box-shadow: 0 30px 70px -20px var(--shadow), 0 0 0 1px var(--line); animation: pop .2s ease-out; }
+.m-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 16px 14px 6px 22px; }
+.m-head h2 { margin: 0; font: 800 22px/1.2 var(--f-display); color: var(--tim); }
+.m-body { padding: 6px 22px 8px; overflow-y: auto; display: grid; gap: 14px; }
+.m-foot { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; padding: 12px 22px 20px; }
+.m-foot .left { margin-right: auto; }
+.m-quote { margin: 0; padding: 10px 14px; border-radius: 12px; background: var(--bg); font: 15px/1.6 "Literata", "Noto Serif", Georgia, serif; max-height: 9.5em; overflow: auto; white-space: pre-wrap; }
+.fld { display: grid; gap: 6px; font-size: 13.5px; font-weight: 600; color: var(--ink-soft); }
+.fld input, .fld textarea, .fld select { width: 100%; border: 1.5px solid var(--line); border-radius: 12px; background: var(--bg); padding: 10px 12px; font-size: 15px; font-weight: 400; color: var(--ink); outline: none; }
+.fld input:focus, .fld textarea:focus { border-color: var(--tim); }
+.fld textarea { resize: vertical; min-height: 110px; line-height: 1.55; }
+.sw-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.sw { width: 30px; height: 30px; border-radius: 50%; border: 2.5px solid var(--surface); box-shadow: 0 0 0 1.5px var(--line); padding: 0; }
+.sw[aria-pressed="true"] { box-shadow: 0 0 0 2.5px var(--tim); }
+.sw-vang { background: #f7c430; } .sw-hong { background: #f4729f; } .sw-xanh { background: #4cc283; } .sw-lam { background: #6ba0fa; }
+.cover-sw { width: 34px; height: 34px; border-radius: 9px; }
+.info-line { margin: 0; font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.confirm-text { margin: 0; font-size: 15px; line-height: 1.55; }
+.goal-opts { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* ---------- thanh chọn chữ, chú thích, thông báo ---------- */
+.selbar { position: fixed; z-index: 30; display: flex; align-items: center; gap: 2px; padding: 5px 6px; border-radius: 16px; background: var(--ink); color: var(--bg); box-shadow: 0 12px 28px -10px rgba(0, 0, 0, .5); animation: pop .14s ease-out; max-width: calc(100vw - 16px); }
+.selbar .sw { width: 24px; height: 24px; border-color: var(--ink); box-shadow: none; margin: 0 2px; }
+.selbar .sw[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--bg); }
+.sb-sep { width: 1px; align-self: stretch; margin: 4px 5px; background: color-mix(in srgb, var(--bg) 25%, transparent); }
+.sb-btn { display: inline-flex; align-items: center; gap: 5px; border: 0; background: transparent; color: inherit; border-radius: 10px; padding: 6px 8px; font-size: 13px; font-weight: 600; text-decoration: none; white-space: nowrap; }
+.sb-btn:hover { background: color-mix(in srgb, var(--bg) 14%, transparent); }
+.sb-btn .ic { width: 17px; height: 17px; }
+@media (max-width: 480px) { .sb-btn span { display: none; } .sb-btn { padding: 7px; } }
+.fnpop { position: fixed; z-index: 31; width: min(380px, calc(100vw - 24px)); max-height: 46vh; overflow-y: auto; padding: 14px 16px 15px; border-radius: 16px; background: var(--surface); color: var(--ink); border: 1.5px solid var(--line); box-shadow: 0 18px 40px -16px var(--shadow); animation: pop .15s ease-out; font-size: 15px; line-height: 1.6; }
+.fnpop b { display: block; margin-bottom: 4px; font: 700 13px/1.2 var(--f-ui); color: var(--sen); }
+.fnpop p { margin: 0; white-space: pre-wrap; font-family: "Literata", "Noto Serif", Georgia, serif; }
+.toast { position: fixed; z-index: 60; left: 50%; bottom: calc(26px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); display: flex; align-items: center; gap: 12px; width: max-content; max-width: calc(100vw - 32px); padding: 11px 12px 11px 18px; border-radius: 16px; background: var(--ink); color: var(--bg); box-shadow: 0 14px 30px -12px rgba(0, 0, 0, .45); font-size: 14px; line-height: 1.45; animation: pop .18s ease-out; }
+.toast button { flex: none; border: 0; border-radius: 10px; padding: 6px 11px; background: color-mix(in srgb, var(--bg) 18%, transparent); color: inherit; font-weight: 700; font-size: 13.5px; }
+.toast .t-ico { width: 30px; height: 30px; flex: none; }
+body.reading .toast { bottom: calc(86px + env(safe-area-inset-bottom, 0px)); }
+.drop { position: fixed; inset: 0; z-index: 70; display: grid; place-items: center; padding: 24px; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(3px); }
+.drop-card { display: grid; justify-items: center; gap: 10px; padding: 40px 48px; border-radius: 30px; border: 3px dashed var(--sen); background: var(--surface); text-align: center; color: var(--tim); }
+.drop-card .ic { width: 48px; height: 48px; }
+.drop-card b { font: 800 24px/1.2 var(--f-display); }
+.drop-card span { color: var(--ink-soft); font-size: 14px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+}
+</style>
+</head><!--repo-only-->
+<body><!--repo-only-->
+<div id="app">
+  <header class="topbar" id="topbar">
+    <div class="wrap">
+      <a class="brand" href="#" id="brand" aria-label="Mọt Sách, về tủ sách">
+        <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+          <circle class="m-skin" cx="7.5" cy="22" r="4"/><circle class="m-skin" cx="32.5" cy="22" r="4"/>
+          <circle class="m-skin" cx="20" cy="21" r="13.5"/>
+          <path class="m-hair" d="M17.4 8.3c.5-3.6 4.7-3.6 5.2 0-1.7-.8-3.5-.8-5.2 0z"/>
+          <ellipse class="m-shine" cx="14.5" cy="13.5" rx="3.4" ry="1.9" transform="rotate(-20 14.5 13.5)"/>
+          <circle cx="15.3" cy="21.2" r="1.7" fill="var(--m-eye)"/><circle cx="24.7" cy="21.2" r="1.7" fill="var(--m-eye)"/>
+          <ellipse class="m-cheek" cx="12.3" cy="25.3" rx="2.5" ry="1.5"/><ellipse class="m-cheek" cx="27.7" cy="25.3" rx="2.5" ry="1.5"/>
+          <path d="M18.2 26.3q1.8 1.7 3.6 0" fill="none" stroke="var(--m-eye)" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+        <span class="brand-name">Mọt Sách</span>
+      </a>
+      <div class="top-actions">
+        <button class="btn ghost" id="pasteBtn" type="button" aria-label="Dán văn bản thành sách" data-ic="paste"><span>Dán văn bản</span></button>
+        <button class="btn primary" id="addBtn" type="button" aria-label="Thêm sách từ tệp" data-ic="plus"><span>Thêm sách</span></button>
+        <button class="icon-btn" id="themeBtn" type="button" aria-label="Đổi giao diện sáng tối"></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="lib" id="lib">
+    <div class="wrap">
+      <section class="hello" aria-label="Lời chào và thời gian đọc">
+        <div class="hello-left">
+          <button class="mascot-btn" id="mascotBtn" type="button" aria-label="Chú tiểu Mọt, bấm để nghe chú nói tiếp">
+            <svg class="mascot" id="mascot" viewBox="0 0 120 142" aria-hidden="true">
+              <g class="m-float">
+                <path class="m-robe" d="M22 142C22 112 36 92 60 92s38 20 38 50z"/>
+                <path class="m-collar" d="M49 93l11 16 11-16"/>
+                <g class="m-headg">
+                  <ellipse class="m-skin" cx="25" cy="58" rx="8" ry="10"/>
+                  <ellipse class="m-skin" cx="95" cy="58" rx="8" ry="10"/>
+                  <circle class="m-skin" cx="60" cy="54" r="36"/>
+                  <path class="m-hair" d="M53.5 20.5c1-9.5 12-9.5 13 0-4.5-1.9-8.5-1.9-13 0z"/>
+                  <ellipse class="m-shine" cx="45" cy="33" rx="9" ry="5" transform="rotate(-20 45 33)"/>
+                  <g class="m-eyes"><ellipse cx="46" cy="57" rx="3.8" ry="4.8"/><ellipse cx="74" cy="57" rx="3.8" ry="4.8"/></g>
+                  <g class="m-happy"><path d="M41 58q5-6.5 10 0"/><path d="M69 58q5-6.5 10 0"/></g>
+                  <ellipse class="m-cheek" cx="38" cy="68" rx="7" ry="4"/><ellipse class="m-cheek" cx="82" cy="68" rx="7" ry="4"/>
+                  <path class="m-mouth" d="M55 71q5 5.5 10 0"/>
+                </g>
+                <g class="m-book">
+                  <path class="m-cover" d="M26 113l34 6.5 34-6.5v23l-34 6-34-6z"/>
+                  <path class="m-page" d="M30 112l30 6v20l-30-5.5z"/>
+                  <path class="m-page" d="M90 112l-30 6v20l30-5.5z"/>
+                  <path class="m-lines" d="M35 118.5l20 3.8M35 123.5l20 3.8M35 128.5l15 2.8M65 122.3l20-3.8M65 127.3l20-3.8M70 131.3l15-2.8"/>
+                  <circle class="m-skin" cx="28" cy="124" r="6.5"/><circle class="m-skin" cx="92" cy="124" r="6.5"/>
+                </g>
+              </g>
+            </svg>
+          </button>
+          <div class="bubble" aria-live="polite">
+            <p class="bubble-who">Chú tiểu Mọt</p>
+            <p class="bubble-say" id="say">Chào bạn, mình là Mọt.</p>
+          </div>
+        </div>
+        <div class="stats" id="stats">
+          <div class="ring" id="ring"></div>
+          <div class="stats-side">
+            <p class="eyebrow">Hôm nay</p>
+            <div class="streak" id="streak"></div>
+            <div>
+              <div class="week-bars" id="weekBars"></div>
+              <div class="week-labels" id="weekLabels"></div>
+            </div>
+            <div class="goal-row"><span id="goalText"></span><button class="link-btn" id="goalBtn" type="button">Đổi mục tiêu</button></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cont" id="cont" aria-label="Đọc tiếp"></section>
+
+      <section class="shelf" aria-labelledby="shelfTitle">
+        <div class="shelf-head">
+          <h2 id="shelfTitle">Tủ sách <small id="bookCount"></small></h2>
+          <div class="shelf-tools">
+            <div class="chips" id="chips" role="group" aria-label="Lọc sách">
+              <button class="chip" type="button" data-f="all" aria-pressed="true">Tất cả</button>
+              <button class="chip" type="button" data-f="reading" aria-pressed="false">Đang đọc</button>
+              <button class="chip" type="button" data-f="new" aria-pressed="false">Chưa đọc</button>
+              <button class="chip" type="button" data-f="done" aria-pressed="false">Đã xong</button>
+            </div>
+            <label class="search-box"><span class="sr-only">Tìm sách trên kệ</span><span data-ic="search"></span><input id="libSearch" type="search" placeholder="Tìm tên sách, tác giả" autocomplete="off"></label>
+          </div>
+        </div>
+        <div class="grid" id="grid"></div>
+      </section>
+
+      <footer class="lib-foot">
+        <p id="footNote">Sách và ghi chú của bạn được cất ngay trong trình duyệt này, không gửi đi đâu cả.</p>
+        <div class="foot-actions">
+          <button class="btn small ghost" id="showSamples" type="button" hidden>Hiện lại sách mẫu</button>
+          <button class="btn small ghost" id="backupBtn" type="button" data-ic="download" hidden>Sao lưu</button>
+          <button class="btn small ghost" id="restoreBtn" type="button" data-ic="upload" hidden>Khôi phục</button>
+        </div>
+      </footer>
+    </div>
+  </main>
+</div>
+
+<section class="reader" id="reader" data-mode="scroll" aria-label="Trình đọc sách" hidden>
+  <header class="r-top" id="rTop">
+    <button class="icon-btn" id="rBack" type="button" aria-label="Về tủ sách" data-ic="back"></button>
+    <div class="r-title"><p class="r-book" id="rBook"></p><p class="r-chap" id="rChap"></p></div>
+    <div class="r-tools">
+      <button class="icon-btn" id="rToc" type="button" aria-label="Mục lục (T)" title="Mục lục (T)" data-ic="toc"></button>
+      <button class="icon-btn" id="rFind" type="button" aria-label="Tìm trong sách (F)" title="Tìm trong sách (F)" data-ic="search"></button>
+      <button class="icon-btn" id="rNotes" type="button" aria-label="Ghi chú và đánh dấu (N)" title="Ghi chú và đánh dấu (N)" data-ic="note"></button>
+      <button class="icon-btn" id="rAa" type="button" aria-label="Chữ và ánh sáng (A)" title="Chữ và ánh sáng (A)" data-ic="type"></button>
+    </div>
+  </header>
+  <div class="r-stage" id="rStage">
+    <div class="r-scroll" id="rScroll" tabindex="-1">
+      <article class="r-text" id="rText" lang="vi"></article>
+    </div>
+  </div>
+  <p class="r-run head" id="rRunHead"></p>
+  <p class="r-run foot" id="rRunFoot"></p>
+  <div class="tts" id="tts" hidden>
+    <button class="icon-btn play" id="ttsPlay" type="button" aria-label="Tạm dừng"></button>
+    <div class="tts-info"><b id="ttsState">Đang đọc to</b><span id="ttsVoiceNote"></span></div>
+    <label><span class="sr-only">Tốc độ đọc</span>
+      <select id="ttsRate">
+        <option value="0.75">0,75×</option><option value="0.9">0,9×</option><option value="1">1×</option><option value="1.15">1,15×</option><option value="1.3">1,3×</option><option value="1.5">1,5×</option>
+      </select>
+    </label>
+    <label><span class="sr-only">Giọng đọc</span><select id="ttsVoice"></select></label>
+    <button class="icon-btn sm" id="ttsClose" type="button" aria-label="Tắt đọc to" data-ic="close"></button>
+  </div>
+  <div class="findbar" id="findbar" hidden>
+    <button class="icon-btn" id="fbPrev" type="button" aria-label="Kết quả trước" data-ic="back"></button>
+    <span id="fbText"></span>
+    <button class="icon-btn" id="fbNext" type="button" aria-label="Kết quả sau" data-ic="next"></button>
+    <button class="icon-btn" id="fbClose" type="button" aria-label="Thôi tìm" data-ic="close"></button>
+  </div>
+  <footer class="r-bot" id="rBot">
+    <button class="icon-btn" id="rPrev" type="button" aria-label="Chương trước" data-ic="back"></button>
+    <button class="icon-btn" id="rMark" type="button" aria-label="Đánh dấu trang (B)" title="Đánh dấu trang (B)" aria-pressed="false" data-ic="mark"></button>
+    <div class="r-prog">
+      <input type="range" id="rRange" min="0" max="1000" value="0" aria-label="Vị trí trong sách">
+      <p class="r-meta"><span id="rWhere"></span><span id="rLeft"></span></p>
+    </div>
+    <button class="icon-btn" id="rSpeak" type="button" aria-label="Đọc to" title="Đọc to" data-ic="speak"></button>
+    <button class="icon-btn" id="rNext" type="button" aria-label="Chương sau" data-ic="next"></button>
+  </footer>
+  <div class="r-warm" id="rWarm"></div>
+  <div class="r-dim" id="rDim"></div>
+</section>
+
+<div class="panel-wrap" id="panelWrap" hidden>
+  <div class="scrim" data-close></div>
+  <aside class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="panelTitle">
+    <header class="panel-head"><h2 id="panelTitle"></h2><button class="icon-btn" type="button" data-close aria-label="Đóng" data-ic="close"></button></header>
+    <div class="panel-body" id="panelBody"></div>
+  </aside>
+</div>
+
+<div class="modal-wrap" id="modalWrap" hidden>
+  <div class="scrim" data-mclose></div>
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle"></div>
+</div>
+
+<div class="selbar" id="selbar" role="toolbar" aria-label="Công cụ cho đoạn đã chọn" hidden>
+  <button class="sw sw-vang" type="button" data-color="vang" aria-label="Tô vàng"></button>
+  <button class="sw sw-hong" type="button" data-color="hong" aria-label="Tô hồng"></button>
+  <button class="sw sw-xanh" type="button" data-color="xanh" aria-label="Tô xanh lá"></button>
+  <button class="sw sw-lam" type="button" data-color="lam" aria-label="Tô xanh dương"></button>
+  <span class="sb-sep"></span>
+  <button class="sb-btn" type="button" data-act="note" data-ic="note"><span>Ghi chú</span></button>
+  <button class="sb-btn" type="button" data-act="copy" data-ic="copy"><span>Chép</span></button>
+  <button class="sb-btn" type="button" data-act="find" data-ic="search"><span>Tìm</span></button>
+  <a class="sb-btn" data-act="dict" href="https://vi.wiktionary.org/" target="_blank" rel="noopener" data-ic="book"><span>Tra từ</span></a>
+  <button class="sb-btn" type="button" data-act="del" data-ic="trash" hidden><span>Xoá</span></button>
+</div>
+<div class="fnpop" id="fnpop" role="dialog" aria-label="Chú thích" hidden></div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<div class="drop" id="drop" hidden><div class="drop-card"><span data-ic="upload"></span><b>Thả vào đây</b><span>Mọt sẽ cất sách lên kệ cho bạn</span></div></div>
+<input type="file" id="fileIn" multiple accept=".epub,.txt,.md,.markdown,.docx,.html,.htm,.xhtml,application/epub+zip,text/plain" hidden>
+<input type="file" id="restoreIn" accept=".json,application/json" hidden>
+<script>
+/* Sách mẫu: văn bản thuộc phạm vi công cộng; phần dịch nghĩa do Mọt Sách soạn để tham khảo.
+   Cú pháp gọn: các khối cách nhau bằng dòng trống; "## " là tiêu đề nhỏ, "> " là trích dẫn,
+   khối nhiều dòng là thơ (giữ xuống dòng), khối một dòng là đoạn văn. */
+window.MOT_SAMPLES = [
+{
+  id: 'mau-so-tay', title: 'Sổ tay của Mọt', author: 'Chú tiểu Mọt', color: '#f6c4d2', order: 5,
+  chapters: [
+['Chào bạn', `
+Chào bạn, mình là Mọt, một chú tiểu mê sách. Mọt Sách là cái kệ nhỏ mình dựng cho bạn: thêm sách vào, đọc, tô màu những câu hay, ghi lại điều mình nghĩ, và xem mỗi ngày mình đã đọc được bao lâu.
+
+Sách của bạn nằm ngay trong trình duyệt này. Mọt không gửi sách đi đâu, không cần tài khoản, không có quảng cáo.
+
+Trên kệ có sẵn vài cuốn để đọc thử: Bát Nhã Tâm Kinh, sáu bài thơ Thiền thời Lý – Trần, đoạn mở đầu Truyện Kiều và một ít ca dao. Bạn xoá đi lúc nào cũng được, rồi bấm “Hiện lại sách mẫu” ở cuối tủ sách nếu muốn lấy lại.
+
+Vì sách được cất trong trình duyệt, nếu bạn xoá dữ liệu duyệt web thì sách cũng mất theo. Hãy giữ tệp gốc, và nếu thấy nút Sao lưu ở cuối tủ sách thì thỉnh thoảng bấm để cất một bản dự phòng.
+`],
+['Thêm sách của bạn', `
+Bấm nút Thêm sách ở góc trên, hoặc kéo thả tệp vào cửa sổ. Mọt đọc được các loại tệp sau:
+
+.epub: sách điện tử, giữ nguyên mục lục, ảnh bìa và chú thích
+.docx: tài liệu Word, tách chương theo các dòng tiêu đề (Heading)
+.txt và .md: văn bản thuần, mã UTF-8, UTF-16 hoặc Windows-1258
+.html: trang web đã lưu về máy
+
+Thấy một bài kinh hay một bài viết trên mạng, bạn chép lại rồi bấm Dán văn bản là có ngay một cuốn sách mới. Đang ở tủ sách mà nhấn Ctrl + V cũng được.
+
+Mọt tự tách chương khi gặp những dòng như “Chương 1”, “Hồi thứ hai”, “Phẩm thứ ba”, “Quyển IV”, “Lời nói đầu”, hoặc tiêu đề Markdown bắt đầu bằng dấu #.
+
+Tệp PDF thì Mọt chưa đọc được. Bạn có thể dùng phần mềm Calibre để chuyển PDF sang EPUB rồi thêm vào.
+`],
+['Tô màu và ghi chú', `
+Bôi đen một câu bất kỳ, thanh công cụ nhỏ sẽ hiện ra. Có bốn màu để tô: vàng, hồng, xanh lá và xanh dương. Bạn tự đặt quy ước cho mình, ví dụ vàng cho ý chính, hồng cho câu muốn trích dẫn, xanh cho thuật ngữ cần tra thêm.
+
+Bấm Ghi chú để viết vài dòng cho đoạn vừa chọn. Bấm vào một chỗ đã tô để đổi màu, sửa ghi chú hoặc xoá.
+
+Nút Chép chép đoạn đã chọn kèm tên sách và tên chương, dán thẳng vào bài tiểu luận được. Nút Tra từ mở Wiktionary tiếng Việt, tra được cả chữ Hán.
+
+Sách EPUB có chú thích kiểu [1] hay [1.1] thì bấm vào con số nhỏ đó, lời chú thích sẽ hiện ngay bên cạnh, không phải lật xuống cuối sách.
+
+Muốn nhớ chỗ đang đọc, bấm hình dải ruy băng ở thanh dưới để đánh dấu trang.
+
+Mọi đoạn tô màu, ghi chú và đánh dấu của một cuốn nằm trong mục Ghi chú ở thanh trên. Từ đó bạn chép tất cả ra dạng Markdown để dán vào Word, Notion hay Obsidian.
+`],
+['Đọc cho êm mắt', `
+Nút Aa mở phần chữ và ánh sáng. Ở đó bạn chỉnh cỡ chữ, phông chữ, độ đậm, khoảng cách dòng, độ rộng trang và màu nền.
+
+Nền mặc định là giấy ngà ấm, chữ màu nâu mực chứ không đen tuyền, để mắt không bị chói. Ngoài ra còn nền giấy dó, lá sen, hồng đào, ánh nến, đêm trăng và nền đen cho màn hình OLED.
+
+Đọc buổi tối thì kéo thanh “Lọc ánh sáng xanh” cho trang ngả sang màu hổ phách, và kéo “Độ sáng” xuống khi màn hình đã để mức thấp nhất mà vẫn còn chói. Nút “Đọc đêm” bật sẵn cả ba thứ trong một lần bấm.
+
+Bạn chọn đọc cuộn dọc như trang web, hoặc lật trang như sách giấy. Khi lật trang, chạm mép phải để sang trang, chạm mép trái để quay lại, chạm ở giữa để ẩn hoặc hiện thanh công cụ. Trên điện thoại thì vuốt sang trái, sang phải.
+
+Thơ lục bát được tự thụt đầu câu sáu chữ, giống cách in sách truyền thống. Chữ Hán dùng phông Noto Serif cho rõ nét.
+
+Nút loa đọc to bằng giọng tiếng Việt có sẵn trên máy. Nếu không nghe thấy gì, hãy cài thêm giọng đọc tiếng Việt trong phần cài đặt của máy.
+
+## Phím tắt trên máy tính
+
+← →  lật trang, hoặc chuyển chương khi đọc cuộn
+T  mục lục
+F  tìm trong sách
+N  ghi chú
+B  đánh dấu trang
+A  chữ và ánh sáng
+`],
+['Mỗi ngày một chút', `
+Mọt chỉ đếm thời gian bạn thật sự đọc, tức là lúc sách đang mở và bạn có lật trang, cuộn hoặc đang nghe đọc. Mở sách rồi đi pha trà thì Mọt không tính đâu nhé.
+
+Mục tiêu mặc định là 15 phút mỗi ngày, bạn đổi ở tủ sách cho hợp sức mình. Ngày nào đọc từ một phút trở lên thì chuỗi ngày đọc được nối dài thêm một ngày. Đọc xong một cuốn, Mọt chấm cho cuốn đó điểm 10 bằng mực đỏ.
+
+Nhà Phật nói đến ba thứ tuệ: văn, tư, tu. Văn là nghe và đọc cho kỹ, tư là suy ngẫm cho thấu, tu là đem điều đã hiểu ra mà sống. Mọt mong cái kệ nhỏ này giúp được bạn ở bước đầu tiên. Chúc bạn đọc vui.
+`]
+  ]
+},
+{
+  id: 'mau-tam-kinh', title: 'Bát Nhã Ba La Mật Đa Tâm Kinh', author: 'Huyền Trang Hán dịch', color: '#f8dfa0', order: 4,
+  chapters: [
+['Lời dẫn', `
+Bát-nhã Ba-la-mật-đa Tâm Kinh (般若波羅蜜多心經) là bản kinh ngắn nhất trong hệ kinh Bát-nhã, chỉ khoảng hai trăm sáu mươi chữ Hán, được tụng đọc rộng rãi trong Phật giáo Bắc truyền.
+
+Bản Hán văn dưới đây theo bản lưu hành phổ biến, dựa trên bản dịch của ngài Huyền Trang (năm 649), Đại Chánh tạng số 251. Phần phiên âm theo cách đọc quen thuộc trong các chùa Việt Nam.
+
+Phần dịch nghĩa do Mọt Sách soạn để tham khảo khi đọc. Khi trích dẫn trong bài nghiên cứu, bạn hãy đối chiếu với các bản dịch đã xuất bản.
+`],
+['Hán văn', `
+觀自在菩薩,行深般若波羅蜜多時,照見五蘊皆空,度一切苦厄。
+
+舍利子,色不異空,空不異色,色即是空,空即是色,受想行識,亦復如是。
+
+舍利子,是諸法空相,不生不滅,不垢不淨,不增不減。
+
+是故空中無色,無受想行識,無眼耳鼻舌身意,無色聲香味觸法,無眼界,乃至無意識界,無無明,亦無無明盡,乃至無老死,亦無老死盡,無苦集滅道,無智亦無得。
+
+以無所得故,菩提薩埵,依般若波羅蜜多故,心無罣礙,無罣礙故,無有恐怖,遠離顛倒夢想,究竟涅槃。
+
+三世諸佛,依般若波羅蜜多故,得阿耨多羅三藐三菩提。
+
+故知般若波羅蜜多,是大神咒,是大明咒,是無上咒,是無等等咒,能除一切苦,真實不虛。
+
+故說般若波羅蜜多咒,即說咒曰:揭諦揭諦,波羅揭諦,波羅僧揭諦,菩提薩婆訶。
+`],
+['Phiên âm Hán – Việt', `
+Quán Tự Tại Bồ Tát hành thâm Bát-nhã Ba-la-mật-đa thời, chiếu kiến ngũ uẩn giai không, độ nhất thiết khổ ách.
+
+Xá-lợi-tử, sắc bất dị không, không bất dị sắc, sắc tức thị không, không tức thị sắc, thọ tưởng hành thức diệc phục như thị.
+
+Xá-lợi-tử, thị chư pháp không tướng, bất sanh bất diệt, bất cấu bất tịnh, bất tăng bất giảm.
+
+Thị cố không trung vô sắc, vô thọ tưởng hành thức, vô nhãn nhĩ tỷ thiệt thân ý, vô sắc thanh hương vị xúc pháp, vô nhãn giới nãi chí vô ý thức giới, vô vô minh diệc vô vô minh tận, nãi chí vô lão tử diệc vô lão tử tận, vô khổ tập diệt đạo, vô trí diệc vô đắc.
+
+Dĩ vô sở đắc cố, Bồ-đề-tát-đỏa y Bát-nhã Ba-la-mật-đa cố, tâm vô quái ngại, vô quái ngại cố, vô hữu khủng bố, viễn ly điên đảo mộng tưởng, cứu cánh Niết-bàn.
+
+Tam thế chư Phật y Bát-nhã Ba-la-mật-đa cố, đắc A-nậu-đa-la Tam-miệu Tam-bồ-đề.
+
+Cố tri Bát-nhã Ba-la-mật-đa thị đại thần chú, thị đại minh chú, thị vô thượng chú, thị vô đẳng đẳng chú, năng trừ nhất thiết khổ, chân thật bất hư.
+
+Cố thuyết Bát-nhã Ba-la-mật-đa chú, tức thuyết chú viết: Yết-đế yết-đế, ba-la yết-đế, ba-la-tăng yết-đế, bồ-đề tát-bà-ha.
+`],
+['Dịch nghĩa', `
+> Bản dịch nghĩa sát chữ, do Mọt Sách soạn để tham khảo.
+
+Khi Bồ-tát Quán Tự Tại thực hành sâu xa Bát-nhã Ba-la-mật-đa, Ngài soi thấy năm uẩn đều không, liền vượt qua hết thảy khổ ách.
+
+Này Xá-lợi-tử! Sắc chẳng khác không, không chẳng khác sắc; sắc chính là không, không chính là sắc. Thọ, tưởng, hành, thức cũng lại như vậy.
+
+Này Xá-lợi-tử! Các pháp ấy đều mang tướng không: không sinh, không diệt, không nhơ, không sạch, không thêm, không bớt.
+
+Vì thế, trong cái không ấy không có sắc, không có thọ, tưởng, hành, thức; không có mắt, tai, mũi, lưỡi, thân, ý; không có sắc, thanh, hương, vị, xúc, pháp; không có nhãn giới cho đến không có ý thức giới; không có vô minh cũng không có chỗ hết vô minh, cho đến không có già chết cũng không có chỗ hết già chết; không có khổ, tập, diệt, đạo; không có trí cũng không có chứng đắc.
+
+Vì không có chỗ chứng đắc, Bồ-tát nương vào Bát-nhã Ba-la-mật-đa nên tâm không vướng ngại; vì không vướng ngại nên không sợ hãi, xa lìa mộng tưởng điên đảo, rốt ráo Niết-bàn.
+
+Chư Phật ba đời đều nương vào Bát-nhã Ba-la-mật-đa mà chứng được Vô thượng Chánh đẳng Chánh giác.
+
+Vậy nên biết Bát-nhã Ba-la-mật-đa là thần chú lớn, là minh chú lớn, là chú vô thượng, là chú không gì sánh bằng, trừ được hết thảy khổ, chân thật không hư dối.
+
+Cho nên nói chú Bát-nhã Ba-la-mật-đa, liền nói chú rằng: Yết-đế yết-đế, ba-la yết-đế, ba-la-tăng yết-đế, bồ-đề tát-bà-ha.
+`]
+  ]
+},
+{
+  id: 'mau-tho-thien', title: 'Thơ Thiền Lý – Trần', author: 'Tuyển sáu bài', color: '#c6e6d3', order: 3,
+  chapters: [
+['Quốc tộ', `
+Thiền sư Pháp Thuận (915–990). Bài kệ trả lời vua Lê Đại Hành khi vua hỏi về vận nước.
+
+## Nguyên văn
+
+國祚如藤絡
+南天裡太平
+無為居殿閣
+處處息刀兵
+
+## Phiên âm
+
+Quốc tộ như đằng lạc,
+Nam thiên lý thái bình.
+Vô vi cư điện các,
+Xứ xứ tức đao binh.
+
+## Dịch nghĩa
+
+Vận nước như dây mây quấn quýt,
+Trời Nam hưởng cảnh thái bình.
+Vô vi nơi điện các,
+Khắp chốn dứt đao binh.
+`],
+['Thị đệ tử', `
+Thiền sư Vạn Hạnh (?–1018). Bài kệ dặn học trò trước khi Thiền sư viên tịch.
+
+## Nguyên văn
+
+身如電影有還無
+萬木春榮秋又枯
+任運盛衰無怖畏
+盛衰如露草頭鋪
+
+## Phiên âm
+
+Thân như điện ảnh hữu hoàn vô,
+Vạn mộc xuân vinh thu hựu khô.
+Nhậm vận thịnh suy vô bố úy,
+Thịnh suy như lộ thảo đầu phô.
+
+## Dịch nghĩa
+
+Thân người như bóng chớp, có rồi lại không,
+Cây cối mùa xuân tươi tốt, sang thu lại khô héo.
+Mặc cho vận đời thịnh suy, không chút sợ hãi,
+Thịnh suy như giọt sương đọng trên đầu ngọn cỏ.
+`],
+['Cáo tật thị chúng', `
+Thiền sư Mãn Giác (1052–1096). Bài kệ Thiền sư để lại cho đại chúng khi lâm bệnh.
+
+## Nguyên văn
+
+春去百花落
+春到百花開
+事逐眼前過
+老從頭上來
+莫謂春殘花落盡
+庭前昨夜一枝梅
+
+## Phiên âm
+
+Xuân khứ bách hoa lạc,
+Xuân đáo bách hoa khai.
+Sự trục nhãn tiền quá,
+Lão tòng đầu thượng lai.
+Mạc vị xuân tàn hoa lạc tận,
+Đình tiền tạc dạ nhất chi mai.
+
+## Dịch nghĩa
+
+Xuân đi, trăm hoa rụng,
+Xuân đến, trăm hoa nở.
+Việc đời trôi qua trước mắt,
+Tuổi già đến từ trên mái đầu.
+Chớ bảo xuân tàn hoa rụng hết,
+Đêm qua trước sân một cành mai.
+`],
+['Ngôn hoài', `
+Thiền sư Không Lộ (?–1119). Nói lên nỗi lòng.
+
+## Nguyên văn
+
+擇得龍蛇地可居
+野情終日樂無餘
+有時直上孤峰頂
+長嘯一聲寒太虛
+
+## Phiên âm
+
+Trạch đắc long xà địa khả cư,
+Dã tình chung nhật lạc vô dư.
+Hữu thì trực thượng cô phong đỉnh,
+Trường khiếu nhất thanh hàn thái hư.
+
+## Dịch nghĩa
+
+Chọn được đất rồng rắn có thể ở,
+Tình quê suốt ngày vui không hết.
+Có lúc lên thẳng đỉnh núi cô quạnh,
+Kêu dài một tiếng, lạnh cả bầu trời.
+`],
+['Xuân vãn', `
+Trần Nhân Tông (1258–1308). Cuối xuân.
+
+## Nguyên văn
+
+年少何曾了色空
+一春心在百花中
+如今勘破東皇面
+禪板蒲團看墜紅
+
+## Phiên âm
+
+Niên thiếu hà tằng liễu sắc không,
+Nhất xuân tâm tại bách hoa trung.
+Như kim khám phá Đông hoàng diện,
+Thiền bản bồ đoàn khán trụy hồng.
+
+## Dịch nghĩa
+
+Thuở trẻ chưa từng hiểu lẽ sắc không,
+Mỗi độ xuân về, lòng ở giữa trăm hoa.
+Nay đã nhìn thấu mặt chúa xuân,
+Ngồi trên thiền bản bồ đoàn, ngắm cánh hồng rơi.
+`],
+['Thiên Trường vãn vọng', `
+Trần Nhân Tông (1258–1308). Ngắm cảnh chiều ở phủ Thiên Trường.
+
+## Nguyên văn
+
+村後村前淡似煙
+半無半有夕陽邊
+牧童笛裡歸牛盡
+白鷺雙雙飛下田
+
+## Phiên âm
+
+Thôn hậu thôn tiền đạm tự yên,
+Bán vô bán hữu tịch dương biên.
+Mục đồng địch lý quy ngưu tận,
+Bạch lộ song song phi hạ điền.
+
+## Dịch nghĩa
+
+Trước xóm sau thôn nhạt như khói,
+Nửa như không, nửa như có, bên bóng chiều tà.
+Trong tiếng sáo mục đồng, trâu đã về hết,
+Từng đôi cò trắng bay xuống đồng.
+`]
+  ]
+},
+{
+  id: 'mau-truyen-kieu', title: 'Truyện Kiều (trích)', author: 'Nguyễn Du', color: '#ddd0f4', order: 2,
+  chapters: [
+['Lời mở đầu', `
+Năm mươi sáu câu đầu của Truyện Kiều (Đoạn trường tân thanh), theo bản phổ thông. Câu chữ có thể khác đôi chút giữa các bản.
+
+Trăm năm trong cõi người ta,
+Chữ tài chữ mệnh khéo là ghét nhau.
+Trải qua một cuộc bể dâu,
+Những điều trông thấy mà đau đớn lòng.
+Lạ gì bỉ sắc tư phong,
+Trời xanh quen thói má hồng đánh ghen.
+Cảo thơm lần giở trước đèn,
+Phong tình cổ lục còn truyền sử xanh.
+`],
+['Gia đình họ Vương', `
+Câu 9 đến 14.
+
+Rằng năm Gia Tĩnh triều Minh,
+Bốn phương phẳng lặng hai kinh vững vàng.
+Có nhà viên ngoại họ Vương,
+Gia tư nghĩ cũng thường thường bậc trung.
+Một trai con thứ rốt lòng,
+Vương Quan là chữ nối dòng nho gia.
+`],
+['Chị em Thúy Kiều', `
+Câu 15 đến 38.
+
+Đầu lòng hai ả tố nga,
+Thúy Kiều là chị em là Thúy Vân.
+Mai cốt cách tuyết tinh thần,
+Mỗi người một vẻ mười phân vẹn mười.
+Vân xem trang trọng khác vời,
+Khuôn trăng đầy đặn nét ngài nở nang.
+Hoa cười ngọc thốt đoan trang,
+Mây thua nước tóc tuyết nhường màu da.
+Kiều càng sắc sảo mặn mà,
+So bề tài sắc lại là phần hơn.
+Làn thu thủy nét xuân sơn,
+Hoa ghen thua thắm liễu hờn kém xanh.
+Một hai nghiêng nước nghiêng thành,
+Sắc đành đòi một tài đành họa hai.
+Thông minh vốn sẵn tính trời,
+Pha nghề thi họa đủ mùi ca ngâm.
+Cung thương làu bậc ngũ âm,
+Nghề riêng ăn đứt Hồ cầm một trương.
+Khúc nhà tay lựa nên chương,
+Một thiên Bạc mệnh lại càng não nhân.
+Phong lưu rất mực hồng quần,
+Xuân xanh xấp xỉ tới tuần cập kê.
+Êm đềm trướng rủ màn che,
+Tường đông ong bướm đi về mặc ai.
+`],
+['Cảnh ngày xuân', `
+Câu 39 đến 56.
+
+Ngày xuân con én đưa thoi,
+Thiều quang chín chục đã ngoài sáu mươi.
+Cỏ non xanh tận chân trời,
+Cành lê trắng điểm một vài bông hoa.
+Thanh minh trong tiết tháng ba,
+Lễ là tảo mộ hội là đạp thanh.
+Gần xa nô nức yến anh,
+Chị em sắm sửa bộ hành chơi xuân.
+Dập dìu tài tử giai nhân,
+Ngựa xe như nước áo quần như nêm.
+Ngổn ngang gò đống kéo lên,
+Thoi vàng vó rắc tro tiền giấy bay.
+Tà tà bóng ngả về tây,
+Chị em thơ thẩn dan tay ra về.
+Bước dần theo ngọn tiểu khê,
+Lần xem phong cảnh có bề thanh thanh.
+Nao nao dòng nước uốn quanh,
+Dịp cầu nho nhỏ cuối ghềnh bắc ngang.
+`]
+  ]
+},
+{
+  id: 'mau-ca-dao', title: 'Ca dao Việt Nam', author: 'Dân gian', color: '#bfe2e6', order: 1,
+  chapters: [
+['Ơn cha nghĩa mẹ', `
+Công cha như núi Thái Sơn,
+Nghĩa mẹ như nước trong nguồn chảy ra.
+Một lòng thờ mẹ kính cha,
+Cho tròn chữ hiếu mới là đạo con.
+
+Tu đâu cho bằng tu nhà,
+Thờ cha kính mẹ mới là chân tu.
+
+Chiều chiều ra đứng ngõ sau,
+Trông về quê mẹ ruột đau chín chiều.
+`],
+['Quê hương', `
+Gió đưa cành trúc la đà,
+Tiếng chuông Trấn Võ canh gà Thọ Xương.
+Mịt mù khói tỏa ngàn sương,
+Nhịp chày Yên Thái mặt gương Tây Hồ.
+
+Đường vô xứ Nghệ quanh quanh,
+Non xanh nước biếc như tranh họa đồ.
+
+Nhiễu điều phủ lấy giá gương,
+Người trong một nước phải thương nhau cùng.
+
+Bầu ơi thương lấy bí cùng,
+Tuy rằng khác giống nhưng chung một giàn.
+`],
+['Hoa sen và lời ăn tiếng nói', `
+Trong đầm gì đẹp bằng sen,
+Lá xanh bông trắng lại chen nhị vàng.
+Nhị vàng bông trắng lá xanh,
+Gần bùn mà chẳng hôi tanh mùi bùn.
+
+Ai ơi bưng bát cơm đầy,
+Dẻo thơm một hạt đắng cay muôn phần.
+
+Lời nói chẳng mất tiền mua,
+Lựa lời mà nói cho vừa lòng nhau.
+
+Chim khôn kêu tiếng rảnh rang,
+Người khôn nói tiếng dịu dàng dễ nghe.
+`]
+  ]
+}
+];
+</script>
+<script>
+(() => {
+'use strict';
+
+/* ================= tiện ích ================= */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const debounce = (fn, ms) => { let t; const d = (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; d.cancel = () => clearTimeout(t); return d; };
+const framed = (() => { try { return window.self !== window.top; } catch { return true; } })();
+const coarse = matchMedia('(pointer: coarse)');
+const pad2 = n => String(n).padStart(2, '0');
+const dayKey = (d = new Date()) => `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+const fmtDate = t => { const d = new Date(t); return `${pad2(d.getDate())}/${pad2(d.getMonth() + 1)}/${d.getFullYear()}`; };
+const CPM = 1000; /* khoảng ký tự đọc được mỗi phút */
+const fmtDur = min => { min = Math.max(1, Math.round(min)); if (min < 60) return `${min} phút`; const h = Math.floor(min / 60), m = min % 60; return m ? `${h} giờ ${m} phút` : `${h} giờ`; };
+const WEEKDAY = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+const HAN_RE = /[㐀-鿿豈-﫿]/g;
+const FN_RE = /\[(\d{1,3}(?:[.\-]\d{1,3}){0,2})\]/g;
+
+const ICONS = {
+  back: '<path d="M15 18l-6-6 6-6"/>',
+  next: '<path d="M9 6l6 6-6 6"/>',
+  toc: '<path d="M9 6.5h11M9 12h11M9 17.5h11"/><path d="M4.5 6.5h.01M4.5 12h.01M4.5 17.5h.01" stroke-width="3"/>',
+  search: '<circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/>',
+  note: '<path d="M4 20h4L19.2 8.8a2.1 2.1 0 0 0-3-3L5 17z"/><path d="M14 20h6"/>',
+  type: '<path d="M3.5 18.5L8 6l4.5 12.5M5.2 14h5.6"/><path d="M14 18.5l3.3-8.5 3.2 8.5M15.1 15.6h4.3"/>',
+  speak: '<path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4.2 4.2 0 0 1 0 6M18.3 6.5a8 8 0 0 1 0 11"/>',
+  mark: '<path d="M7 3.5h10a1 1 0 0 1 1 1V21l-6-4-6 4V4.5a1 1 0 0 1 1-1z"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6L6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4L6 18M18 6l1.4-1.4"/>',
+  moon: '<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>',
+  auto: '<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor" stroke="none"/>',
+  plus: '<path d="M12 5v14M5 12h14"/>',
+  paste: '<rect x="5" y="4.5" width="14" height="16.5" rx="2"/><path d="M9 4.5h6V7H9zM8.5 12h7M8.5 16h5"/>',
+  close: '<path d="M6 6l12 12M18 6L6 18"/>',
+  play: '<path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/>',
+  pause: '<path d="M8 5h3v14H8zM13 5h3v14h-3z" fill="currentColor" stroke="none"/>',
+  trash: '<path d="M4.5 7h15M10 4h4M6.5 7l1 13h9l1-13"/>',
+  copy: '<rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2"/><path d="M15.5 8.5v-3A1.5 1.5 0 0 0 14 4H5.5A1.5 1.5 0 0 0 4 5.5V14a1.5 1.5 0 0 0 1.5 1.5h3"/>',
+  download: '<path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/>',
+  upload: '<path d="M12 16V5M7 9.5l5-5 5 5M5 20h14"/>',
+  more: '<path d="M5.5 12h.01M12 12h.01M18.5 12h.01" stroke-width="3.2"/>',
+  flame: '<path d="M12 3c.5 3.5 4.5 5 4.5 10a4.5 4.5 0 0 1-9 0c0-2.2 1.2-3.4 1.8-4.8.9 1.2 1.5 1.6 2.2 1.6C11.5 7.5 11 5.5 12 3z" fill="currentColor" fill-opacity=".25"/>',
+  book: '<path d="M4 5.5c2.5-1 5.5-1 8 .5 2.5-1.5 5.5-1.5 8-.5V19c-2.5-1-5.5-1-8 .5-2.5-1.5-5.5-1.5-8-.5z"/><path d="M12 6v13.5"/>',
+  pen: '<path d="M4 20h4L19.2 8.8a2.1 2.1 0 0 0-3-3L5 17z"/>'
+};
+const icon = (n, cls = '') => `<svg class="ic ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n] || ''}</svg>`;
+
+/* ================= lưu trữ ================= */
+const LS = {
+  get(k, d) { try { const v = localStorage.getItem('motsach:' + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v) { try { localStorage.setItem('motsach:' + k, JSON.stringify(v)); return true; } catch { return false; } }
+};
+const DB = (() => {
+  const mem = { books: new Map(), content: new Map(), notes: new Map() };
+  let dbp = null;
+  function open() {
+    if (dbp) return dbp;
+    dbp = new Promise(res => {
+      try {
+        const rq = indexedDB.open('mot-sach', 1);
+        rq.onupgradeneeded = () => { const db = rq.result; for (const n of ['books', 'content', 'notes']) if (!db.objectStoreNames.contains(n)) db.createObjectStore(n, { keyPath: 'id' }); };
+        rq.onsuccess = () => res(rq.result);
+        rq.onerror = rq.onblocked = () => res(null);
+      } catch { res(null); }
+    });
+    return dbp;
+  }
+  async function req(store, mode, fn) {
+    const db = await open();
+    if (!db) return undefined;
+    return new Promise(res => {
+      try {
+        const t = db.transaction(store, mode); const r = fn(t.objectStore(store));
+        t.oncomplete = () => res(r ? r.result : true);
+        t.onerror = t.onabort = () => res(undefined);
+      } catch { res(undefined); }
+    });
+  }
+  return {
+    async get(s, id) { const v = await req(s, 'readonly', st => st.get(id)); return v ?? mem[s].get(id); },
+    async all(s) { const v = await req(s, 'readonly', st => st.getAll()); if (Array.isArray(v)) { v.forEach(x => mem[s].set(x.id, x)); return v; } return [...mem[s].values()]; },
+    async put(s, val) { mem[s].set(val.id, val); const ok = await req(s, 'readwrite', st => { st.put(val); }); return ok === true; },
+    async del(s, id) { mem[s].delete(id); await req(s, 'readwrite', st => { st.delete(id); }); }
+  };
+})();
+
+/* so khớp không dấu, giữ nguyên độ dài chuỗi để vị trí khớp đúng với văn bản gốc */
+const foldMaps = [new Map(), new Map()];
+function fold(str, keep) {
+  const m = foldMaps[keep ? 1 : 0]; let out = '';
+  for (let i = 0; i < str.length; i++) {
+    const c = str[i]; let r = m.get(c);
+    if (r === undefined) {
+      r = c.toLowerCase(); if (r.length !== 1) r = c;
+      if (!keep) { if (r === 'đ') r = 'd'; else { const d = r.normalize('NFD'); if (d.length > 1 && d.charCodeAt(0) < 128) r = d[0]; } }
+      m.set(c, r);
+    }
+    out += r;
+  }
+  return out;
+}
+const foldKey = s => fold(s, false).replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+
+/* ================= cài đặt ================= */
+const FONTS = {
+  literata: { name: 'Literata', note: 'rõ nét, đọc lâu không mỏi', stack: "'Literata', 'Noto Serif', Georgia, serif" },
+  merri: { name: 'Merriweather', note: 'chữ to, đậm, rất rõ', stack: "'Merriweather', 'Noto Serif', Georgia, serif" },
+  lora: { name: 'Lora', note: 'mềm mại, thanh thoát', stack: "'Lora', 'Noto Serif', Georgia, serif" },
+  noto: { name: 'Noto Serif', note: 'dấu tiếng Việt cân đối', stack: "'Noto Serif', Georgia, serif" },
+  bevn: { name: 'Be Vietnam Pro', note: 'không chân, hiện đại', stack: "'Be Vietnam Pro', system-ui, sans-serif" },
+  nunito: { name: 'Nunito', note: 'tròn trịa, dễ thương', stack: "'Nunito', 'Be Vietnam Pro', sans-serif" },
+  mali: { name: 'Mali', note: 'nét viết tay', stack: "'Mali', 'Be Vietnam Pro', sans-serif" },
+  sys: { name: 'Chữ của máy', note: 'không cần tải phông', stack: "Georgia, 'Times New Roman', serif" }
+};
+const WIDTHS = { hep: 26, vua: 32, rong: 40 };
+const SKINS = [
+  { id: 'auto', name: 'Tự động' },
+  { id: 'nga', name: 'Giấy ngà', bg: '#fbf6ec', ink: '#2f2822' },
+  { id: 'do', name: 'Giấy dó', bg: '#efe3cb', ink: '#3b2f22' },
+  { id: 'sen', name: 'Lá sen', bg: '#e5f0e6', ink: '#213328' },
+  { id: 'dao', name: 'Hồng đào', bg: '#fbeaec', ink: '#3d2630' },
+  { id: 'nen', name: 'Ánh nến', bg: '#221c16', ink: '#e6d7bf' },
+  { id: 'dem', name: 'Đêm trăng', bg: '#1b1824', ink: '#dcd5ea' },
+  { id: 'muc', name: 'Mực đen', bg: '#000000', ink: '#c8c0b4' }
+];
+const HL = [{ id: 'vang', name: 'vàng' }, { id: 'hong', name: 'hồng' }, { id: 'xanh', name: 'xanh lá' }, { id: 'lam', name: 'xanh dương' }];
+const COVER_COLORS = ['#f6c4d2', '#c6e6d3', '#cdd6f6', '#f8dfa0', '#ddd0f4', '#f6cfb4', '#bfe2e6', '#e9d7c3'];
+const DEF = { fs: 20, lh: 1.8, width: 'vua', font: 'literata', fw: 400, align: matchMedia('(max-width: 600px)').matches ? 'left' : 'justify', para: 'space', mode: 'scroll', skin: 'auto', theme: 'auto', bright: 100, warm: 0, night: false, nightPrev: null, goal: 15, rate: 1, voice: '' };
+const S = Object.assign({}, DEF, LS.get('settings', {}));
+if (!FONTS[S.font]) S.font = DEF.font;
+if (!WIDTHS[S.width]) S.width = DEF.width;
+if (!SKINS.some(k => k.id === S.skin)) S.skin = 'auto';
+const saveS = () => LS.set('settings', S);
+
+/* ================= thống kê đọc ================= */
+const ST = Object.assign({ days: {} }, LS.get('stats', {}));
+const todaySec = () => ST.days[dayKey()] || 0;
+const todayMin = () => Math.floor(todaySec() / 60);
+function streak() {
+  const d = new Date(); let n = 0;
+  if ((ST.days[dayKey(d)] || 0) < 60) d.setDate(d.getDate() - 1);
+  while ((ST.days[dayKey(d)] || 0) >= 60) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+function addSeconds(n) {
+  const k = dayKey(), before = ST.days[k] || 0;
+  ST.days[k] = before + n;
+  LS.set('stats', ST);
+  const goal = S.goal * 60;
+  if (before < goal && ST.days[k] >= goal) toast(`Đủ ${S.goal} phút đọc hôm nay rồi! Mọt vỗ tay cho bạn nè.`, { happy: true, ms: 4200 });
+}
+
+/* ================= phân tích tệp ================= */
+const INLINE = new Set('A ABBR ACRONYM B BDI BDO BIG CITE CODE DATA DEL DFN EM FONT I INS KBD LABEL MARK NOBR Q RUBY S SAMP SMALL SPAN STRIKE STRONG SUB SUP TIME TT U VAR WBR IMG BR'.split(' '));
+const SKIP = new Set('SCRIPT STYLE NOSCRIPT TEMPLATE SVG MATH RT RP HEAD TITLE IFRAME OBJECT EMBED VIDEO AUDIO CANVAS BUTTON SELECT TEXTAREA INPUT MAP AREA'.split(' '));
+const EM_TAGS = new Set(['I', 'EM', 'CITE', 'DFN', 'VAR']);
+const ST_TAGS = new Set(['B', 'STRONG']);
+const tagOf = n => (n.localName || n.nodeName || '').toUpperCase();
+
+class Inl {
+  constructor() { this.s = ''; this.em = []; this.st = []; this.stack = []; }
+  text(t) {
+    t = t.replace(/[​﻿­]/g, '').normalize('NFC').replace(/[\s ]+/g, ' ');
+    if (!t) return;
+    if (t[0] === ' ' && (this.s === '' || this.s.endsWith(' ') || this.s.endsWith('\n'))) t = t.slice(1);
+    this.s += t;
+  }
+  br() { this.s = this.s.replace(/ +$/, ''); if (this.s && !this.s.endsWith('\n\n')) this.s += '\n'; }
+  push(k) { this.stack.push([k, this.s.length]); }
+  pop() { const [k, a] = this.stack.pop(); if (k && this.s.length > a) this[k].push([a, this.s.length]); }
+  done() {
+    const lead = this.s.length - this.s.replace(/^\s+/, '').length;
+    const x = this.s.trim();
+    const fix = rs => rs.map(([a, b]) => [Math.max(0, a - lead), Math.min(x.length, b - lead)]).filter(([a, b]) => b > a);
+    return { x, em: fix(this.em), st: fix(this.st) };
+  }
+}
+function hasBlockInside(el) {
+  for (const c of el.children) {
+    const t = tagOf(c);
+    if (SKIP.has(t)) continue;
+    if (!INLINE.has(t)) return true;
+    if (c.children.length && hasBlockInside(c)) return true;
+  }
+  return false;
+}
+function inlineInto(el, ib) {
+  for (const n of el.childNodes) {
+    if (n.nodeType === 3) { ib.text(n.data); continue; }
+    if (n.nodeType !== 1) continue;
+    const t = tagOf(n);
+    if (SKIP.has(t) || t === 'IMG') continue;
+    if (t === 'BR') { ib.br(); continue; }
+    ib.push(EM_TAGS.has(t) ? 'em' : ST_TAGS.has(t) ? 'st' : null);
+    inlineInto(n, ib);
+    ib.pop();
+  }
+}
+function collect(el) { const ib = new Inl(); inlineInto(el, ib); return ib.done(); }
+function mkBlock(r, quote) {
+  const b = { t: r.x.includes('\n') ? 'v' : (quote ? 'q' : 'p'), x: r.x };
+  if (r.em && r.em.length) b.em = r.em;
+  if (r.st && r.st.length) b.st = r.st;
+  return b;
+}
+function domToBlocks(root, out, quote = false) {
+  let ib = new Inl();
+  const flush = () => { const r = ib.done(); ib = new Inl(); if (r.x) out.push(mkBlock(r, quote)); };
+  for (const n of root.childNodes) {
+    if (n.nodeType === 3) { ib.text(n.data); continue; }
+    if (n.nodeType !== 1) continue;
+    const t = tagOf(n);
+    if (SKIP.has(t)) continue;
+    if (t === 'BR') { ib.br(); continue; }
+    if (INLINE.has(t) && !hasBlockInside(n)) {
+      if (t !== 'IMG') { ib.push(EM_TAGS.has(t) ? 'em' : ST_TAGS.has(t) ? 'st' : null); inlineInto(n, ib); ib.pop(); }
+      continue;
+    }
+    flush();
+    if (/^H[1-6]$/.test(t)) {
+      const r = collect(n); const x = r.x.replace(/\n/g, ' ');
+      if (x) { const b = { t: 'h', lv: +t[1], x }; if (r.em.length) b.em = r.em; out.push(b); }
+      continue;
+    }
+    if (t === 'HR') continue;
+    if (t === 'PRE') {
+      const x = n.textContent.replace(/\r/g, '').normalize('NFC').split('\n').map(s => s.replace(/\s+$/, '')).join('\n').replace(/^\n+|\n+$/g, '');
+      if (x.trim()) out.push({ t: 'v', x });
+      continue;
+    }
+    if (t === 'BLOCKQUOTE') { domToBlocks(n, out, true); continue; }
+    if (t === 'TR') {
+      const cells = [...n.children].map(c => collect(c).x.replace(/\n/g, ' ')).filter(Boolean);
+      if (cells.length) out.push({ t: 'p', x: cells.join('  ·  ') });
+      continue;
+    }
+    if (hasBlockInside(n)) { domToBlocks(n, out, quote); continue; }
+    const r = collect(n);
+    if (!r.x) continue;
+    if (t === 'LI') { r.x = '• ' + r.x; r.em = r.em.map(([a, b]) => [a + 2, b + 2]); r.st = r.st.map(([a, b]) => [a + 2, b + 2]); }
+    out.push(mkBlock(r, quote));
+  }
+  flush();
+}
+
+const NUMW = '(?:[0-9]+|một|hai|ba|bốn|tư|năm|sáu|bảy|bẩy|tám|chín|mười[^\\s:.,;)]*|nhất|nhì|thượng|trung|hạ)';
+const CHAP_RE = new RegExp(`^(?:chương|chuong|hồi|hoi|phần|phan|quyển|quyen|tập|phẩm|pham|kinh|bài|tiết|thiên|tiểu phẩm|chapter|part|book)\\s+(?:số\\s+|thứ\\s+)?${NUMW}(?=$|[\\s:.\\-–—,;)])`, 'iu');
+const CHAP_WORDS = /^(?:lời (?:nói đầu|giới thiệu|tựa|bạt|kết|cuối sách|người dịch|dịch giả|tác giả|cảm ơn)|mở đầu|tựa|tự tựa|tiểu dẫn|dẫn nhập|dẫn luận|phụ lục|vĩ thanh|kết luận|hậu ký|tài liệu tham khảo|prologue|epilogue|introduction|preface|foreword|afterword)\s*[:.]?$/iu;
+const ROMAN_KEYS = new Set(['chương', 'hồi', 'phần', 'quyển', 'tập', 'phẩm', 'thiên', 'chapter', 'part', 'book']);
+function isChapterLine(s) {
+  if (!s || s.length > 90) return false;
+  if (CHAP_RE.test(s) || CHAP_WORDS.test(s)) return true;
+  const m = s.match(/^(\S+)\s+([IVXLC]+)(?=$|[\s:.\-–—,;)])/u);
+  return !!(m && ROMAN_KEYS.has(m[1].toLowerCase()));
+}
+function mdInline(s) {
+  return s.replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+    .replace(/(\*\*|__)(.+?)\1/g, '$2')
+    .replace(/(^|[\s(“"])[*_]([^*_\n]+)[*_](?=[\s.,;:!?)”"]|$)/g, '$1$2')
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/^[-*+]\s+/, '• ');
+}
+function parseText(raw, md = false) {
+  const text = raw.replace(/^﻿/, '').replace(/\r\n?/g, '\n').normalize('NFC');
+  const lines = text.split('\n');
+  const nonEmpty = lines.reduce((a, l) => a + (l.trim() ? 1 : 0), 0);
+  const lineMode = (lines.length - nonEmpty) < nonEmpty * 0.08;
+  const chs = []; let cur = { title: '', blocks: [] }; let para = [];
+  function pushPara() {
+    if (!para.length) return;
+    const ls = para; para = [];
+    if (md && ls.every(l => /^>\s?/.test(l))) { cur.blocks.push({ t: 'q', x: ls.map(l => l.replace(/^>\s?/, '')).join(' ') }); return; }
+    if (ls.length === 1) { cur.blocks.push({ t: 'p', x: ls[0] }); return; }
+    const avg = ls.reduce((a, l) => a + l.length, 0) / ls.length;
+    const longish = ls.filter(l => l.length >= 55).length / ls.length;
+    if (avg <= 48 || (avg <= 64 && longish < 0.5)) cur.blocks.push({ t: 'v', x: ls.join('\n') });
+    else cur.blocks.push({ t: 'p', x: ls.join(' ') });
+  }
+  const newChap = title => { pushPara(); if (cur.blocks.length || cur.title) chs.push(cur); cur = { title, blocks: [] }; };
+  for (const line of lines) {
+    let s = line.replace(/\t/g, ' ').trim();
+    if (md) s = mdInline(s);
+    const h = /^#{1,6}\s/.test(s) ? s.match(/^(#{1,6})\s+(.+?)\s*#*$/) : null;
+    if (h) { if (h[1].length <= 2) newChap(h[2]); else { pushPara(); cur.blocks.push({ t: 'h', x: h[2] }); } continue; }
+    if (!s) { pushPara(); continue; }
+    if (isChapterLine(s)) { newChap(s); continue; }
+    if (md && /^([-*_])\1{2,}$/.test(s)) { pushPara(); continue; }
+    if (lineMode) { if (s.length <= 60) para.push(s); else { pushPara(); para.push(s); pushPara(); } }
+    else para.push(s);
+  }
+  pushPara();
+  if (cur.blocks.length || cur.title) chs.push(cur);
+  return chs;
+}
+function splitLong(x, size) {
+  const parts = x.split(/(?<=[.!?…。!?])\s+/); const out = []; let cur = '';
+  for (const p of parts) { if (cur && cur.length + p.length > size) { out.push(cur); cur = p; } else cur = cur ? cur + ' ' + p : p; }
+  if (cur) out.push(cur);
+  return out.flatMap(s => s.length > size * 2 ? s.match(new RegExp(`[\\s\\S]{1,${size}}(?=\\s|$)`, 'g')) || [s] : [s]).map(s => s.trim()).filter(Boolean);
+}
+function cleanBlocks(blocks) {
+  const out = [];
+  for (const b0 of blocks) {
+    const b = { t: b0.t, x: String(b0.x || '') };
+    if (b0.em) b.em = b0.em; if (b0.st) b.st = b0.st;
+    if (!b.em && !b.st) {
+      b.x = b.x.replace(/[​﻿]/g, '').normalize('NFC');
+      b.x = b.t === 'v' ? b.x.split('\n').map(l => l.replace(/[\s ]+/g, ' ').trim()).join('\n').replace(/\n{3,}/g, '\n\n').replace(/^\n+|\n+$/g, '') : b.x.replace(/[\s ]+/g, ' ').trim();
+    }
+    if (!b.x) continue;
+    if (b.t === 'v' && !b.x.includes('\n')) b.t = 'p';
+    if (!['p', 'v', 'q', 'h'].includes(b.t)) b.t = 'p';
+    if (b.x.length > 6000 && b.t !== 'v' && !b.em && !b.st) { for (const piece of splitLong(b.x, 2500)) out.push({ t: b.t, x: piece }); continue; }
+    out.push(b);
+  }
+  /* gộp “[1.1]” đứng riêng với lời chú thích ngay sau nó */
+  for (let i = 0; i < out.length - 1; i++) {
+    if (/^\[\d{1,3}(?:[.\-]\d{1,3}){0,2}\]$/.test(out[i].x) && out[i + 1].t !== 'h') {
+      const m = out[i].x, n = out[i + 1], sh = m.length + 1;
+      const shift = rs => (rs || []).map(([a, b]) => [a + sh, b + sh]);
+      const merged = { t: n.t === 'v' ? 'v' : 'p', x: m + ' ' + n.x, st: [[0, m.length], ...shift(n.st)] };
+      const em = shift(n.em); if (em.length) merged.em = em;
+      out.splice(i, 2, merged);
+    }
+  }
+  return out;
+}
+const chLen = c => c.blocks.reduce((a, b) => a + b.x.length, 0);
+function normalizeChapters(chs) {
+  const out = []; let pending = '';
+  for (const c of chs) {
+    const blocks = cleanBlocks(c.blocks || []);
+    const title = String(c.title || '').replace(/\s+/g, ' ').trim().normalize('NFC');
+    if (!blocks.length && !c.part) { if (title) pending = pending ? `${pending} · ${title}` : title; continue; }
+    const ch = { title: pending && title ? `${pending} · ${title}` : (pending || title), blocks };
+    if (c.part) ch.part = true;
+    if (c.lv) ch.lv = c.lv;
+    if (c.notes) ch.notes = c.notes;
+    out.push(ch); pending = '';
+  }
+  out.forEach((c, i) => { if (!c.title) c.title = guessTitleOf(c, i, out.length); });
+  const res = [];
+  for (const c of out) {
+    const len = chLen(c);
+    if (len <= 60000) { res.push(c); continue; }
+    const parts = Math.ceil(len / 30000), target = len / parts;
+    const name = k => c.title === 'Toàn văn' ? `Phần ${k}` : `${c.title} (${k})`;
+    let cur = [], acc = 0, k = 1;
+    for (const b of c.blocks) {
+      cur.push(b); acc += b.x.length;
+      if (acc >= target * k && k < parts) { res.push({ title: name(k), blocks: cur, lv: c.lv, notes: c.notes }); cur = []; k++; }
+    }
+    if (cur.length) res.push({ title: name(k), blocks: cur, lv: c.lv, notes: c.notes });
+  }
+  return res;
+}
+/* chương không có tên: đoán từ nội dung (trang bản quyền, trang giới thiệu tác giả…) */
+function guessTitleOf(c, i, total) {
+  if (total === 1) return 'Toàn văn';
+  const txt = c.blocks.map(b => b.x).join(' ');
+  if (txt.length < 3000 && /©|bản quyền|copyright|isbn/i.test(txt)) return 'Bản quyền';
+  const b0 = c.blocks[0] || { x: '' };
+  if (b0.st && b0.st[0] && b0.st[0][0] === 0 && b0.st[0][1] <= 48 && txt.length < 4000) return b0.x.slice(0, b0.st[0][1]).trim();
+  const first = b0.x.split('\n')[0].replace(/\[[\d.\-]+\]/g, '').trim();
+  if (first && first.length <= 48 && txt.length < 4000) return first;
+  return i === 0 ? 'Mở đầu' : `Phần ${i + 1}`;
+}
+function blocksToChapters(blocks) {
+  const levels = blocks.filter(b => b.t === 'h').map(b => b.lv || 3);
+  if (!levels.length) return [{ title: '', blocks }];
+  const top = Math.min(...levels);
+  let split = top;
+  if (levels.filter(l => l === top).length === 1 && levels.some(l => l > top)) split = Math.min(...levels.filter(l => l > top));
+  const chs = []; let cur = { title: '', blocks: [] };
+  for (const b of blocks) {
+    if (b.t === 'h' && (b.lv || 3) <= split) { if (cur.blocks.length || cur.title) chs.push(cur); cur = { title: b.x, blocks: [] }; }
+    else cur.blocks.push(b);
+  }
+  chs.push(cur);
+  return chs;
+}
+
+function decodeText(buf) {
+  const u8 = new Uint8Array(buf);
+  if (u8[0] === 0xFF && u8[1] === 0xFE) return new TextDecoder('utf-16le').decode(u8);
+  if (u8[0] === 0xFE && u8[1] === 0xFF) return new TextDecoder('utf-16be').decode(u8);
+  try { return new TextDecoder('utf-8', { fatal: true }).decode(u8); } catch {}
+  let zOdd = 0, zEven = 0; const n = Math.min(u8.length, 4000);
+  for (let i = 0; i < n; i++) if (!u8[i]) { if (i % 2) zOdd++; else zEven++; }
+  if (zOdd > n / 6) return new TextDecoder('utf-16le').decode(u8);
+  if (zEven > n / 6) return new TextDecoder('utf-16be').decode(u8);
+  try { return new TextDecoder('windows-1258').decode(u8); } catch { return new TextDecoder('utf-8').decode(u8); }
+}
+const xmlDoc = s => new DOMParser().parseFromString(s, 'application/xml');
+function parseDoc(s) {
+  let d = new DOMParser().parseFromString(s, 'application/xhtml+xml');
+  if (d.getElementsByTagName('parsererror').length) d = new DOMParser().parseFromString(s, 'text/html');
+  return d;
+}
+const dirOf = p => p.includes('/') ? p.slice(0, p.lastIndexOf('/') + 1) : '';
+function resolvePath(base, href) {
+  try { href = decodeURIComponent(href); } catch {}
+  if (href.startsWith('/')) return href.slice(1);
+  const out = [];
+  for (const p of (base + href).split('/')) { if (p === '..') out.pop(); else if (p && p !== '.') out.push(p); }
+  return out.join('/');
+}
+
+let zipP = null;
+function loadScript(src) {
+  return new Promise((res, rej) => {
+    const s = document.createElement('script'); s.src = src; s.async = true;
+    s.onload = res; s.onerror = () => { s.remove(); rej(new Error(src)); };
+    document.head.appendChild(s);
+  });
+}
+function needZip() {
+  if (window.JSZip) return Promise.resolve(window.JSZip);
+  if (zipP) return zipP;
+  const srcs = ['vendor/jszip.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js', 'https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js', 'https://unpkg.com/jszip@3.10.1/dist/jszip.min.js'];
+  zipP = (async () => {
+    for (const s of srcs) { try { await loadScript(s); if (window.JSZip) return window.JSZip; } catch {} }
+    zipP = null;
+    throw new Error('Chưa tải được bộ đọc EPUB và DOCX. Hãy kiểm tra kết nối mạng rồi thử lại.');
+  })();
+  return zipP;
+}
+async function thumb(blob, w) {
+  const url = URL.createObjectURL(blob);
+  try {
+    const img = await new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = url; });
+    const k = Math.min(1, w / img.naturalWidth);
+    const c = document.createElement('canvas');
+    c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+    return c.toDataURL('image/jpeg', 0.82);
+  } finally { URL.revokeObjectURL(url); }
+}
+const OPS_NS = 'http://www.idpf.org/2007/ops';
+const epubType = el => el.getAttribute('epub:type') || el.getAttributeNS(OPS_NS, 'type') || '';
+/* Chú thích kiểu EPUB3 (<aside epub:type="footnote">) được tách khỏi mạch đọc và cất riêng;
+   số chú thích trong bài được chuẩn hoá thành dạng [n] để bấm vào là hiện lời chú. */
+function extractNotes(body) {
+  const notes = {}, byId = new Map();
+  for (const el of [...body.getElementsByTagName('*')]) {
+    if (tagOf(el) !== 'ASIDE' || !el.parentNode) continue;
+    if (!epubType(el).split(/\s+/).some(t => /^(footnote|endnote|rearnote|note)$/.test(t))) continue;
+    const tmp = []; domToBlocks(el, tmp);
+    const text = tmp.map(b => b.x).join('\n').trim();
+    const id = el.getAttribute('id');
+    if (id && text) byId.set(id, text);
+    el.parentNode.removeChild(el);
+  }
+  for (const a of [...body.getElementsByTagName('a')]) {
+    const href = a.getAttribute('href') || '';
+    if (!href.includes('#')) continue;
+    const m = (a.textContent || '').trim().match(/^[\[(]?(\d{1,3}(?:[.\-]\d{1,3}){0,2})[\])]?$/);
+    if (!m) continue;
+    let frag = href.split('#')[1] || '';
+    try { frag = decodeURIComponent(frag); } catch {}
+    if (byId.has(frag)) notes[m[1]] = byId.get(frag);
+    a.textContent = `[${m[1]}]`;
+  }
+  return notes;
+}
+function isTocPage(body) {
+  const links = [...body.getElementsByTagName('a')].filter(a => { const h = a.getAttribute('href') || ''; return h && !h.startsWith('#') && !/^(https?|mailto):/i.test(h); });
+  if (links.length < 6) return false;
+  const total = (body.textContent || '').replace(/\s+/g, '').length || 1;
+  const inLinks = links.reduce((a, l) => a + (l.textContent || '').replace(/\s+/g, '').length, 0);
+  return inLinks / total > 0.6;
+}
+async function epubToc(items, spineEl, readText) {
+  const map = new Map();
+  const add = (path, label, depth, kids) => {
+    label = String(label || '').replace(/\s+/g, ' ').trim();
+    if (path && label && !map.has(path)) map.set(path, { label, depth, kids });
+  };
+  const nav = [...items.values()].find(it => /(^|\s)nav(\s|$)/.test(it.props));
+  if (nav) {
+    const s = await readText(nav.href);
+    if (s) {
+      const d = parseDoc(s);
+      const navs = [...d.getElementsByTagNameNS('*', 'nav')];
+      const tn = navs.find(n => /toc/.test(n.getAttribute('epub:type') || n.getAttributeNS('http://www.idpf.org/2007/ops', 'type') || '')) || navs[0];
+      const walk = (list, depth) => {
+        for (const li of list.children) {
+          if (tagOf(li) !== 'LI') continue;
+          const a = [...li.children].find(c => tagOf(c) === 'A' || tagOf(c) === 'SPAN');
+          const sub = [...li.children].find(c => tagOf(c) === 'OL' || tagOf(c) === 'UL');
+          const href = a && a.getAttribute('href');
+          if (href) add(resolvePath(dirOf(nav.href), href.split('#')[0]), a.textContent, depth, !!sub);
+          if (sub) walk(sub, depth + 1);
+        }
+      };
+      const list = tn && [...tn.children].find(c => tagOf(c) === 'OL' || tagOf(c) === 'UL');
+      if (list) walk(list, 0);
+    }
+  }
+  if (!map.size) {
+    const id = spineEl && spineEl.getAttribute('toc');
+    const ncx = (id && items.get(id)) || [...items.values()].find(it => /ncx/.test(it.type));
+    const s = ncx && await readText(ncx.href);
+    if (s) {
+      const d = xmlDoc(s);
+      const walk = (el, depth) => {
+        for (const np of el.children) {
+          if (np.localName !== 'navPoint') continue;
+          const label = np.getElementsByTagNameNS('*', 'text')[0];
+          const content = [...np.children].find(c => c.localName === 'content');
+          const kids = [...np.children].some(c => c.localName === 'navPoint');
+          const src = content && content.getAttribute('src');
+          if (src) add(resolvePath(dirOf(ncx.href), src.split('#')[0]), label && label.textContent, depth, kids);
+          walk(np, depth + 1);
+        }
+      };
+      const navMap = d.getElementsByTagNameNS('*', 'navMap')[0];
+      if (navMap) walk(navMap, 0);
+    }
+  }
+  return map;
+}
+async function parseEPUB(buf, base) {
+  const JSZip = await needZip();
+  const zip = await JSZip.loadAsync(buf);
+  const lower = new Map(Object.keys(zip.files).map(n => [n.toLowerCase(), n]));
+  const file = p => zip.file(p) || (lower.has(p.toLowerCase()) ? zip.file(lower.get(p.toLowerCase())) : null);
+  const readText = async p => { const f = file(p); return f ? f.async('string') : null; };
+  const cont = await readText('META-INF/container.xml');
+  if (!cont) throw new Error('Tệp EPUB thiếu phần khai báo container.xml.');
+  const rf = xmlDoc(cont).getElementsByTagNameNS('*', 'rootfile')[0];
+  const opfPath = rf && rf.getAttribute('full-path');
+  const opfText = opfPath && await readText(opfPath);
+  if (!opfText) throw new Error('Không tìm thấy tệp mô tả sách (OPF) bên trong EPUB.');
+  const opf = xmlDoc(opfText), baseDir = dirOf(opfPath);
+  const meta = name => [...opf.getElementsByTagNameNS('*', name)].map(e => e.textContent.replace(/\s+/g, ' ').trim()).filter(Boolean);
+  const items = new Map();
+  for (const it of opf.getElementsByTagNameNS('*', 'item')) {
+    items.set(it.getAttribute('id'), { id: it.getAttribute('id') || '', href: resolvePath(baseDir, it.getAttribute('href') || ''), type: it.getAttribute('media-type') || '', props: it.getAttribute('properties') || '' });
+  }
+  const spineEl = opf.getElementsByTagNameNS('*', 'spine')[0];
+  const spine = [...opf.getElementsByTagNameNS('*', 'itemref')].map(r => items.get(r.getAttribute('idref'))).filter(it => it && /html|xml/.test(it.type) && !/ncx/.test(it.type));
+  const toc = await epubToc(items, spineEl, readText);
+  let cover = null;
+  try {
+    let it = [...items.values()].find(i => /cover-image/.test(i.props));
+    if (!it) { const m = [...opf.getElementsByTagNameNS('*', 'meta')].find(x => x.getAttribute('name') === 'cover'); const id = m && m.getAttribute('content'); if (id) it = items.get(id) || [...items.values()].find(i => i.href.endsWith(id)); }
+    if (!it) it = [...items.values()].find(i => /^image\//.test(i.type) && /cover|bia/i.test(i.href + ' ' + i.id));
+    const f = it && /^image\//.test(it.type) && file(it.href);
+    if (f) cover = await thumb(new Blob([await f.async('uint8array')], { type: it.type }), 360);
+  } catch { cover = null; }
+  const chapters = [];
+  for (const it of spine) {
+    const src = await readText(it.href);
+    if (!src) continue;
+    const doc = parseDoc(src);
+    const body = doc.body || doc.getElementsByTagNameNS('*', 'body')[0] || doc.documentElement;
+    if (!body || isTocPage(body)) continue;
+    const notes = extractNotes(body);
+    const blocks = [];
+    domToBlocks(body, blocks);
+    const t = toc.get(it.href);
+    let title = t ? t.label : '';
+    if (!title && blocks.length) {
+      const f = blocks[0];
+      if (f.t === 'h' || (f.x.length <= 60 && !/[.,;:!?…]$/.test(f.x) && !f.x.includes('\n'))) { title = f.x; blocks.shift(); }
+    }
+    const tk = foldKey(title);
+    while (blocks.length && tk && blocks[0].x.length <= 80) {
+      const bk = foldKey(blocks[0].x);
+      if (bk && (tk === bk || tk.includes(bk))) blocks.shift(); else break;
+    }
+    if (!blocks.length) { if (t) chapters.push({ title, blocks: [], part: true, lv: t.depth || 0 }); continue; }
+    const ch = { title, blocks, lv: t ? t.depth : 0 };
+    if (t && t.kids) ch.part = true;
+    if (Object.keys(notes).length) ch.notes = notes;
+    chapters.push(ch);
+  }
+  return { title: meta('title')[0] || base, author: meta('creator').join(' · '), format: 'EPUB', cover, chapters };
+}
+async function parseDOCX(buf, base) {
+  const JSZip = await needZip();
+  const zip = await JSZip.loadAsync(buf);
+  const docXml = zip.file('word/document.xml');
+  if (!docXml) throw new Error('Tệp Word này không có phần nội dung (document.xml).');
+  const doc = xmlDoc(await docXml.async('string'));
+  const lv = {};
+  const stylesF = zip.file('word/styles.xml');
+  if (stylesF) {
+    const sd = xmlDoc(await stylesF.async('string'));
+    for (const s of sd.getElementsByTagNameNS('*', 'style')) {
+      const id = s.getAttribute('w:styleId') || '';
+      const nm = (s.getElementsByTagNameNS('*', 'name')[0]?.getAttribute('w:val') || '').toLowerCase();
+      const ol = s.getElementsByTagNameNS('*', 'outlineLvl')[0]?.getAttribute('w:val');
+      if (nm === 'title' || nm === 'tiêu đề sách') { lv[id] = 'T'; continue; }
+      const m = nm.match(/^(?:heading|tiêu đề)\s*(\d)?$/) || id.match(/^heading(\d)$/i);
+      if (m) lv[id] = m[1] ? +m[1] : 1;
+      else if (ol != null && +ol < 6) lv[id] = +ol + 1;
+    }
+  }
+  const blocks = []; let docTitle = '';
+  for (const p of doc.getElementsByTagNameNS('*', 'p')) {
+    if (p.parentElement && p.parentElement.closest && p.parentElement.closest('*|p')) continue;
+    let x = '';
+    for (const el of p.getElementsByTagName('*')) {
+      const n = el.localName;
+      if (n === 't') x += el.textContent;
+      else if (n === 'tab') x += ' ';
+      else if (n === 'br' || n === 'cr') x += '\n';
+    }
+    x = x.normalize('NFC').split('\n').map(l => l.replace(/\s+/g, ' ').trim()).join('\n').trim();
+    if (!x) continue;
+    const ps = p.getElementsByTagNameNS('*', 'pStyle')[0];
+    const sid = ps ? ps.getAttribute('w:val') : '';
+    const ol = p.getElementsByTagNameNS('*', 'outlineLvl')[0];
+    if (lv[sid] === 'T') { if (!docTitle) docTitle = x.replace(/\n/g, ' '); continue; }
+    const level = lv[sid] || (ol ? +ol.getAttribute('w:val') + 1 : 0);
+    if (level && x.length <= 200) blocks.push({ t: 'h', lv: level, x: x.replace(/\n/g, ' ') });
+    else blocks.push({ t: x.includes('\n') ? 'v' : 'p', x });
+  }
+  let title = docTitle || base, author = '';
+  const core = zip.file('docProps/core.xml');
+  if (core) {
+    const cd = xmlDoc(await core.async('string'));
+    title = cd.getElementsByTagNameNS('*', 'title')[0]?.textContent.trim() || title;
+    author = cd.getElementsByTagNameNS('*', 'creator')[0]?.textContent.trim() || '';
+  }
+  return { title, author, format: 'DOCX', chapters: blocksToChapters(blocks) };
+}
+function parseHTMLText(text, base) {
+  const doc = new DOMParser().parseFromString(text, 'text/html');
+  const blocks = [];
+  domToBlocks(doc.body, blocks);
+  return { title: doc.querySelector('title')?.textContent.trim() || base, author: doc.querySelector('meta[name="author"]')?.getAttribute('content') || '', format: 'HTML', chapters: blocksToChapters(blocks) };
+}
+async function parseFile(f) {
+  const ext = ((f.name.match(/\.([a-z0-9]+)$/i) || [])[1] || '').toLowerCase();
+  const base = f.name.replace(/\.[^.]+$/, '').replace(/[_]+/g, ' ').replace(/\s+/g, ' ').trim().normalize('NFC') || 'Sách chưa đặt tên';
+  if (ext === 'epub') return parseEPUB(await f.arrayBuffer(), base);
+  if (ext === 'docx') return parseDOCX(await f.arrayBuffer(), base);
+  if (ext === 'pdf') throw new Error('Mọt chưa đọc được PDF. Hãy chuyển sang EPUB hoặc TXT (ví dụ bằng Calibre) rồi thêm lại.');
+  if (['doc', 'mobi', 'azw', 'azw3', 'prc', 'fb2', 'djvu'].includes(ext)) throw new Error(`Định dạng .${ext} chưa được hỗ trợ. Hãy chuyển sang EPUB, DOCX hoặc TXT.`);
+  const text = decodeText(await f.arrayBuffer());
+  const bad = (text.match(/[\u0000�]/g) || []).length;
+  if (text.length && bad > text.length * 0.01) throw new Error('Tệp này không phải văn bản đọc được.');
+  if (['html', 'htm', 'xhtml'].includes(ext)) return parseHTMLText(text, base);
+  const md = ext === 'md' || ext === 'markdown';
+  return { title: base, author: '', format: md ? 'Markdown' : 'TXT', chapters: parseText(text, md) };
+}
+
+/* ================= tủ sách ================= */
+const SAMPLES = (window.MOT_SAMPLES || []).map(s => {
+  const chapters = s.chapters.map(([title, src]) => ({
+    title,
+    blocks: src.trim().split(/\n[ \t]*\n/).map(seg => {
+      const ls = seg.split('\n').map(l => l.trim()).filter(Boolean);
+      if (ls[0].startsWith('## ')) return { t: 'h', x: ls.join(' ').slice(3) };
+      if (ls.every(l => l.startsWith('> '))) return { t: 'q', x: ls.map(l => l.slice(2)).join(' ') };
+      return ls.length > 1 ? { t: 'v', x: ls.join('\n') } : { t: 'p', x: ls[0] };
+    })
+  }));
+  return { meta: { id: s.id, title: s.title, author: s.author, color: s.color, addedAt: s.order, format: 'Sách mẫu', sample: true, chapterCount: chapters.length, charCount: chapters.reduce((a, c) => a + chLen(c), 0) }, chapters };
+});
+const L = { books: [], notes: new Map(), filter: 'all', q: '' };
+const hiddenSamples = () => new Set(LS.get('hidden', []));
+const allBooks = () => { const h = hiddenSamples(); return [...SAMPLES.map(s => s.meta).filter(b => !h.has(b.id)), ...L.books]; };
+const bookById = id => L.books.find(b => b.id === id) || (SAMPLES.find(s => s.meta.id === id) || {}).meta || null;
+const progOf = id => (L.notes.get(id) || {}).progress || null;
+const isDone = id => { const n = L.notes.get(id); return !!(n && (n.done || (n.progress && n.progress.pct >= 0.985))); };
+function coverHTML(b) {
+  if (b.cover && !b.noImg) return `<span class="cover has-img" style="--c:${esc(b.color || '#ddd')}"><img src="${b.cover}" alt="" loading="lazy" decoding="async"></span>`;
+  return `<span class="cover" style="--c:${esc(b.color || '#f6c4d2')}"><span class="label"><span class="lb-k">Sách</span><span class="lb-t">${esc(b.title)}</span><span class="lb-a">${esc(b.author || 'Chưa rõ tác giả')}</span></span></span>`;
+}
+const app = $('#app'), lib = $('#lib'), grid = $('#grid');
+function renderLibrary() { renderStats(); renderMascot(); renderContinue(); renderGrid(); $('#showSamples').hidden = !LS.get('hidden', []).length; }
+function renderStats() {
+  const goal = S.goal, today = todayMin(), p = clamp(todaySec() / (goal * 60), 0, 1) * 100;
+  $('#ring').innerHTML = `<svg viewBox="0 0 104 104" role="img" aria-label="Hôm nay đã đọc ${today} trên ${goal} phút"><circle class="ring-bg" cx="52" cy="52" r="44"/><circle class="ring-fg ${p > 0 ? 'on' : ''}" cx="52" cy="52" r="44" pathLength="100" stroke-dasharray="${p.toFixed(1)} 100" transform="rotate(-90 52 52)"/></svg><div class="ring-t"><b>${today}</b><span>/ ${goal} phút</span></div>`;
+  const sk = streak();
+  $('#streak').innerHTML = `${icon('flame')}<span>${sk ? `<b>${sk}</b> ngày đọc liên tiếp` : 'Chưa có chuỗi ngày đọc'}</span>`;
+  const days = [];
+  for (let k = 6; k >= 0; k--) { const d = new Date(); d.setDate(d.getDate() - k); days.push({ d, min: Math.floor((ST.days[dayKey(d)] || 0) / 60), today: k === 0 }); }
+  const max = Math.max(goal, ...days.map(x => x.min));
+  $('#weekBars').innerHTML = days.map(x => `<i class="${x.today ? 'today' : ''} ${x.min >= goal ? 'met' : ''}" style="height:${(x.min / max * 100).toFixed(1)}%" title="${WEEKDAY[x.d.getDay()]} ${pad2(x.d.getDate())}/${pad2(x.d.getMonth() + 1)}: ${x.min} phút"></i>`).join('') + `<span class="goal-line" style="bottom:${(goal / max * 100).toFixed(1)}%" aria-hidden="true"></span>`;
+  $('#weekLabels').innerHTML = days.map(x => `<span class="${x.today ? 'today' : ''}">${x.today ? 'Nay' : WEEKDAY[x.d.getDay()]}</span>`).join('');
+  $('#goalText').textContent = `Mục tiêu ${goal} phút mỗi ngày`;
+}
+let sayIdx = 0;
+function mascotLines() {
+  const h = new Date().getHours(), t = todayMin(), g = S.goal, sk = streak(), out = [];
+  if (t >= g) out.push(`Hôm nay bạn đọc được ${t} phút rồi, đủ mục tiêu luôn. Mọt mừng ghê!`);
+  else if (t > 0) out.push(`Còn ${g - t} phút nữa là đủ mục tiêu hôm nay. Mình đọc tiếp nha?`);
+  if (sk >= 2) out.push(`Chuỗi ${sk} ngày đọc liên tiếp. Giữ lửa nha!`);
+  if (h < 5) out.push('Khuya lắm rồi đó. Bật “Đọc đêm” cho dịu mắt rồi đọc thêm chút thôi nha.');
+  else if (h < 11) out.push('Chào buổi sáng! Một trang sách cho tâm sáng cả ngày.');
+  else if (h < 14) out.push('Nghỉ trưa đọc vài trang cho nhẹ đầu nè.');
+  else if (h < 18) out.push('Chiều rồi, pha ấm trà rồi mình đọc tiếp thôi.');
+  else if (h < 22) out.push('Tối rồi. Trong phần Aa có nút “Đọc đêm” cho đỡ chói mắt đó.');
+  else out.push('Khuya rồi đó. Đọc thêm chút rồi đi ngủ nha.');
+  out.push('Văn, tư, tu: đọc cho kỹ, nghĩ cho sâu, rồi đem ra sống.', 'Đọc chậm một chút, chữ sẽ ở lại lâu hơn.', 'Thả tệp .epub, .docx hay .txt vào đây là Mọt cất lên kệ liền.', 'Bôi đen một câu để tô màu hay ghi chú nha.', 'Chữ nhỏ quá thì bấm Aa rồi tăng cỡ chữ, đừng nheo mắt nhé.');
+  return out;
+}
+function renderMascot(next = false) {
+  const lines = mascotLines();
+  sayIdx = next ? (sayIdx + 1) % lines.length : 0;
+  $('#say').textContent = lines[sayIdx];
+  $('#mascot').dataset.mood = todayMin() >= S.goal ? 'happy' : '';
+}
+function renderContinue() {
+  const el = $('#cont'); const books = allBooks();
+  let b = bookById(LS.get('last', '')) ;
+  if (b && !books.some(x => x.id === b.id)) b = null;
+  if (!b) b = books.filter(x => progOf(x.id)).sort((a, z) => progOf(z.id).at - progOf(a.id).at)[0] || null;
+  const first = !b;
+  if (!b) b = books[0];
+  if (!b) { el.hidden = true; return; }
+  el.hidden = false;
+  const p = progOf(b.id), pct = p ? Math.floor(p.pct * 100) : 0;
+  el.innerHTML = `<div class="cont-cover" aria-hidden="true">${coverHTML(b)}</div>
+    <div class="cont-body"><p class="eyebrow">${first ? 'Bắt đầu từ đây' : isDone(b.id) ? 'Vừa đọc xong' : 'Đang đọc dở'}</p><h2>${esc(b.title)}</h2>
+    <p class="cont-sub">${p ? `${esc(p.chTitle || 'Chương ' + (p.ch + 1))} · ${pct}%` : esc(b.author || '')}</p>
+    <div class="mini-bar"><i style="width:${pct}%"></i></div></div>
+    <button class="btn primary" type="button" data-open="${esc(b.id)}">${icon('book')}${first || !p ? 'Mở sách' : 'Đọc tiếp'}</button>`;
+}
+function renderGrid() {
+  const books = allBooks();
+  $('#bookCount').textContent = `${books.length} cuốn`;
+  $$('#chips .chip').forEach(c => c.setAttribute('aria-pressed', String(c.dataset.f === L.filter)));
+  let list = books.slice().sort((a, z) => ((progOf(z.id) || {}).at || 0) - ((progOf(a.id) || {}).at || 0) || (z.addedAt || 0) - (a.addedAt || 0));
+  if (L.filter === 'reading') list = list.filter(b => progOf(b.id) && !isDone(b.id));
+  if (L.filter === 'new') list = list.filter(b => !progOf(b.id));
+  if (L.filter === 'done') list = list.filter(b => isDone(b.id));
+  if (L.q) { const q = fold(L.q, false); list = list.filter(b => fold(`${b.title} ${b.author || ''}`, false).includes(q)); }
+  let html = list.map(b => {
+    const p = progOf(b.id), done = isDone(b.id), pct = done ? 100 : p ? Math.floor(p.pct * 100) : 0;
+    const status = done ? 'Đã đọc xong' : p ? `Đã đọc ${pct}%` : 'Chưa đọc';
+    return `<article class="book">
+      <button class="cover-btn" type="button" data-open="${esc(b.id)}" aria-label="Đọc ${esc(b.title)}">${coverHTML(b)}${p && !done ? '<span class="ribbon"></span>' : ''}${done ? '<span class="stamp" aria-hidden="true"><span>10<small>điểm</small></span></span>' : ''}</button>
+      <div class="book-meta"><div class="mini-bar"><i style="width:${pct}%"></i></div>
+      <div class="bm-row"><p><b>${esc(b.title)}</b>${status}${b.sample ? ' <span class="tag">mẫu</span>' : ''}</p><button class="icon-btn sm" type="button" data-info="${esc(b.id)}" aria-label="Thông tin và tuỳ chọn cho ${esc(b.title)}">${icon('more')}</button></div></div>
+    </article>`;
+  }).join('');
+  if (L.filter === 'all' && !L.q) html += `<button class="add-tile" type="button" data-add>${'<span class="add-face">' + icon('plus') + '<b>Thêm sách</b><span>.epub .docx .txt .md</span></span>'}</button>`;
+  if (!list.length && (L.filter !== 'all' || L.q)) html = `<p class="empty-note">Không có cuốn nào khớp. Thử bỏ bớt bộ lọc nhé.</p>`;
+  grid.innerHTML = html;
+}
+
+/* ================= trình đọc ================= */
+const reader = $('#reader'), rStage = $('#rStage'), rScroll = $('#rScroll'), rText = $('#rText'), rTop = $('#rTop');
+const rRange = $('#rRange'), rWhere = $('#rWhere'), rLeft = $('#rLeft'), rMark = $('#rMark');
+const selbar = $('#selbar'), fnpop = $('#fnpop'), toastEl = $('#toast');
+const panelWrap = $('#panelWrap'), panelBody = $('#panelBody'), panelTitle = $('#panelTitle');
+const modalWrap = $('#modalWrap'), modalEl = $('#modal');
+const R = { book: null, chapters: null, notes: null, ch: 0, chStart: [], total: 1, bStart: [], chLen: 1, els: null, firstP: -1, hls: [], bmSet: new Set(), hits: null, fn: new Map(), page: 0, pages: 1, g: null, a: { b: 0, f: 0 }, pct: 0, panel: null, swipeAt: 0, ignoreScrollUntil: 0 };
+const curBlocks = () => R.chapters[R.ch].blocks;
+const blockEls = () => R.els || (R.els = $$('[data-b]', rText));
+const blockText = i => (curBlocks()[i] || { x: '' }).x;
+
+function applyReader() {
+  const st = reader.style;
+  st.setProperty('--fs', S.fs + 'px');
+  st.setProperty('--lh', S.lh);
+  st.setProperty('--measure', WIDTHS[S.width] + 'em');
+  st.setProperty('--read-font', FONTS[S.font].stack);
+  st.setProperty('--align', S.align);
+  st.setProperty('--fw', S.fw);
+  reader.dataset.mode = S.mode;
+  if (S.skin === 'auto') delete reader.dataset.skin; else reader.dataset.skin = S.skin;
+  reader.classList.toggle('indent', S.para === 'indent');
+  applyLight();
+  syncChrome();
+}
+/* nền trang tối thì bảng, hộp thoại cũng tối theo cho khỏi chói */
+const DARK_SKINS = new Set(['nen', 'dem', 'muc']);
+function syncChrome() {
+  if (!reader.hidden && DARK_SKINS.has(S.skin)) document.documentElement.setAttribute('data-theme', 'dark');
+  else applyTheme();
+}
+function applyLight() {
+  $('#rDim').style.opacity = ((100 - S.bright) / 100 * 0.85).toFixed(3);
+  $('#rWarm').style.opacity = (S.warm / 100 * 0.34).toFixed(3);
+}
+const hostTheme = document.documentElement.getAttribute('data-theme');
+function applyTheme() {
+  const r = document.documentElement;
+  if (S.theme === 'auto') { if (hostTheme) r.setAttribute('data-theme', hostTheme); else r.removeAttribute('data-theme'); }
+  else r.setAttribute('data-theme', S.theme);
+  if (!reader.hidden && DARK_SKINS.has(S.skin)) r.setAttribute('data-theme', 'dark');
+  const b = $('#themeBtn');
+  const name = { auto: 'theo máy', light: 'sáng', dark: 'tối' }[S.theme];
+  b.innerHTML = icon(S.theme === 'auto' ? 'auto' : S.theme === 'light' ? 'sun' : 'moon');
+  b.setAttribute('aria-label', `Giao diện: ${name}. Bấm để đổi`); b.title = `Giao diện: ${name}`;
+}
+
+function buildFootnotes() {
+  const map = new Map();
+  const put = (id, d) => { if (!map.has(id)) map.set(id, []); map.get(id).push(d); };
+  R.chapters.forEach((c, ci) => {
+    if (c.notes) for (const [id, text] of Object.entries(c.notes)) put(id, { ch: ci, b: -1, text });
+    c.blocks.forEach((b, bi) => {
+      const m = b.x.match(/^\[(\d{1,3}(?:[.\-]\d{1,3}){0,2})\]\s+([\s\S]+)/);
+      if (m) put(m[1], { ch: ci, b: bi, text: m[2] });
+    });
+  });
+  return map;
+}
+function resolveFn(id) {
+  const arr = R.fn.get(id); if (!arr) return null;
+  return arr.find(d => d.ch === R.ch) || arr.find(d => d.ch > R.ch) || arr[0];
+}
+
+async function openBook(id) {
+  const meta = bookById(id);
+  if (!meta) { toast('Không tìm thấy cuốn sách này trên kệ.'); location.hash = ''; return; }
+  let chapters;
+  if (meta.sample) chapters = SAMPLES.find(s => s.meta.id === id).chapters;
+  else { const c = await DB.get('content', id); if (!c || !c.chapters) { toast('Không mở được nội dung cuốn này. Hãy thử thêm lại tệp gốc.'); location.hash = ''; return; } chapters = c.chapters; }
+  if (!chapters.length) { toast('Cuốn này không có chữ nào để đọc.'); location.hash = ''; return; }
+  TTS.stop(); hideSelbar(); hideFn(); closePanel();
+  R.book = meta; R.chapters = chapters; R.hits = null; R.fold = null;
+  const n = L.notes.get(id) || { id };
+  n.bookmarks = n.bookmarks || []; n.highlights = n.highlights || [];
+  R.notes = n;
+  R.chStart = []; let acc = 0;
+  for (const c of chapters) { R.chStart.push(acc); acc += chLen(c); }
+  R.total = acc || 1;
+  R.fn = buildFootnotes();
+  document.body.classList.add('reading');
+  app.hidden = true; reader.hidden = false;
+  reader.classList.remove('bars-off');
+  $('#rBook').textContent = meta.title;
+  $('#findbar').hidden = true;
+  applyReader();
+  const p = n.progress;
+  renderChapter(p ? clamp(p.ch, 0, chapters.length - 1) : 0, { b: p ? p.b : 0, f: p ? p.f : 0 });
+  LS.set('last', id);
+  wake();
+  rScroll.focus({ preventScroll: true });
+}
+function closeReader() {
+  saveNow();
+  TTS.stop(); hideSelbar(); hideFn(); closePanel();
+  reader.hidden = true; app.hidden = false;
+  document.body.classList.remove('reading');
+  syncChrome();
+  unwake();
+  R.book = null;
+  renderLibrary();
+  window.scrollTo(0, 0);
+}
+
+/* thơ lục bát: câu sáu chữ thụt vào như cách in truyền thống (bỏ qua dòng trống giữa các khổ) */
+function isLucBat(lines) {
+  const n = lines.map(l => l.replace(/\[[\d.\-]+\]/g, '').trim().split(/\s+/).filter(Boolean).length);
+  const real = n.filter(c => c > 0);
+  if (real.length < 2) return null;
+  let ok = 0, pairs = 0;
+  for (let k = 0; k + 1 < real.length; k += 2) { pairs++; if (real[k] === 6 && real[k + 1] === 8) ok++; }
+  return pairs && ok / pairs >= 0.7 ? n.map(c => c === 6) : null;
+}
+function rangesFor(i, b) {
+  const rs = [];
+  if (b.em) for (const [s, e] of b.em) rs.push({ k: 'em', s, e });
+  if (b.st) for (const [s, e] of b.st) rs.push({ k: 'st', s, e });
+  if (R.fn.size && b.x.includes('[')) {
+    FN_RE.lastIndex = 0; let m;
+    while ((m = FN_RE.exec(b.x))) { if (m.index > 0 && R.fn.has(m[1])) rs.push({ k: 'fn', s: m.index, e: m.index + m[0].length, id: m[1] }); }
+  }
+  for (const h of R.hls) {
+    if (i < h.sb || i > h.eb) continue;
+    rs.push({ k: 'hl', s: i === h.sb ? h.so : 0, e: i === h.eb ? h.eo : b.x.length, color: h.color, note: !!h.note, id: h.id });
+  }
+  const hb = R.hits && R.hits.byBlock && R.hits.byBlock.get(i);
+  if (hb) for (const idx of hb) { const h = R.hits.list[idx]; rs.push({ k: 'hit', s: h.o, e: h.o + h.len, idx, now: idx === R.hits.now }); }
+  return rs;
+}
+function deco(text, rs, from, to) {
+  if (to <= from) return '';
+  const live = rs.filter(r => r.e > from && r.s < to);
+  if (!live.length) return esc(text.slice(from, to));
+  const pts = new Set([from, to]);
+  for (const r of live) { pts.add(Math.max(from, r.s)); pts.add(Math.min(to, r.e)); }
+  const arr = [...pts].sort((a, z) => a - z);
+  let out = '';
+  for (let k = 0; k < arr.length - 1; k++) {
+    const a = arr[k], z = arr[k + 1];
+    if (z <= a) continue;
+    let piece = esc(text.slice(a, z));
+    let em = false, st = false, hl = null, hit = null, fn = null;
+    for (const r of live) {
+      if (r.s > a || r.e < z) continue;
+      if (r.k === 'em') em = true; else if (r.k === 'st') st = true; else if (r.k === 'hl') hl = r; else if (r.k === 'hit') hit = r; else if (r.k === 'fn') fn = r;
+    }
+    if (st) piece = `<strong>${piece}</strong>`;
+    if (em) piece = `<em>${piece}</em>`;
+    if (hl || hit || fn) {
+      const cls = []; let at = '';
+      if (hl) { cls.push('hl', 'hl-' + hl.color); if (hl.note) cls.push('has-note'); at += ` data-h="${hl.id}"`; }
+      if (hit) { cls.push('hit'); if (hit.now) cls.push('hit-now'); at += ` data-hit="${hit.idx}"`; }
+      if (fn) { cls.push('fn'); at += ` data-fn="${esc(fn.id)}" role="button" tabindex="0" aria-label="Chú thích ${esc(fn.id)}"`; }
+      piece = `<mark class="${cls.join(' ')}"${at}>${piece}</mark>`;
+    }
+    out += piece;
+  }
+  return out;
+}
+function blockInner(i) {
+  const b = curBlocks()[i], rs = rangesFor(i, b);
+  if (b.t !== 'v') return deco(b.x, rs, 0, b.x.length);
+  const lines = b.x.split('\n'), luc = isLucBat(lines);
+  let out = '', pos = 0;
+  lines.forEach((ln, k) => {
+    if (k) out += '\n';
+    out += `<span class="ln${luc && luc[k] ? ' luc' : ''}">${deco(b.x, rs, pos, pos + ln.length)}</span>`;
+    pos += ln.length + 1;
+  });
+  return out;
+}
+function blockCls(i, b) {
+  const c = [];
+  if (b.t === 'v') c.push('v');
+  if (i === R.firstP) c.push('first');
+  const han = (b.x.match(HAN_RE) || []).length;
+  if (han && han / b.x.length > 0.3) c.push('han');
+  if (R.bmSet.has(i)) c.push('bm');
+  if (TTS.on && TTS.ch === R.ch && TTS.b === i) c.push('speaking');
+  return c.join(' ');
+}
+function blockHTML(i) {
+  const b = curBlocks()[i];
+  const tag = b.t === 'h' ? 'h3' : b.t === 'q' ? 'blockquote' : b.t === 'v' ? 'div' : 'p';
+  return `<${tag} class="${blockCls(i, b)}" data-b="${i}">${blockInner(i)}</${tag}>`;
+}
+function indexHits() {
+  if (!R.hits) return;
+  const m = new Map();
+  R.hits.list.forEach((h, idx) => { if (h.ch === R.ch) { if (!m.has(h.b)) m.set(h.b, []); m.get(h.b).push(idx); } });
+  R.hits.byBlock = m;
+}
+function refreshMarks() {
+  R.hls = R.notes.highlights.filter(h => h.ch === R.ch);
+  R.bmSet = new Set(R.notes.bookmarks.filter(m => m.ch === R.ch).map(m => m.b));
+}
+function chapEndHTML() {
+  const c = R.chapters[R.ch], last = R.ch >= R.chapters.length - 1;
+  if (last) return `<div class="chap-end"><span class="dots" aria-hidden="true">· · ·</span><p>Hết sách. Bạn đọc xong “${esc(R.book.title)}” rồi!</p><button class="pill" type="button" data-act="finish">${icon('book')}<span>Về tủ sách</span></button></div>`;
+  const nx = R.chapters[R.ch + 1];
+  return `<div class="chap-end"><span class="dots" aria-hidden="true">· · ·</span>${c.blocks.length ? `<p>Hết “${esc(c.title)}”.</p>` : ''}<button class="pill" type="button" data-act="nextch"><span>Đọc tiếp: ${esc(nx.title)}</span>${icon('next')}</button></div>`;
+}
+function renderChapter(ch, o = {}) {
+  ch = clamp(ch | 0, 0, R.chapters.length - 1);
+  if (TTS.on && !o.keepTTS) TTS.stop();
+  hideSelbar(); hideFn();
+  R.ch = ch;
+  const c = R.chapters[ch];
+  R.bStart = []; let acc = 0;
+  for (const b of c.blocks) { R.bStart.push(acc); acc += b.x.length; }
+  R.chLen = acc || 1;
+  const fi = c.blocks.findIndex(b => b.t !== 'h');
+  R.firstP = fi >= 0 && fi <= 1 && c.blocks[fi].t === 'p' && /^[\p{L}]/u.test(c.blocks[fi].x) && c.blocks[fi].x.length > 80 ? fi : -1;
+  refreshMarks(); indexHits();
+  let html = `<h2 class="chap-title${c.blocks.length ? '' : ' part'}">${esc(c.title)}</h2>`;
+  for (let i = 0; i < c.blocks.length; i++) html += blockHTML(i);
+  html += chapEndHTML();
+  rText.innerHTML = html;
+  R.els = null;
+  $('#rChap').textContent = c.title;
+  $('#rRunHead').textContent = c.title;
+  $('#rPrev').disabled = ch === 0;
+  $('#rNext').disabled = ch >= R.chapters.length - 1;
+  layoutAndGo(o);
+}
+function geom() {
+  const st = rStage.getBoundingClientRect();
+  const gutter = st.width < 560 ? 22 : 44;
+  const W = Math.floor(Math.min(st.width - gutter * 2, WIDTHS[S.width] * S.fs));
+  return { W, H: Math.floor(st.height - 6), G: Math.ceil(st.width - W), m: Math.floor((st.width - W) / 2) };
+}
+const unit = () => R.g.W + R.g.G;
+const pageOfRect = (r, base) => Math.max(0, Math.floor((r.left - base + 2) / unit()));
+function countPages() {
+  const last = rText.lastElementChild; if (!last) return 1;
+  const rs = last.getClientRects(); const r = rs[rs.length - 1] || last.getBoundingClientRect();
+  return pageOfRect(r, rText.getBoundingClientRect().left) + 1;
+}
+function pageOfBlock(b, f = 0) {
+  const el = blockEls()[b]; if (!el) return 0;
+  const base = rText.getBoundingClientRect().left, rs = el.getClientRects();
+  if (!rs.length) return 0;
+  const p0 = pageOfRect(rs[0], base), p1 = pageOfRect(rs[rs.length - 1], base);
+  return p0 + Math.round(clamp(f, 0, 1) * (p1 - p0));
+}
+function layoutAndGo(o = {}) {
+  R.ignoreScrollUntil = Date.now() + 250;
+  if (S.mode === 'page') {
+    const g = R.g = geom();
+    Object.assign(rText.style, { width: g.W + 'px', height: g.H + 'px', columnWidth: g.W + 'px', columnGap: g.G + 'px', marginLeft: g.m + 'px', transition: 'none', transform: 'translateX(0px)' });
+    rScroll.scrollTop = 0; rScroll.scrollLeft = 0;
+    R.pages = countPages();
+    let page = 0;
+    if (o.toEnd) page = R.pages - 1;
+    else if (o.hit != null) { const el = rText.querySelector(`mark[data-hit="${o.hit}"]`); if (el) page = pageOfRect(el.getBoundingClientRect(), rText.getBoundingClientRect().left); }
+    else if (o.b != null) page = pageOfBlock(o.b, o.f || 0);
+    setPage(page, false);
+  } else {
+    rText.style.cssText = '';
+    R.g = null;
+    if (o.toEnd) rScroll.scrollTop = rScroll.scrollHeight;
+    else if (o.hit != null) { const el = rText.querySelector(`mark[data-hit="${o.hit}"]`); if (el) rScroll.scrollTop += el.getBoundingClientRect().top - rScroll.getBoundingClientRect().top - rScroll.clientHeight * 0.35; }
+    else if (o.b) scrollToBlock(o.b, o.f || 0);
+    else rScroll.scrollTop = 0;
+    onPos();
+  }
+}
+function scrollToBlock(b, f = 0) {
+  const el = blockEls()[b];
+  if (!el) { rScroll.scrollTop = 0; return; }
+  rScroll.scrollTop = Math.max(0, el.offsetTop + f * el.offsetHeight - rTop.offsetHeight - 14);
+}
+function setPage(p, anim = true) {
+  R.page = clamp(p, 0, R.pages - 1);
+  if (!anim) rText.style.transition = 'none';
+  rText.style.transform = `translateX(${-R.page * unit()}px)`;
+  rScroll.scrollLeft = 0;
+  if (!anim) { void rText.offsetWidth; rText.style.transition = ''; }
+  onPos();
+}
+function nextPage() {
+  if (S.mode === 'page') { if (R.page < R.pages - 1) setPage(R.page + 1); else if (R.ch < R.chapters.length - 1) renderChapter(R.ch + 1, { b: 0 }); }
+  else rScroll.scrollBy({ top: rScroll.clientHeight * 0.85, behavior: 'smooth' });
+}
+function prevPage() {
+  if (S.mode === 'page') { if (R.page > 0) setPage(R.page - 1); else if (R.ch > 0) renderChapter(R.ch - 1, { toEnd: true }); }
+  else rScroll.scrollBy({ top: -rScroll.clientHeight * 0.85, behavior: 'smooth' });
+}
+function gotoChapter(ch) { if (ch >= 0 && ch < R.chapters.length) renderChapter(ch, { b: 0 }); }
+function anchor() {
+  const els = blockEls();
+  if (!els.length) return { b: 0, f: 0 };
+  if (S.mode === 'page' && R.g) {
+    const base = rText.getBoundingClientRect().left;
+    let lo = 0, hi = els.length - 1, ans = els.length - 1;
+    while (lo <= hi) {
+      const mid = (lo + hi) >> 1, rs = els[mid].getClientRects();
+      const pg = rs.length ? pageOfRect(rs[rs.length - 1], base) : 0;
+      if (pg >= R.page) { ans = mid; hi = mid - 1; } else lo = mid + 1;
+    }
+    const rs = els[ans].getClientRects();
+    if (!rs.length) return { b: ans, f: 0 };
+    const p0 = pageOfRect(rs[0], base), p1 = pageOfRect(rs[rs.length - 1], base);
+    return { b: ans, f: p1 > p0 ? clamp((R.page - p0) / (p1 - p0), 0, 1) : 0 };
+  }
+  const y = rScroll.scrollTop + rTop.offsetHeight + 16;
+  let lo = 0, hi = els.length - 1, ans = els.length - 1;
+  while (lo <= hi) { const mid = (lo + hi) >> 1, el = els[mid]; if (el.offsetTop + el.offsetHeight > y) { ans = mid; hi = mid - 1; } else lo = mid + 1; }
+  const el = els[ans];
+  return { b: ans, f: el.offsetHeight ? clamp((y - el.offsetTop) / el.offsetHeight, 0, 1) : 0 };
+}
+function visibleRange() {
+  const els = blockEls(), a = R.a; let hi = a.b;
+  if (!els.length) return [0, -1];
+  if (S.mode === 'page' && R.g) {
+    const base = rText.getBoundingClientRect().left;
+    while (hi + 1 < els.length && pageOfRect(els[hi + 1].getBoundingClientRect(), base) <= R.page) hi++;
+  } else {
+    const bottom = rScroll.scrollTop + rScroll.clientHeight - 80;
+    while (hi + 1 < els.length && els[hi + 1].offsetTop < bottom) hi++;
+  }
+  return [a.b, hi];
+}
+function atEnd() {
+  if (R.ch < R.chapters.length - 1) return false;
+  return S.mode === 'page' ? R.page >= R.pages - 1 : rScroll.scrollTop + rScroll.clientHeight >= rScroll.scrollHeight - 8;
+}
+function onPos() {
+  if (!R.book) return;
+  R.a = anchor();
+  const b = curBlocks()[R.a.b];
+  const inCh = (R.bStart[R.a.b] || 0) + R.a.f * (b ? b.x.length : 0);
+  let pct = (R.chStart[R.ch] + inCh) / R.total;
+  if (atEnd()) pct = 1;
+  R.pct = clamp(pct, 0, 1);
+  rRange.value = Math.round(R.pct * 1000);
+  rWhere.textContent = `Chương ${R.ch + 1}/${R.chapters.length} · ${Math.floor(R.pct * 100)}%`;
+  const leftMin = (R.chLen - inCh) / CPM;
+  rLeft.textContent = S.mode === 'page' ? `Trang ${R.page + 1}/${R.pages}` : leftMin < 1 ? 'sắp hết chương' : `còn ~${fmtDur(leftMin)}`;
+  rLeft.title = 'Thời gian đọc còn lại của chương này';
+  $('#rRunFoot').textContent = `${R.page + 1} / ${R.pages}  ·  ${Math.floor(R.pct * 100)}%`;
+  const [lo, hi] = visibleRange();
+  rMark.setAttribute('aria-pressed', String(R.notes.bookmarks.some(m => m.ch === R.ch && m.b >= lo && m.b <= hi)));
+  saveSoon();
+}
+function saveNow() {
+  saveSoon.cancel();
+  if (!R.book || !R.notes) return;
+  R.notes.progress = { ch: R.ch, b: R.a.b, f: Math.round(R.a.f * 1000) / 1000, pct: R.pct, at: Date.now(), chTitle: R.chapters[R.ch].title };
+  if (R.pct >= 0.985) R.notes.done = true;
+  L.notes.set(R.book.id, R.notes);
+  DB.put('notes', R.notes);
+}
+const saveSoon = debounce(saveNow, 700);
+function saveNotes() { L.notes.set(R.book.id, R.notes); DB.put('notes', R.notes); }
+function relayout() { if (reader.hidden || !R.book) return; const a = R.a; layoutAndGo({ b: a.b, f: a.f }); }
+function changeReading(fn) {
+  const live = !reader.hidden && R.book;
+  if (live) R.a = anchor();
+  fn(); saveS(); applyReader();
+  if (live) { layoutAndGo({ b: R.a.b, f: R.a.f }); if (document.fonts) document.fonts.ready.then(() => setTimeout(relayout, 30)); }
+}
+const setBars = show => reader.classList.toggle('bars-off', !show);
+const toggleBars = () => setBars(reader.classList.contains('bars-off'));
+
+/* ---------- chọn chữ, tô màu, chú thích ---------- */
+const SB = { mode: null, h: null, text: '' };
+function offIn(el, node, off) { const r = document.createRange(); r.setStart(el, 0); r.setEnd(node, off); return r.toString().length; }
+function pointOf(node, off, isStart) {
+  const els = blockEls(), rg = document.createRange();
+  if (isStart) {
+    for (let i = 0; i < els.length; i++) { rg.selectNodeContents(els[i]); const c = rg.comparePoint(node, off); if (c === 0) return { b: i, o: clamp(offIn(els[i], node, off), 0, blockText(i).length) }; if (c < 0) return { b: i, o: 0 }; }
+  } else {
+    for (let i = els.length - 1; i >= 0; i--) { rg.selectNodeContents(els[i]); const c = rg.comparePoint(node, off); if (c === 0) return { b: i, o: clamp(offIn(els[i], node, off), 0, blockText(i).length) }; if (c > 0) return { b: i, o: blockText(i).length }; }
+  }
+  return null;
+}
+function selRange() {
+  const sel = getSelection();
+  if (!sel || !sel.rangeCount || sel.isCollapsed) return null;
+  const rg = sel.getRangeAt(0);
+  if (!rText.contains(rg.commonAncestorContainer)) return null;
+  const s = pointOf(rg.startContainer, rg.startOffset, true), e = pointOf(rg.endContainer, rg.endOffset, false);
+  if (!s || !e || e.b < s.b || (e.b === s.b && e.o <= s.o)) return null;
+  return { s, e, rect: rg.getBoundingClientRect() };
+}
+function textBetween(s, e) {
+  const out = [];
+  for (let i = s.b; i <= e.b; i++) out.push(blockText(i).slice(i === s.b ? s.o : 0, i === e.b ? e.o : undefined));
+  return out.join('\n').trim();
+}
+function placeFloat(el, rect) {
+  const w = el.offsetWidth, h = el.offsetHeight, vw = window.innerWidth, vh = window.innerHeight;
+  const topLimit = reader.classList.contains('bars-off') ? 8 : rTop.getBoundingClientRect().bottom + 6;
+  let top = coarse.matches ? rect.bottom + 14 : rect.top - h - 10;
+  if (top < topLimit) top = rect.bottom + 12;
+  if (top + h > vh - 8) top = Math.max(topLimit, rect.top - h - 10);
+  top = clamp(top, 8, Math.max(8, vh - h - 8));
+  el.style.top = Math.round(top) + 'px';
+  el.style.left = Math.round(clamp(rect.left + rect.width / 2 - w / 2, 8, vw - w - 8)) + 'px';
+}
+function showSelbar(mode, rect, text, h) {
+  SB.mode = mode; SB.h = h || null; SB.text = text;
+  $('[data-act="del"]', selbar).hidden = mode !== 'edit';
+  $$('.sw', selbar).forEach(b => b.setAttribute('aria-pressed', String(!!h && h.color === b.dataset.color)));
+  const q = text.replace(/\s+/g, ' ').trim().slice(0, 60);
+  $('[data-act="dict"]', selbar).href = 'https://vi.wiktionary.org/w/index.php?search=' + encodeURIComponent(q);
+  selbar.hidden = false;
+  placeFloat(selbar, rect);
+}
+function hideSelbar() { selbar.hidden = true; SB.mode = null; SB.h = null; }
+function onSelChange() {
+  if (reader.hidden || !R.book) return;
+  const r = selRange();
+  if (!r) { if (SB.mode === 'new') hideSelbar(); return; }
+  hideFn();
+  showSelbar('new', r.rect, textBetween(r.s, r.e));
+}
+function addHighlight(color) {
+  const r = selRange(); if (!r) return null;
+  const text = textBetween(r.s, r.e); if (!text) return null;
+  const h = { id: uid('h'), ch: R.ch, sb: r.s.b, so: r.s.o, eb: r.e.b, eo: r.e.o, color, note: '', text: text.slice(0, 4000), at: Date.now() };
+  R.notes.highlights.push(h);
+  saveNotes();
+  getSelection().removeAllRanges();
+  refreshMarks(); redecorate(h.sb, h.eb);
+  return h;
+}
+function redecorate(from = 0, to = Infinity) {
+  const els = blockEls(), bl = curBlocks();
+  for (let i = Math.max(0, from); i <= Math.min(to, els.length - 1); i++) { els[i].innerHTML = blockInner(i); els[i].className = blockCls(i, bl[i]); }
+}
+function hlById(id) { return R.notes.highlights.find(h => h.id === id); }
+function deleteHighlight(id, undo = true) {
+  const idx = R.notes.highlights.findIndex(h => h.id === id); if (idx < 0) return;
+  const [h] = R.notes.highlights.splice(idx, 1);
+  saveNotes();
+  if (h.ch === R.ch) { refreshMarks(); redecorate(h.sb, h.eb); }
+  if (R.panel === 'notes') renderNotesPanel();
+  if (undo) toast('Đã xoá đoạn tô màu.', { action: { label: 'Hoàn tác', run: () => { R.notes.highlights.splice(idx, 0, h); saveNotes(); if (h.ch === R.ch) { refreshMarks(); redecorate(h.sb, h.eb); } if (R.panel === 'notes') renderNotesPanel(); } } });
+}
+function citeOf(text) {
+  const b = R.book;
+  return `“${text}” (${b.title}${b.author ? ', ' + b.author : ''}, ${R.chapters[R.ch].title})`;
+}
+async function copyText(text) {
+  try { await navigator.clipboard.writeText(text); return true; } catch {}
+  try {
+    const ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
+    document.body.appendChild(ta); ta.select(); const ok = document.execCommand('copy'); ta.remove(); return ok;
+  } catch { return false; }
+}
+function noteModal(h, isNew) {
+  modal({
+    title: isNew ? 'Thêm ghi chú' : 'Ghi chú',
+    body: `<blockquote class="m-quote">${esc(h.text.length > 600 ? h.text.slice(0, 600) + '…' : h.text)}</blockquote>
+      <div class="sw-row" role="group" aria-label="Màu tô">${HL.map(c => `<button class="sw sw-${c.id}" type="button" data-c="${c.id}" aria-label="Tô ${c.name}" aria-pressed="${h.color === c.id}"></button>`).join('')}</div>
+      <label class="fld"><span>Điều bạn nghĩ</span><textarea id="noteTa" rows="5" placeholder="Ví dụ: đối chiếu với bản Hán văn, ý này gần với khái niệm…">${esc(h.note || '')}</textarea></label>`,
+    actions: [
+      { label: 'Xoá tô màu', kind: 'danger', left: true, run: () => deleteHighlight(h.id) },
+      { label: 'Huỷ' },
+      { label: 'Lưu', kind: 'primary', run: m => { h.note = $('#noteTa', m).value.trim(); h.color = $('.sw[aria-pressed="true"]', m)?.dataset.c || h.color; saveNotes(); if (h.ch === R.ch) { refreshMarks(); redecorate(h.sb, h.eb); } if (R.panel === 'notes') renderNotesPanel(); toast(h.note ? 'Đã lưu ghi chú.' : 'Đã lưu.'); } }
+    ],
+    onOpen: m => {
+      m.addEventListener('click', e => { const sw = e.target.closest('.sw'); if (sw) $$('.sw', m).forEach(x => x.setAttribute('aria-pressed', String(x === sw))); });
+      setTimeout(() => $('#noteTa', m).focus(), 30);
+    }
+  });
+}
+function showFn(el) {
+  const d = resolveFn(el.dataset.fn); if (!d) return;
+  hideSelbar();
+  fnpop.innerHTML = `<b>Chú thích [${esc(el.dataset.fn)}]</b><p>${esc(d.text)}</p>`;
+  fnpop.hidden = false;
+  placeFloat(fnpop, el.getBoundingClientRect());
+}
+function hideFn() { fnpop.hidden = true; }
+
+/* ---------- đánh dấu trang ---------- */
+function toggleBookmark() {
+  if (!curBlocks().length) { toast('Trang này chưa có chữ để đánh dấu.'); return; }
+  R.a = anchor();
+  const [lo, hi] = visibleRange();
+  const ex = R.notes.bookmarks.find(m => m.ch === R.ch && m.b >= lo && m.b <= hi);
+  if (ex) { R.notes.bookmarks = R.notes.bookmarks.filter(m => m !== ex); toast('Đã bỏ đánh dấu trang.'); }
+  else { R.notes.bookmarks.push({ id: uid('m'), ch: R.ch, b: R.a.b, text: blockText(R.a.b).slice(0, 110), at: Date.now() }); toast('Đã đánh dấu trang này.'); }
+  saveNotes(); refreshMarks();
+  redecorate(lo, hi); onPos();
+  if (R.panel === 'notes') renderNotesPanel();
+}
+
+/* ---------- bảng bên ---------- */
+function openPanel(kind) {
+  hideSelbar(); hideFn(); setBars(true);
+  R.panel = kind; panelWrap.hidden = false; panelBody.scrollTop = 0;
+  if (kind === 'toc') renderTocPanel();
+  if (kind === 'find') renderFindPanel();
+  if (kind === 'notes') renderNotesPanel();
+  if (kind === 'aa') renderAaPanel();
+}
+function closePanel() {
+  if (panelWrap.hidden) return;
+  panelWrap.hidden = true; R.panel = null;
+  if (!reader.hidden) rScroll.focus({ preventScroll: true });
+}
+function renderTocPanel() {
+  panelTitle.textContent = 'Mục lục';
+  const b = R.book, readUpTo = R.ch;
+  panelBody.innerHTML = `<div class="toc-book">${coverHTML(b)}<div><p class="tb-t">${esc(b.title)}</p><p class="tb-a">${esc(b.author || 'Chưa rõ tác giả')}</p><p class="tb-m">${R.chapters.length} chương · đọc trọn khoảng ${fmtDur(R.total / CPM)}</p></div></div>
+    <ol class="toc">${R.chapters.map((c, i) => {
+      const nm = R.notes.highlights.filter(h => h.ch === i).length;
+      const cls = [c.part ? 'part' : '', c.lv ? 'lv1' : '', i < readUpTo ? 'read' : ''].join(' ').trim();
+      return `<li class="${cls}"><button type="button" data-ch="${i}"${i === R.ch ? ' aria-current="true"' : ''}><span class="n">${i + 1}</span><span class="t">${esc(c.title)}</span>${nm ? `<span class="mk">${nm} ghi chú</span>` : ''}</button></li>`;
+    }).join('')}</ol>`;
+  const cur = $('[aria-current="true"]', panelBody);
+  if (cur) cur.scrollIntoView({ block: 'center' });
+}
+function renderFindPanel() {
+  panelTitle.textContent = 'Tìm trong sách';
+  const q = R.hits ? R.hits.q : '', keep = R.hits ? R.hits.keep : false;
+  panelBody.innerHTML = `<form id="findForm" role="search"><label class="search-box"><span class="sr-only">Chữ cần tìm</span>${icon('search')}<input id="findQ" type="search" placeholder="Nhập chữ cần tìm" autocomplete="off" value="${esc(q)}"></label></form>
+    <div class="find-opts"><label class="check"><input type="checkbox" id="findKeep"${keep ? ' checked' : ''}> Phân biệt dấu</label><span id="findCount"></span></div>
+    <p class="find-sum" id="findSum">Không cần gõ dấu: gõ “tam kinh” cũng tìm ra “Tâm Kinh”.</p>
+    <ol class="find-list" id="findList"></ol>`;
+  const input = $('#findQ');
+  const run = () => doSearch(input.value, $('#findKeep').checked);
+  input.addEventListener('input', debounce(run, 260));
+  $('#findKeep').addEventListener('change', run);
+  $('#findForm').addEventListener('submit', e => { e.preventDefault(); run(); });
+  if (q) run();
+  setTimeout(() => { input.focus(); input.select(); }, 40);
+}
+function foldedBlocks(keep) {
+  R.fold = R.fold || {};
+  const k = keep ? 'k' : 'n';
+  if (!R.fold[k]) R.fold[k] = R.chapters.map(c => c.blocks.map(b => fold(b.x, keep)));
+  return R.fold[k];
+}
+function doSearch(q, keep) {
+  q = q.normalize('NFC').trim();
+  const sum = $('#findSum'), list = $('#findList');
+  if (!sum) return;
+  if (q.length < 2) { sum.textContent = 'Gõ ít nhất 2 chữ cái. Không cần gõ dấu: “tam kinh” cũng tìm ra “Tâm Kinh”.'; list.innerHTML = ''; $('#findCount').textContent = ''; return; }
+  const fq = fold(q, keep), F = foldedBlocks(keep), hits = [];
+  outer: for (let c = 0; c < F.length; c++) for (let b = 0; b < F[c].length; b++) {
+    let i = F[c][b].indexOf(fq);
+    while (i !== -1) { hits.push({ ch: c, b, o: i, len: q.length }); if (hits.length >= 500) break outer; i = F[c][b].indexOf(fq, i + fq.length); }
+  }
+  R.hits = { q, keep, list: hits, now: -1 };
+  indexHits(); redecorate();
+  $('#findCount').textContent = hits.length ? `${hits.length >= 500 ? 'hơn 500' : hits.length} kết quả` : '';
+  sum.textContent = hits.length ? 'Bấm vào một kết quả để tới chỗ đó.' : `Không thấy “${q}” trong sách này.`;
+  list.innerHTML = hits.slice(0, 300).map((h, k) => {
+    const x = R.chapters[h.ch].blocks[h.b].x, a = Math.max(0, h.o - 42), z = Math.min(x.length, h.o + h.len + 64);
+    return `<li><button type="button" data-hit="${k}"><span class="fr-ch">${esc(R.chapters[h.ch].title)}</span><span>${a > 0 ? '…' : ''}${esc(x.slice(a, h.o))}<b>${esc(x.slice(h.o, h.o + h.len))}</b>${esc(x.slice(h.o + h.len, z))}${z < x.length ? '…' : ''}</span></button></li>`;
+  }).join('');
+  updateFindbar();
+}
+function goHit(k) {
+  const H = R.hits; if (!H || !H.list.length) return;
+  H.now = (k + H.list.length) % H.list.length;
+  const h = H.list[H.now];
+  if (h.ch !== R.ch) renderChapter(h.ch, { hit: H.now });
+  else {
+    redecorate();
+    const el = rText.querySelector(`mark[data-hit="${H.now}"]`);
+    if (el) {
+      if (S.mode === 'page') setPage(pageOfRect(el.getBoundingClientRect(), rText.getBoundingClientRect().left));
+      else { R.ignoreScrollUntil = Date.now() + 300; rScroll.scrollTop += el.getBoundingClientRect().top - rScroll.getBoundingClientRect().top - rScroll.clientHeight * 0.35; }
+    }
+  }
+  updateFindbar();
+}
+function updateFindbar() {
+  const H = R.hits, fb = $('#findbar');
+  if (!H || !H.list.length || R.panel === 'find') { fb.hidden = true; return; }
+  fb.hidden = false;
+  $('#fbText').textContent = `${H.now >= 0 ? H.now + 1 : '–'}/${H.list.length >= 500 ? '500+' : H.list.length}  “${H.q}”`;
+}
+function clearHits() { R.hits = null; redecorate(); $('#findbar').hidden = true; }
+function hlSpan(h) { return `<i style="background:var(--hl-${h.color})">${esc(h.text.length > 320 ? h.text.slice(0, 320) + '…' : h.text)}</i>`; }
+let notesTab = 'hl';
+function renderNotesPanel() {
+  panelTitle.textContent = 'Ghi chú';
+  const hs = R.notes.highlights.slice().sort((a, z) => a.ch - z.ch || a.sb - z.sb || a.so - z.so);
+  const ms = R.notes.bookmarks.slice().sort((a, z) => a.ch - z.ch || a.b - z.b);
+  const tabs = `<div class="seg" role="group" aria-label="Loại ghi chú"><button type="button" data-tab="hl" aria-pressed="${notesTab === 'hl'}">Tô màu & ghi chú (${hs.length})</button><button type="button" data-tab="bm" aria-pressed="${notesTab === 'bm'}">Đánh dấu trang (${ms.length})</button></div>`;
+  let list;
+  if (notesTab === 'hl') {
+    list = hs.length ? `<ul class="notes-list">${hs.map(h => `<li class="ni"><button class="ni-go" type="button" data-go-h="${h.id}"><span class="ni-q">${hlSpan(h)}</span>${h.note ? `<span class="ni-n">${esc(h.note)}</span>` : ''}<span class="ni-m">${esc((R.chapters[h.ch] || {}).title || '')} · ${fmtDate(h.at)}</span></button><div class="ni-act"><button class="icon-btn sm" type="button" data-edit-h="${h.id}" aria-label="Sửa ghi chú">${icon('pen')}</button><button class="icon-btn sm" type="button" data-del-h="${h.id}" aria-label="Xoá đoạn tô màu">${icon('trash')}</button></div></li>`).join('')}</ul>`
+      : `<p class="notes-empty">Chưa có đoạn nào được tô. Bôi đen một câu trong sách để tô màu hoặc ghi chú.</p>`;
+  } else {
+    list = ms.length ? `<ul class="notes-list">${ms.map(m => `<li class="ni"><button class="ni-go" type="button" data-go-m="${m.id}"><span class="ni-q">${esc(m.text)}…</span><span class="ni-m">${esc((R.chapters[m.ch] || {}).title || '')} · ${fmtDate(m.at)}</span></button><div class="ni-act"><button class="icon-btn sm" type="button" data-del-m="${m.id}" aria-label="Bỏ đánh dấu">${icon('trash')}</button></div></li>`).join('')}</ul>`
+      : `<p class="notes-empty">Chưa đánh dấu trang nào. Bấm hình dải ruy băng ở thanh dưới để đánh dấu chỗ đang đọc.</p>`;
+  }
+  const foot = hs.length || ms.length ? `<div class="notes-foot"><button class="btn small" type="button" data-exp="copy">${icon('copy')}Chép tất cả (Markdown)</button>${framed ? '' : `<button class="btn small ghost" type="button" data-exp="dl">${icon('download')}Tải tệp .md</button>`}</div>` : '';
+  panelBody.innerHTML = tabs + list + foot;
+}
+function notesMarkdown(book, notes, chapters) {
+  const out = [`# Ghi chú: ${book.title}`, '', `${book.author ? book.author + ' · ' : ''}Xuất từ Mọt Sách ngày ${fmtDate(Date.now())}`, ''];
+  const hs = (notes.highlights || []).slice().sort((a, z) => a.ch - z.ch || a.sb - z.sb || a.so - z.so);
+  let lastCh = -1;
+  for (const h of hs) {
+    if (h.ch !== lastCh) { out.push(`## ${(chapters[h.ch] || {}).title || 'Chương ' + (h.ch + 1)}`, ''); lastCh = h.ch; }
+    out.push('> ' + h.text.replace(/\n/g, '\n> '), '');
+    if (h.note) out.push(`**Ghi chú:** ${h.note}`, '');
+  }
+  const ms = (notes.bookmarks || []).slice().sort((a, z) => a.ch - z.ch || a.b - z.b);
+  if (ms.length) { out.push('## Đánh dấu trang', ''); for (const m of ms) out.push(`- ${(chapters[m.ch] || {}).title || ''}: “${m.text}…”`); out.push(''); }
+  return out.join('\n');
+}
+function downloadFile(text, name, type) {
+  const url = URL.createObjectURL(new Blob([text], { type }));
+  const a = document.createElement('a'); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
+}
+const slug = s => fold(s, false).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60) || 'sach';
+function seg(key, opts) { return `<div class="seg" role="group">${opts.map(([v, l]) => `<button type="button" data-set="${key}" data-val="${v}" aria-pressed="${String(S[key]) === String(v)}">${l}</button>`).join('')}</div>`; }
+function renderAaPanel() {
+  panelTitle.textContent = 'Chữ và ánh sáng';
+  const keep = panelBody.scrollTop;
+  panelBody.innerHTML = `
+  <section class="set-sec"><h3>Ánh sáng dịu mắt</h3>
+    <div class="range-row"><label for="sBright">Độ sáng trang</label><output id="oBright">${S.bright}%</output><input id="sBright" type="range" min="40" max="100" step="1" value="${S.bright}"></div>
+    <div class="range-row"><label for="sWarm">Lọc ánh sáng xanh</label><output id="oWarm">${S.warm}%</output><input id="sWarm" type="range" min="0" max="100" step="1" value="${S.warm}"></div>
+    <div class="set-row"><p class="hint">“Đọc đêm” bật nền ánh nến, lọc ánh sáng xanh và giảm sáng cùng lúc.</p><button class="btn small${S.night ? '' : ' primary'}" type="button" data-night>${S.night ? 'Tắt đọc đêm' : 'Đọc đêm'}</button></div>
+  </section>
+  <section class="set-sec"><h3>Nền trang</h3><div class="skins">${SKINS.map(k => `<button class="skin${k.id === 'auto' ? ' auto' : ''}" type="button" data-skin="${k.id}" aria-pressed="${S.skin === k.id}" ${k.bg ? `style="--sw-bg:${k.bg};--sw-ink:${k.ink}"` : ''}><b>Aa</b><span>${k.name}</span></button>`).join('')}</div></section>
+  <section class="set-sec"><h3>Cỡ chữ</h3><div class="set-row"><div class="stepper"><button type="button" data-fs="-1" aria-label="Chữ nhỏ hơn">A−</button><output id="oFs">${S.fs}px</output><button type="button" data-fs="1" aria-label="Chữ to hơn">A+</button></div><label class="check"><input type="checkbox" id="sBold"${S.fw > 400 ? ' checked' : ''}> Chữ đậm hơn</label></div></section>
+  <section class="set-sec"><h3>Phông chữ</h3><div class="font-grid">${Object.entries(FONTS).map(([k, f]) => `<button type="button" data-font="${k}" aria-pressed="${S.font === k}"><span class="fs" style="font-family:${esc(f.stack)}">Sắc tức thị không</span><span class="fn">${f.name}: ${f.note}</span></button>`).join('')}</div></section>
+  <section class="set-sec"><h3>Giãn dòng</h3>${seg('lh', [[1.55, 'Gọn'], [1.8, 'Vừa'], [2.05, 'Thoáng'], [2.3, 'Rất thoáng']])}</section>
+  <section class="set-sec"><h3>Độ rộng trang</h3>${seg('width', [['hep', 'Hẹp'], ['vua', 'Vừa'], ['rong', 'Rộng']])}</section>
+  <section class="set-sec"><h3>Cách đọc</h3>${seg('mode', [['scroll', 'Cuộn dọc'], ['page', 'Lật trang']])}</section>
+  <section class="set-sec"><h3>Đoạn văn</h3>${seg('para', [['space', 'Cách dòng'], ['indent', 'Thụt đầu dòng']])}${seg('align', [['justify', 'Căn đều'], ['left', 'Căn trái']])}</section>
+  <section class="set-sec"><h3>Giao diện ứng dụng</h3>${seg('theme', [['auto', 'Theo máy'], ['light', 'Sáng'], ['dark', 'Tối']])}</section>
+  <section class="set-sec"><h3>Phím tắt</h3><dl class="keys"><dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>Lật trang, hoặc chuyển chương khi đọc cuộn</dd><dt><kbd>T</kbd></dt><dd>Mục lục</dd><dt><kbd>F</kbd></dt><dd>Tìm trong sách</dd><dt><kbd>N</kbd></dt><dd>Ghi chú</dd><dt><kbd>B</kbd></dt><dd>Đánh dấu trang</dd><dt><kbd>A</kbd></dt><dd>Chữ và ánh sáng</dd></dl></section>`;
+  panelBody.scrollTop = keep;
+}
+function toggleNight() {
+  if (!S.night) { S.nightPrev = { skin: S.skin, warm: S.warm, bright: S.bright }; S.skin = 'nen'; S.warm = Math.max(S.warm, 45); S.bright = Math.min(S.bright, 82); S.night = true; }
+  else { const p = S.nightPrev || { skin: 'auto', warm: 0, bright: 100 }; S.skin = p.skin; S.warm = p.warm; S.bright = p.bright; S.night = false; S.nightPrev = null; }
+}
+
+/* ---------- đọc to ---------- */
+const TTS = {
+  ok: 'speechSynthesis' in window && typeof SpeechSynthesisUtterance === 'function',
+  on: false, playing: false, ch: 0, b: 0, gen: 0,
+  voices() { try { return speechSynthesis.getVoices().filter(v => /^vi([-_]|$)/i.test(v.lang)); } catch { return []; } },
+  voice() { const vs = this.voices(); return vs.find(v => v.voiceURI === S.voice) || vs[0] || null; },
+  fill() {
+    const vs = this.voices(), sel = $('#ttsVoice');
+    sel.innerHTML = vs.length ? vs.map(v => `<option value="${esc(v.voiceURI)}"${v.voiceURI === (this.voice() || {}).voiceURI ? ' selected' : ''}>${esc(v.name.replace(/^(Microsoft|Google)\s+/, ''))}</option>`).join('') : '<option value="">Giọng mặc định</option>';
+    $('#ttsVoiceNote').textContent = vs.length ? 'Giọng tiếng Việt' : 'Máy chưa có giọng tiếng Việt';
+    $('#ttsRate').value = String(S.rate);
+  },
+  open() {
+    if (!this.ok) { toast('Trình duyệt này chưa hỗ trợ đọc to.'); return; }
+    $('#tts').hidden = false; this.on = true; this.fill(); this.play();
+  },
+  ui() {
+    $('#ttsPlay').innerHTML = icon(this.playing ? 'pause' : 'play');
+    $('#ttsPlay').setAttribute('aria-label', this.playing ? 'Tạm dừng' : 'Đọc tiếp');
+    $('#ttsState').textContent = this.playing ? 'Đang đọc to' : 'Đã tạm dừng';
+    $('#rSpeak').setAttribute('aria-pressed', String(this.on));
+  },
+  play() { R.a = anchor(); this.ch = R.ch; this.b = R.a.b; this.resume(); },
+  resume() { this.playing = true; this.gen++; this.ui(); try { speechSynthesis.cancel(); } catch {} this.step(this.gen); },
+  pause() { this.playing = false; this.gen++; try { speechSynthesis.cancel(); } catch {} this.ui(); },
+  stop() {
+    const was = this.on;
+    this.on = false; this.playing = false; this.gen++;
+    try { if (was) speechSynthesis.cancel(); } catch {}
+    $('#tts').hidden = true; $('#rSpeak').setAttribute('aria-pressed', 'false');
+    if (was && R.book) $$('.speaking', rText).forEach(el => el.classList.remove('speaking'));
+    if (R.book) updateFindbar();
+  },
+  chunks(x) {
+    const parts = x.replace(/\n/g, '. ').split(/(?<=[.!?…;:。!?])\s+/), out = []; let cur = '';
+    for (const p of parts) { if (cur && cur.length + p.length > 200) { out.push(cur); cur = p; } else cur = cur ? cur + ' ' + p : p; }
+    if (cur) out.push(cur);
+    return out.flatMap(s => s.length > 260 ? s.split(/(?<=,)\s+/) : [s]).filter(s => s.trim());
+  },
+  step(g) {
+    if (g !== this.gen || !R.book) return;
+    if (this.ch !== R.ch) renderChapter(this.ch, { b: this.b, keepTTS: true });
+    const blocks = R.chapters[this.ch].blocks;
+    if (this.b >= blocks.length) {
+      if (this.ch < R.chapters.length - 1) { this.ch++; this.b = 0; renderChapter(this.ch, { b: 0, keepTTS: true }); this.step(g); }
+      else { this.stop(); toast('Đã đọc hết sách.'); }
+      return;
+    }
+    $$('.speaking', rText).forEach(el => el.classList.remove('speaking'));
+    const el = blockEls()[this.b];
+    if (el) {
+      el.classList.add('speaking');
+      if (S.mode === 'page') { const p = pageOfBlock(this.b); if (p !== R.page) setPage(p); }
+      else { const r = el.getBoundingClientRect(), sr = rScroll.getBoundingClientRect(); if (r.top < sr.top + rTop.offsetHeight || r.top > sr.top + rScroll.clientHeight * 0.65) { R.ignoreScrollUntil = Date.now() + 500; rScroll.scrollBy({ top: r.top - sr.top - rScroll.clientHeight * 0.3, behavior: 'smooth' }); } }
+    }
+    const parts = this.chunks(blocks[this.b].x); let k = 0;
+    const say = () => {
+      if (g !== this.gen) return;
+      lastAct = Date.now();
+      if (k >= parts.length) { this.b++; this.step(g); return; }
+      const u = new SpeechSynthesisUtterance(parts[k++]);
+      u.lang = 'vi-VN'; u.rate = S.rate; const v = this.voice(); if (v) u.voice = v;
+      u.onend = say;
+      u.onerror = e => { if (g !== this.gen || e.error === 'interrupted' || e.error === 'canceled') return; this.pause(); toast('Không phát được giọng đọc trên máy này.'); };
+      speechSynthesis.speak(u);
+    };
+    say();
+  }
+};
+if (TTS.ok) try { speechSynthesis.onvoiceschanged = () => { if (TTS.on) TTS.fill(); }; } catch {}
+
+/* ================= hộp thoại & thông báo ================= */
+const M = { actions: [], last: null };
+function modal({ title, body, actions, onOpen }) {
+  M.actions = actions || [{ label: 'Đóng' }]; M.last = document.activeElement;
+  modalEl.innerHTML = `<header class="m-head"><h2 id="mTitle">${esc(title)}</h2><button class="icon-btn" type="button" data-mclose aria-label="Đóng">${icon('close')}</button></header><div class="m-body">${body}</div><footer class="m-foot">${M.actions.map((a, i) => `<button class="btn ${a.kind || 'ghost'}${a.left ? ' left' : ''}" type="button" data-ai="${i}">${esc(a.label)}</button>`).join('')}</footer>`;
+  modalWrap.hidden = false;
+  if (onOpen) onOpen(modalEl);
+  const f = $('input, textarea', modalEl) || $('.btn.primary', modalEl) || $('[data-mclose]', modalEl);
+  if (f && !onOpen) setTimeout(() => f.focus(), 30);
+}
+function closeModal() { modalWrap.hidden = true; modalEl.innerHTML = ''; if (M.last && M.last.focus) try { M.last.focus({ preventScroll: true }); } catch {} }
+modalWrap.addEventListener('click', async e => {
+  if (e.target.closest('[data-mclose]')) { closeModal(); return; }
+  const b = e.target.closest('[data-ai]'); if (!b) return;
+  const a = M.actions[+b.dataset.ai];
+  if (a && a.run) { b.disabled = true; let r; try { r = await a.run(modalEl); } finally { b.disabled = false; } if (r === false) return; }
+  if (!modalWrap.hidden && M.actions === (a && M.actions)) closeModal();
+});
+const MINI = `<svg class="t-ico" viewBox="0 0 40 40" aria-hidden="true"><circle class="m-skin" cx="7.5" cy="22" r="4"/><circle class="m-skin" cx="32.5" cy="22" r="4"/><circle class="m-skin" cx="20" cy="21" r="13.5"/><path class="m-hair" d="M17.4 8.3c.5-3.6 4.7-3.6 5.2 0-1.7-.8-3.5-.8-5.2 0z"/><path d="M13.3 21.5q2-2.4 4 0M22.7 21.5q2-2.4 4 0" fill="none" stroke="var(--m-eye)" stroke-width="1.4" stroke-linecap="round"/><ellipse class="m-cheek" cx="12.3" cy="25.3" rx="2.5" ry="1.5"/><ellipse class="m-cheek" cx="27.7" cy="25.3" rx="2.5" ry="1.5"/><path d="M17.6 26q2.4 2.4 4.8 0" fill="none" stroke="var(--m-eye)" stroke-width="1.3" stroke-linecap="round"/></svg>`;
+let toastT = 0;
+function toast(msg, o = {}) {
+  clearTimeout(toastT);
+  toastEl.innerHTML = `${o.happy ? MINI : ''}<span>${esc(msg)}</span>${o.action ? `<button type="button">${esc(o.action.label)}</button>` : ''}`;
+  toastEl.hidden = false;
+  if (o.action) $('button', toastEl).onclick = () => { toastEl.hidden = true; o.action.run(); };
+  if (!o.sticky) toastT = setTimeout(() => { toastEl.hidden = true; }, o.ms || (o.action ? 6000 : 2800));
+}
+
+/* ================= thêm sách ================= */
+async function addBook(p) {
+  const chapters = normalizeChapters(p.chapters || []);
+  if (!chapters.length || !chapters.some(c => c.blocks.length)) throw new Error('Không tìm thấy chữ nào trong tệp.');
+  const charCount = chapters.reduce((a, c) => a + chLen(c), 0);
+  const title = String(p.title || 'Sách chưa đặt tên').replace(/\s+/g, ' ').trim().normalize('NFC');
+  const dup = L.books.find(b => b.title === title && b.charCount === charCount);
+  if (dup) return { meta: dup, dup: true };
+  let h = 0; for (const ch of title) h = (h * 31 + ch.codePointAt(0)) >>> 0;
+  const meta = { id: uid('b'), title, author: String(p.author || '').trim().normalize('NFC'), color: COVER_COLORS[h % COVER_COLORS.length], addedAt: Date.now(), format: p.format || 'TXT', chapterCount: chapters.length, charCount };
+  if (p.cover) meta.cover = p.cover;
+  const ok1 = await DB.put('content', { id: meta.id, chapters });
+  const ok2 = await DB.put('books', meta);
+  L.books.push(meta);
+  if (!ok1 || !ok2) toast('Trình duyệt không cho lưu lâu dài, sách sẽ mất khi đóng trang.', { ms: 5000 });
+  return { meta, dup: false };
+}
+async function importFiles(files) {
+  files = [...files]; if (!files.length) return;
+  let lastId = null;
+  for (const f of files) {
+    toast(`Mọt đang mở “${f.name}”…`, { sticky: true });
+    try {
+      const parsed = await parseFile(f);
+      const { meta, dup } = await addBook(parsed);
+      lastId = meta.id;
+      toast(dup ? `“${meta.title}” đã có trên kệ rồi.` : `Đã cất “${meta.title}” lên kệ (${meta.chapterCount} chương).`, { happy: !dup, action: { label: 'Đọc ngay', run: () => { location.hash = 'sach-' + meta.id; } } });
+    } catch (err) {
+      console.error(err);
+      toast(`Không mở được “${f.name}”. ${err && err.message ? err.message : ''}`, { ms: 7000 });
+    }
+  }
+  renderLibrary();
+  return lastId;
+}
+function guessTitle(text) {
+  const first = text.split('\n').map(s => s.trim()).find(Boolean) || '';
+  return first.length && first.length <= 80 ? first : `Văn bản ngày ${fmtDate(Date.now())}`;
+}
+function openPaste(prefill = '') {
+  modal({
+    title: 'Dán văn bản thành sách',
+    body: `<label class="fld"><span>Tên sách</span><input id="pTitle" placeholder="Ví dụ: Kinh Pháp Cú, phẩm Song Yếu" autocomplete="off"></label>
+      <label class="fld"><span>Tác giả hoặc người dịch</span><input id="pAuthor" placeholder="Có thể để trống" autocomplete="off"></label>
+      <label class="fld"><span>Nội dung</span><textarea id="pText" rows="9" placeholder="Dán văn bản vào đây"></textarea></label>
+      <p class="hint">Dòng nào bắt đầu bằng “Chương 1”, “Hồi thứ hai”, “Phẩm thứ ba”… sẽ thành một chương riêng.</p>`,
+    actions: [
+      { label: 'Huỷ' },
+      { label: 'Cất lên kệ', kind: 'primary', run: async m => {
+        const text = $('#pText', m).value;
+        if (!text.trim()) { toast('Bạn chưa dán nội dung nào.'); return false; }
+        try {
+          const { meta } = await addBook({ title: $('#pTitle', m).value.trim() || guessTitle(text), author: $('#pAuthor', m).value.trim(), format: 'Văn bản dán', chapters: parseText(text, /^#{1,2}\s/m.test(text)) });
+          renderLibrary();
+          toast(`Đã cất “${meta.title}” lên kệ.`, { happy: true, action: { label: 'Đọc ngay', run: () => { location.hash = 'sach-' + meta.id; } } });
+        } catch (err) { toast(err.message || 'Không tạo được sách.'); return false; }
+      } }
+    ],
+    onOpen: m => { $('#pText', m).value = prefill; setTimeout(() => (prefill ? $('#pTitle', m) : $('#pText', m)).focus(), 30); }
+  });
+}
+function openGoal() {
+  const opts = [5, 10, 15, 20, 30, 45, 60];
+  modal({
+    title: 'Mục tiêu mỗi ngày',
+    body: `<p class="confirm-text">Mỗi ngày bạn muốn đọc bao lâu? Mọt khuyên bắt đầu nhỏ rồi tăng dần.</p><div class="goal-opts">${opts.map(v => `<button class="chip" type="button" data-goal="${v}" aria-pressed="${S.goal === v}">${v} phút</button>`).join('')}</div>`,
+    actions: [{ label: 'Xong', kind: 'primary' }],
+    onOpen: m => m.addEventListener('click', e => { const b = e.target.closest('[data-goal]'); if (!b) return; S.goal = +b.dataset.goal; saveS(); $$('[data-goal]', m).forEach(x => x.setAttribute('aria-pressed', String(x === b))); renderStats(); renderMascot(); })
+  });
+}
+async function exportNotes(id, how) {
+  const b = bookById(id), n = L.notes.get(id) || {};
+  const chapters = b.sample ? SAMPLES.find(s => s.meta.id === id).chapters : ((await DB.get('content', id)) || {}).chapters || [];
+  const md = notesMarkdown(b, n, chapters);
+  if (how === 'dl') { downloadFile(md, `ghi-chu-${slug(b.title)}.md`, 'text/markdown;charset=utf-8'); toast('Đã tải tệp ghi chú.'); }
+  else toast(await copyText(md) ? 'Đã chép ghi chú dạng Markdown.' : 'Trình duyệt không cho chép. Hãy thử tải tệp .md.');
+}
+function openInfo(id) {
+  const b = bookById(id); if (!b) return;
+  const n = L.notes.get(id) || {}, hcount = (n.highlights || []).length, p = n.progress;
+  const minutes = b.charCount / CPM;
+  modal({
+    title: b.sample ? 'Sách mẫu' : 'Thông tin sách',
+    body: `${b.sample ? `<p class="confirm-text"><b>${esc(b.title)}</b><br>${esc(b.author)}</p>` : `
+      <label class="fld"><span>Tên sách</span><input id="iTitle" value="${esc(b.title)}" autocomplete="off"></label>
+      <label class="fld"><span>Tác giả</span><input id="iAuthor" value="${esc(b.author || '')}" placeholder="Chưa rõ tác giả" autocomplete="off"></label>
+      <div class="fld"><span>Màu bìa</span><div class="sw-row">${COVER_COLORS.map(c => `<button class="sw cover-sw" type="button" data-cc="${c}" style="background:${c}" aria-label="Màu bìa ${c}" aria-pressed="${b.color === c}"></button>`).join('')}</div></div>
+      ${b.cover ? `<label class="check"><input type="checkbox" id="iImg"${b.noImg ? '' : ' checked'}> Dùng ảnh bìa gốc của sách</label>` : ''}`}
+      <p class="info-line">${esc(b.format || '')} · ${b.chapterCount} chương · đọc trọn khoảng ${fmtDur(minutes)}${b.sample ? '' : ` · thêm ngày ${fmtDate(b.addedAt)}`}<br>${p ? `Đã đọc ${Math.floor(p.pct * 100)}%, lần cuối ngày ${fmtDate(p.at)}` : 'Chưa mở lần nào'}${hcount ? ` · ${hcount} đoạn tô màu` : ''}</p>`,
+    actions: [
+      { label: b.sample ? 'Cất khỏi kệ' : 'Xoá khỏi kệ', kind: 'danger', left: true, run: () => { confirmDelete(b); return false; } },
+      ...(hcount ? [{ label: 'Chép ghi chú', run: () => exportNotes(id, 'copy') }] : []),
+      ...(b.sample ? [{ label: 'Đóng', kind: 'primary' }] : [{ label: 'Huỷ' }, { label: 'Lưu', kind: 'primary', run: async m => {
+        b.title = $('#iTitle', m).value.trim() || b.title; b.author = $('#iAuthor', m).value.trim();
+        const sw = $('[data-cc][aria-pressed="true"]', m); if (sw) b.color = sw.dataset.cc;
+        if ($('#iImg', m)) b.noImg = !$('#iImg', m).checked;
+        await DB.put('books', b); renderLibrary(); toast('Đã lưu.');
+      } }])
+    ],
+    onOpen: m => m.addEventListener('click', e => { const sw = e.target.closest('[data-cc]'); if (sw) $$('[data-cc]', m).forEach(x => x.setAttribute('aria-pressed', String(x === sw))); })
+  });
+}
+function confirmDelete(b) {
+  modal({
+    title: b.sample ? 'Cất sách mẫu?' : 'Xoá hẳn cuốn này?',
+    body: `<p class="confirm-text">${b.sample ? `“${esc(b.title)}” sẽ được cất khỏi kệ cùng ghi chú trong đó. Bạn lấy lại được bằng nút “Hiện lại sách mẫu” ở cuối trang.` : `“${esc(b.title)}” cùng mọi đoạn tô màu, ghi chú và đánh dấu sẽ bị xoá khỏi trình duyệt này. Không hoàn tác được.`}</p>`,
+    actions: [{ label: 'Giữ lại' }, { label: b.sample ? 'Cất đi' : 'Xoá hẳn', kind: 'primary', run: async () => {
+      if (b.sample) { const h = LS.get('hidden', []); if (!h.includes(b.id)) h.push(b.id); LS.set('hidden', h); }
+      else { await DB.del('books', b.id); await DB.del('content', b.id); L.books = L.books.filter(x => x.id !== b.id); }
+      await DB.del('notes', b.id); L.notes.delete(b.id);
+      if (LS.get('last', '') === b.id) LS.set('last', '');
+      renderLibrary(); toast(b.sample ? 'Đã cất sách mẫu.' : 'Đã xoá sách.');
+    } }]
+  });
+}
+async function backup() {
+  const data = { app: 'mot-sach', v: 1, at: new Date().toISOString(), settings: S, stats: ST, hidden: LS.get('hidden', []), books: await DB.all('books'), content: await DB.all('content'), notes: await DB.all('notes') };
+  downloadFile(JSON.stringify(data), `mot-sach-sao-luu-${dayKey()}.json`, 'application/json');
+  toast('Đã tải bản sao lưu.');
+}
+async function restore(file) {
+  try {
+    const data = JSON.parse(await file.text());
+    if (!data || data.app !== 'mot-sach') throw new Error('Tệp này không phải bản sao lưu của Mọt Sách.');
+    for (const c of data.content || []) await DB.put('content', c);
+    for (const b of data.books || []) await DB.put('books', b);
+    for (const n of data.notes || []) await DB.put('notes', n);
+    for (const [k, v] of Object.entries((data.stats || {}).days || {})) ST.days[k] = Math.max(ST.days[k] || 0, v);
+    LS.set('stats', ST);
+    L.books = await DB.all('books');
+    (await DB.all('notes')).forEach(n => L.notes.set(n.id, n));
+    renderLibrary();
+    toast(`Đã khôi phục ${(data.books || []).length} cuốn sách.`, { happy: true });
+  } catch (err) { toast(err.message || 'Không đọc được tệp sao lưu.'); }
+}
+
+/* ================= thời gian đọc, màn hình ================= */
+let lastAct = Date.now();
+['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(ev => window.addEventListener(ev, () => { lastAct = Date.now(); }, { passive: true, capture: true }));
+setInterval(() => {
+  if (reader.hidden || document.visibilityState !== 'visible') return;
+  if (Date.now() - lastAct > 120000 && !TTS.playing) return;
+  addSeconds(10);
+}, 10000);
+let wakeLock = null;
+async function wake() { try { if ('wakeLock' in navigator && !reader.hidden && document.visibilityState === 'visible') wakeLock = await navigator.wakeLock.request('screen'); } catch {} }
+function unwake() { try { if (wakeLock) wakeLock.release(); } catch {} wakeLock = null; }
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') wake(); else saveNow(); });
+window.addEventListener('pagehide', saveNow);
+
+/* ================= sự kiện ================= */
+function route() {
+  const h = decodeURIComponent(location.hash.slice(1));
+  if (h.startsWith('sach-')) { const id = h.slice(5); if (reader.hidden || !R.book || R.book.id !== id) openBook(id); }
+  else if (!reader.hidden) closeReader();
+}
+window.addEventListener('hashchange', route);
+const go = id => { if (location.hash === '#sach-' + id) route(); else location.hash = 'sach-' + id; };
+
+document.addEventListener('click', e => {
+  const t = e.target;
+  const open = t.closest('[data-open]'); if (open && !reader.contains(open)) { go(open.dataset.open); return; }
+  const info = t.closest('[data-info]'); if (info) { openInfo(info.dataset.info); return; }
+  if (t.closest('[data-add]')) { $('#fileIn').click(); return; }
+  if (!fnpop.hidden && !t.closest('#fnpop') && !t.closest('mark.fn')) hideFn();
+});
+$('#brand').addEventListener('click', e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+$('#addBtn').addEventListener('click', () => $('#fileIn').click());
+$('#pasteBtn').addEventListener('click', () => openPaste());
+$('#themeBtn').addEventListener('click', () => { S.theme = { auto: 'light', light: 'dark', dark: 'auto' }[S.theme]; saveS(); applyTheme(); });
+$('#mascotBtn').addEventListener('click', () => { const m = $('#mascot'); m.classList.remove('hop'); void m.getBoundingClientRect(); m.classList.add('hop'); renderMascot(true); });
+$('#goalBtn').addEventListener('click', openGoal);
+$('#fileIn').addEventListener('change', async e => { const files = e.target.files; await importFiles(files); e.target.value = ''; });
+$('#chips').addEventListener('click', e => { const c = e.target.closest('[data-f]'); if (!c) return; L.filter = c.dataset.f; renderGrid(); });
+$('#libSearch').addEventListener('input', debounce(e => { L.q = e.target.value.trim(); renderGrid(); }, 160));
+$('#showSamples').addEventListener('click', () => { LS.set('hidden', []); renderLibrary(); toast('Sách mẫu đã về lại kệ.'); });
+$('#backupBtn').addEventListener('click', backup);
+$('#restoreBtn').addEventListener('click', () => $('#restoreIn').click());
+$('#restoreIn').addEventListener('change', e => { if (e.target.files[0]) restore(e.target.files[0]); e.target.value = ''; });
+
+$('#rBack').addEventListener('click', () => { location.hash = ''; });
+$('#rToc').addEventListener('click', () => openPanel('toc'));
+$('#rFind').addEventListener('click', () => openPanel('find'));
+$('#rNotes').addEventListener('click', () => openPanel('notes'));
+$('#rAa').addEventListener('click', () => openPanel('aa'));
+$('#rPrev').addEventListener('click', () => gotoChapter(R.ch - 1));
+$('#rNext').addEventListener('click', () => gotoChapter(R.ch + 1));
+$('#rMark').addEventListener('click', toggleBookmark);
+$('#rSpeak').addEventListener('click', () => { if (TTS.on) TTS.stop(); else TTS.open(); });
+$('#ttsPlay').addEventListener('click', () => { if (TTS.playing) TTS.pause(); else TTS.resume(); });
+$('#ttsClose').addEventListener('click', () => TTS.stop());
+$('#ttsRate').addEventListener('change', e => { S.rate = +e.target.value; saveS(); if (TTS.playing) TTS.resume(); });
+$('#ttsVoice').addEventListener('change', e => { S.voice = e.target.value; saveS(); if (TTS.playing) TTS.resume(); });
+$('#fbPrev').addEventListener('click', () => goHit((R.hits ? R.hits.now : 0) - 1));
+$('#fbNext').addEventListener('click', () => goHit((R.hits ? R.hits.now : -1) + 1));
+$('#fbClose').addEventListener('click', clearHits);
+rRange.addEventListener('input', () => {
+  const pos = rRange.value / 1000 * R.total; let ch = 0;
+  while (ch + 1 < R.chStart.length && R.chStart[ch + 1] <= pos) ch++;
+  rWhere.textContent = `→ ${R.chapters[ch].title} · ${Math.floor(rRange.value / 10)}%`;
+});
+rRange.addEventListener('change', () => {
+  const pos = rRange.value / 1000 * R.total; let ch = 0;
+  while (ch + 1 < R.chStart.length && R.chStart[ch + 1] <= pos) ch++;
+  const bl = R.chapters[ch].blocks; let acc = R.chStart[ch], b = 0, f = 0;
+  for (; b < bl.length; b++) { const n = bl[b].x.length; if (acc + n > pos) { f = n ? (pos - acc) / n : 0; break; } acc += n; }
+  if (b >= bl.length) { b = Math.max(0, bl.length - 1); f = 1; }
+  renderChapter(ch, { b, f });
+});
+
+rText.addEventListener('click', e => {
+  const a = e.target.closest('[data-act]'); if (!a) return;
+  if (a.dataset.act === 'nextch') gotoChapter(R.ch + 1);
+  if (a.dataset.act === 'finish') { R.notes.done = true; saveNow(); location.hash = ''; }
+});
+rText.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.closest('mark.fn')) { e.preventDefault(); showFn(e.target.closest('mark.fn')); } });
+rStage.addEventListener('click', e => {
+  const fnEl = e.target.closest('mark.fn');
+  if (fnEl) { showFn(fnEl); return; }
+  const sel = getSelection();
+  if (sel && !sel.isCollapsed && rText.contains(sel.anchorNode)) return;
+  const hlEl = e.target.closest('mark.hl');
+  if (hlEl) { const h = hlById(hlEl.dataset.h); if (h) { hideFn(); showSelbar('edit', hlEl.getBoundingClientRect(), h.text, h); } return; }
+  if (e.target.closest('button, a, input, select')) return;
+  if (Date.now() - R.swipeAt < 450) return;
+  if (!selbar.hidden || !fnpop.hidden) { hideSelbar(); hideFn(); return; }
+  const x = e.clientX / window.innerWidth;
+  if (S.mode === 'page' && x < 0.3) prevPage();
+  else if (S.mode === 'page' && x > 0.7) nextPage();
+  else toggleBars();
+});
+let tStart = null;
+rStage.addEventListener('touchstart', e => { if (e.touches.length === 1) tStart = { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now() }; }, { passive: true });
+rStage.addEventListener('touchend', e => {
+  if (!tStart || S.mode !== 'page') { tStart = null; return; }
+  const t = e.changedTouches[0], dx = t.clientX - tStart.x, dy = t.clientY - tStart.y, quick = Date.now() - tStart.t < 700;
+  tStart = null;
+  const sel = getSelection(); if (sel && !sel.isCollapsed) return;
+  if (quick && Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.4) { R.swipeAt = Date.now(); if (dx < 0) nextPage(); else prevPage(); }
+}, { passive: true });
+let lastTop = 0, scrollRaf = 0;
+rScroll.addEventListener('scroll', () => {
+  if (S.mode === 'page') { if (rScroll.scrollLeft) rScroll.scrollLeft = 0; if (rScroll.scrollTop) rScroll.scrollTop = 0; return; }
+  lastAct = Date.now();
+  const t = rScroll.scrollTop, d = t - lastTop; lastTop = t;
+  if (Date.now() > R.ignoreScrollUntil && !R.panel && Math.abs(d) > 6) setBars(d < 0 || t < 60);
+  if (!selbar.hidden && SB.mode === 'edit') hideSelbar();
+  if (!fnpop.hidden) hideFn();
+  if (!scrollRaf) scrollRaf = requestAnimationFrame(() => { scrollRaf = 0; onPos(); });
+}, { passive: true });
+const selDeb = debounce(onSelChange, 220);
+document.addEventListener('selectionchange', () => { if (!reader.hidden) selDeb(); });
+rText.addEventListener('mouseup', () => setTimeout(onSelChange, 10));
+selbar.addEventListener('mousedown', e => { if (!e.target.closest('a')) e.preventDefault(); });
+selbar.addEventListener('click', async e => {
+  const sw = e.target.closest('[data-color]');
+  if (sw) {
+    if (SB.mode === 'edit' && SB.h) { SB.h.color = sw.dataset.color; saveNotes(); refreshMarks(); redecorate(SB.h.sb, SB.h.eb); }
+    else addHighlight(sw.dataset.color);
+    hideSelbar(); return;
+  }
+  const act = e.target.closest('[data-act]'); if (!act) return;
+  const kind = act.dataset.act;
+  if (kind === 'note') { const h = SB.mode === 'edit' ? SB.h : addHighlight('vang'); hideSelbar(); if (h) noteModal(h, SB.mode !== 'edit'); }
+  else if (kind === 'copy') { const ok = await copyText(citeOf(SB.text)); hideSelbar(); toast(ok ? 'Đã chép, kèm tên sách và chương.' : 'Trình duyệt không cho chép tự động.'); }
+  else if (kind === 'find') { const q = SB.text.replace(/\s+/g, ' ').slice(0, 60); hideSelbar(); getSelection().removeAllRanges(); R.hits = { q, keep: false, list: [], now: -1 }; openPanel('find'); }
+  else if (kind === 'dict') { setTimeout(hideSelbar, 50); }
+  else if (kind === 'del' && SB.h) { const id = SB.h.id; hideSelbar(); deleteHighlight(id); }
+});
+panelWrap.addEventListener('click', e => {
+  const t = e.target;
+  if (t.closest('[data-close]')) { closePanel(); return; }
+  const chB = t.closest('[data-ch]'); if (chB) { closePanel(); gotoChapter(+chB.dataset.ch); return; }
+  const hitB = t.closest('[data-hit]'); if (hitB) { if (window.innerWidth < 900) closePanel(); goHit(+hitB.dataset.hit); $$('#findList [aria-current]').forEach(x => x.removeAttribute('aria-current')); hitB.setAttribute('aria-current', 'true'); return; }
+  const tab = t.closest('[data-tab]'); if (tab) { notesTab = tab.dataset.tab; renderNotesPanel(); return; }
+  const gh = t.closest('[data-go-h]'); if (gh) { const h = hlById(gh.dataset.goH); if (h) { closePanel(); renderChapter(h.ch, { b: h.sb }); } return; }
+  const gm = t.closest('[data-go-m]'); if (gm) { const m = R.notes.bookmarks.find(x => x.id === gm.dataset.goM); if (m) { closePanel(); renderChapter(m.ch, { b: m.b }); } return; }
+  const eh = t.closest('[data-edit-h]'); if (eh) { const h = hlById(eh.dataset.editH); if (h) noteModal(h, false); return; }
+  const dh = t.closest('[data-del-h]'); if (dh) { deleteHighlight(dh.dataset.delH); return; }
+  const dm = t.closest('[data-del-m]'); if (dm) { R.notes.bookmarks = R.notes.bookmarks.filter(x => x.id !== dm.dataset.delM); saveNotes(); refreshMarks(); redecorate(); onPos(); renderNotesPanel(); return; }
+  const ex = t.closest('[data-exp]'); if (ex) { exportNotes(R.book.id, ex.dataset.exp); return; }
+  if (R.panel !== 'aa') return;
+  const set = t.closest('[data-set]');
+  if (set) {
+    const k = set.dataset.set, v = set.dataset.val;
+    if (k === 'theme') { S.theme = v; saveS(); applyTheme(); renderAaPanel(); return; }
+    changeReading(() => { S[k] = k === 'lh' ? +v : v; });
+    renderAaPanel(); return;
+  }
+  const fsB = t.closest('[data-fs]'); if (fsB) { changeReading(() => { S.fs = clamp(S.fs + +fsB.dataset.fs, 14, 36); }); renderAaPanel(); return; }
+  const fontB = t.closest('[data-font]'); if (fontB) { changeReading(() => { S.font = fontB.dataset.font; }); renderAaPanel(); return; }
+  const skinB = t.closest('[data-skin]'); if (skinB) { S.skin = skinB.dataset.skin; S.night = false; S.nightPrev = null; saveS(); applyReader(); renderAaPanel(); return; }
+  if (t.closest('[data-night]')) { toggleNight(); saveS(); applyReader(); renderAaPanel(); toast(S.night ? 'Đã bật đọc đêm. Chúc bạn đọc êm mắt.' : 'Đã tắt đọc đêm.'); }
+});
+panelWrap.addEventListener('input', e => {
+  if (e.target.id === 'sBright') { S.bright = +e.target.value; $('#oBright').textContent = S.bright + '%'; applyLight(); saveS(); }
+  if (e.target.id === 'sWarm') { S.warm = +e.target.value; $('#oWarm').textContent = S.warm + '%'; applyLight(); saveS(); }
+});
+panelWrap.addEventListener('change', e => { if (e.target.id === 'sBold') { changeReading(() => { S.fw = e.target.checked ? 500 : 400; }); } });
+
+document.addEventListener('keydown', e => {
+  if (!modalWrap.hidden) { if (e.key === 'Escape') closeModal(); return; }
+  if (!panelWrap.hidden && e.key === 'Escape') { closePanel(); return; }
+  if (reader.hidden || !R.book) return;
+  if (e.target.closest && e.target.closest('input, textarea, select, [contenteditable="true"]')) return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  const k = e.key;
+  if (k === 'Escape') { if (!selbar.hidden) hideSelbar(); else if (!fnpop.hidden) hideFn(); else if (R.hits) clearHits(); else setBars(true); return; }
+  if (!panelWrap.hidden) return;
+  if (k === 'ArrowRight' || k === 'PageDown') { if (S.mode === 'page' || k === 'ArrowRight') e.preventDefault(); if (S.mode === 'page') nextPage(); else if (k === 'ArrowRight') gotoChapter(R.ch + 1); else return; }
+  else if (k === 'ArrowLeft' || k === 'PageUp') { if (S.mode === 'page' || k === 'ArrowLeft') e.preventDefault(); if (S.mode === 'page') prevPage(); else if (k === 'ArrowLeft') gotoChapter(R.ch - 1); else return; }
+  else if (k === ' ' && S.mode === 'page') { e.preventDefault(); if (e.shiftKey) prevPage(); else nextPage(); }
+  else if (k === 't' || k === 'T') openPanel('toc');
+  else if (k === 'f' || k === 'F' || k === '/') { e.preventDefault(); openPanel('find'); }
+  else if (k === 'n' || k === 'N') openPanel('notes');
+  else if (k === 'b' || k === 'B') toggleBookmark();
+  else if (k === 'a' || k === 'A') openPanel('aa');
+});
+document.addEventListener('paste', e => {
+  if (!reader.hidden || !modalWrap.hidden) return;
+  if (e.target.closest && e.target.closest('input, textarea, [contenteditable="true"]')) return;
+  const text = e.clipboardData && e.clipboardData.getData('text/plain');
+  if (text && text.trim().length > 20) { e.preventDefault(); openPaste(text); }
+});
+let dragDepth = 0;
+const hasFiles = e => e.dataTransfer && [...(e.dataTransfer.types || [])].includes('Files');
+window.addEventListener('dragenter', e => { if (!hasFiles(e)) return; e.preventDefault(); dragDepth++; $('#drop').hidden = false; });
+window.addEventListener('dragover', e => { if (hasFiles(e)) e.preventDefault(); });
+window.addEventListener('dragleave', e => { if (!hasFiles(e)) return; dragDepth = Math.max(0, dragDepth - 1); if (!dragDepth) $('#drop').hidden = true; });
+window.addEventListener('drop', async e => {
+  if (!hasFiles(e)) return;
+  e.preventDefault(); dragDepth = 0; $('#drop').hidden = true;
+  const id = await importFiles(e.dataTransfer.files);
+  if (id && !reader.hidden) { /* đang đọc thì chỉ báo, không chuyển sách */ }
+});
+const reflow = debounce(relayout, 140);
+if ('ResizeObserver' in window) new ResizeObserver(() => { if (!reader.hidden && R.book) reflow(); }).observe(rStage);
+else window.addEventListener('resize', reflow);
+window.addEventListener('resize', () => { hideSelbar(); hideFn(); });
+
+/* ================= khởi động ================= */
+async function boot() {
+  $$('[data-ic]').forEach(el => el.insertAdjacentHTML('afterbegin', icon(el.dataset.ic)));
+  applyTheme(); applyReader();
+  if (!TTS.ok) { $('#rSpeak').disabled = true; $('#rSpeak').title = 'Trình duyệt này chưa hỗ trợ đọc to'; }
+  try { L.books = (await DB.all('books')) || []; } catch { L.books = []; }
+  try { ((await DB.all('notes')) || []).forEach(n => L.notes.set(n.id, n)); } catch {}
+  renderLibrary();
+  if (!framed) { $('#backupBtn').hidden = false; $('#restoreBtn').hidden = false; }
+  else $('#footNote').textContent = 'Sách và ghi chú của bạn được cất ngay trong trình duyệt này, không gửi đi đâu cả. Hãy giữ lại tệp sách gốc.';
+  route();
+  if (document.fonts) document.fonts.ready.then(() => { if (!reader.hidden) relayout(); });
+  if ('launchQueue' in window) try { window.launchQueue.setConsumer(async p => { if (p.files && p.files.length) importFiles(await Promise.all(p.files.map(h => h.getFile()))); }); } catch {}
+  if ('serviceWorker' in navigator && !framed && (location.protocol === 'https:' || /^(localhost|127\.0\.0\.1)$/.test(location.hostname))) navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+window.MotSach = { importFiles, state: R, settings: S };
+boot();
+})();
+</script>
+</body><!--repo-only-->
+</html><!--repo-only-->
