@@ -1,8 +1,8 @@
 /* Mọt Sách: cho app mở được khi không có mạng.
    Trang và tệp của app: lấy bản mới qua mạng trước, mất mạng thì dùng bản đã lưu.
    Phông chữ Google: dùng bản đã lưu trước cho nhanh. */
-const CACHE = 'mot-sach-v1';
-const SHELL = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './vendor/jszip.min.js'];
+const CACHE = 'mot-sach-v2';
+const SHELL = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './vendor/jszip.min.js', './vendor/pdf.min.js', './vendor/pdf.worker.min.js'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));

@@ -1,6 +1,6 @@
 # Mọt Sách
 
-Ứng dụng đọc sách tiếng Việt chạy ngay trong trình duyệt, có chú tiểu Mọt làm bạn đọc. Chỉ một tệp `index.html`, không cần cài đặt, không cần tài khoản. Sách và ghi chú được cất trong trình duyệt của bạn và không gửi đi đâu.
+Ứng dụng đọc sách tiếng Việt chạy ngay trong trình duyệt, có chú tiểu Mọt làm bạn đọc. Chỉ một tệp `index.html`, không cần cài đặt, không cần tài khoản riêng. Sách và ghi chú được cất trong trình duyệt của bạn; khi mở trong Claude, chúng còn được cất vào kho riêng của bạn để đọc tiếp ở máy khác.
 
 ## Mở app
 
@@ -14,11 +14,22 @@ Bấm **Thêm sách** hoặc kéo thả tệp vào cửa sổ.
 | Định dạng | Ghi chú |
 |---|---|
 | `.epub` | Giữ mục lục nhiều cấp, ảnh bìa, chữ nghiêng/đậm, chú thích bật lên (`[1]`, `[1.1]`, `<aside epub:type="footnote">`) |
+| `.pdf` | Lấy chữ để đọc theo dòng, chia chương theo mục lục của tệp, bỏ đầu trang và chân trang lặp lại, ghi “tr. 12” để trích dẫn đúng số trang; nút **Bản gốc** xem nguyên trang. PDF quét (chỉ có ảnh) mở thẳng bản gốc |
 | `.docx` | Tách chương theo kiểu tiêu đề Heading 1, Heading 2 |
 | `.txt`, `.md` | Tự nhận mã UTF-8, UTF-16 và Windows-1258; tự tách chương khi gặp “Chương 1”, “Hồi thứ hai”, “Phẩm thứ ba”, “Quyển IV”, “Lời nói đầu”, tiêu đề `#` |
 | `.html` | Trang web đã lưu về máy |
 
-Có thể bấm **Dán văn bản** (hoặc nhấn Ctrl + V ở tủ sách) để biến một đoạn kinh, bài viết vừa chép thành sách mới. Tệp PDF chưa đọc được, hãy chuyển sang EPUB bằng Calibre.
+Có thể bấm **Dán văn bản** (hoặc nhấn Ctrl + V ở tủ sách) để biến một đoạn kinh, bài viết vừa chép thành sách mới.
+
+## Kho lưu trữ
+
+Nút hình đám mây ở góc trên mở **Kho lưu trữ**.
+
+- **Kho riêng trong Claude** (khi mở app dưới dạng Artifact trong Claude, với quyền chủ trang hoặc người sửa trang): mỗi lần thêm sách, Mọt tự cất phần chữ đã đọc ra (JSON), ảnh bìa và tệp PDF gốc (tối đa 20 MB mỗi tệp) vào kho tệp của trang. Danh sách sách, ghi chú, chỗ đang đọc và thống kê nằm trong vùng dữ liệu `data/users/<id>/`, chỉ tài khoản của bạn đọc được. Sang máy khác đăng nhập cùng tài khoản là thấy lại đủ; sách được tải về khi mở lần đầu.
+- **Trên máy này**: mọi thứ cũng được cất trong IndexedDB của trình duyệt; app xin trình duyệt giữ dữ liệu lâu dài, hiện dung lượng đang dùng, và (ngoài Claude) có Sao lưu/Khôi phục ra tệp `.json`.
+- Khi xoá một cuốn đã có trong kho, bạn chọn **Chỉ xoá trên máy này** hoặc **Xoá ở mọi nơi**.
+
+Kho riêng gắn với trang Artifact. Nếu trong kho có sách còn bản quyền, đừng chia sẻ trang cho người khác.
 
 ## Đọc êm mắt
 
@@ -36,7 +47,7 @@ Có thể bấm **Dán văn bản** (hoặc nhấn Ctrl + V ở tủ sách) đ�
 - Đánh dấu trang, tìm trong sách không cần gõ dấu (“tam kinh” ra “Tâm Kinh”).
 - Xuất toàn bộ ghi chú ra Markdown để dán vào Word, Notion, Obsidian.
 - Đếm thời gian đọc thật, mục tiêu mỗi ngày, chuỗi ngày đọc, biểu đồ bảy ngày.
-- Sao lưu và khôi phục toàn bộ sách, ghi chú ra một tệp `.json`.
+- Trích dẫn PDF kèm số trang gốc, ví dụ “… (Tên sách, Chương 2, tr. 47)”.
 
 ## Phím tắt
 
@@ -57,4 +68,5 @@ Sổ tay hướng dẫn, *Bát Nhã Ba La Mật Đa Tâm Kinh* (Hán văn, phiê
 ## Ghi nguồn
 
 - [JSZip](https://stuk.github.io/jszip/) 3.10.1 (giấy phép MIT) để mở EPUB và DOCX, kèm trong `vendor/`.
+- [PDF.js](https://mozilla.github.io/pdf.js/) 3.11.174 (giấy phép Apache 2.0) để đọc và hiển thị PDF, kèm trong `vendor/`.
 - Phông chữ Baloo 2, Be Vietnam Pro, Mali, Literata, Merriweather, Lora, Noto Serif, Nunito, Noto Serif TC từ Google Fonts (giấy phép SIL Open Font License).
