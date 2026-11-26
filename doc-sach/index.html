@@ -1819,7 +1819,7 @@ async function parseFile(f) {
   if (ext === 'pdf') throw new Error('Mọt chưa đọc được PDF. Hãy chuyển sang EPUB hoặc TXT (ví dụ bằng Calibre) rồi thêm lại.');
   if (['doc', 'mobi', 'azw', 'azw3', 'prc', 'fb2', 'djvu'].includes(ext)) throw new Error(`Định dạng .${ext} chưa được hỗ trợ. Hãy chuyển sang EPUB, DOCX hoặc TXT.`);
   const text = decodeText(await f.arrayBuffer());
-  const bad = (text.match(/[\u0000�]/g) || []).length;
+  const bad = (text.match(/[\u0000\ufffd]/g) || []).length;
   if (text.length && bad > text.length * 0.01) throw new Error('Tệp này không phải văn bản đọc được.');
   if (['html', 'htm', 'xhtml'].includes(ext)) return parseHTMLText(text, base);
   const md = ext === 'md' || ext === 'markdown';
